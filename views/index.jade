@@ -1,0 +1,12 @@
+extends layout
+
+| {% block content %}
+| {% if !user %}
+h2 Welcome! Please log in.
+p
+  a(href='/login') login
+| {% else %}
+h2 Hello, {{ user.username }}.
+p Your email is {{ user.emails[0].value }}
+| {% endif %}
+| {% endblock %}
