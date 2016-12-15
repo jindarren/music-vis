@@ -1,12 +1,20 @@
-extends layout
+extends ./layout
 
-| {% block content %}
-| {% if !user %}
-h2 Welcome! Please log in.
-p
-  a(href='/login') login
-| {% else %}
-h2 Hello, {{ user.username }}.
-p Your email is {{ user.emails[0].value }}
-| {% endif %}
-| {% endblock %}
+block content
+    if !data.user
+        h2 Welcome! Please log in.
+        p
+            a(href='/login') login
+    else
+        h2 Hello, #{ data.user.username }.
+        p Your email is #{ data.user.emails[0].value }
+        h2 The top artists you have
+        each artist in data.artist.items
+            p #{artist.name}
+        h2 The top tracks you have
+        each track in data.track.items
+            p #{track.name}
+        h2 The top genres you have
+        each genre in data.genre
+            p #{genre}
+

@@ -3,17 +3,13 @@ html
   head
     title Passport-Spotify Example
   body
-    | {% if !user %}
-    p
-      a(href='/') Home
-      |  |
-      a(href='/login') Log In
-    | 		{% else %}
-    p
-      a(href='/') Home
-      |  |
-      a(href='/account') Account
-      |  |
-      a(href='/logout') Log Out
-    | 		{% endif %}
-    | 		{% block content %}
+        if !user
+          p
+            a(href='/') Home
+            a(href='/login') Log In
+        else
+          p
+            a(href='/') Home
+            a(href='/account') Account
+            a(href='/logout') Log Out
+        block content

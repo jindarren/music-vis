@@ -1,11 +1,14 @@
 var express = require('express');
 var router = express.Router();
-
+var recom = require('./recommender');
 var passport = require('passport');
-var SpotifyStrategy = require('../lib/passport-spotify/index.js');
+var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index.js').Strategy;
 
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
 var appSecret = '592a9effa09b4ab8b8c87e439c9b014b';
+
+var reqData ={};
+var token;
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -15,11 +18,11 @@ var appSecret = '592a9effa09b4ab8b8c87e439c9b014b';
 //   have a database of user records, the complete spotify profile is serialized
 //   and deserialized.
 passport.serializeUser(function(user, done) {
-  done(null, user);
+    done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+    done(null, obj);
 });
 
 
@@ -28,33 +31,56 @@ passport.deserializeUser(function(obj, done) {
 //   credentials (in this case, an accessToken, refreshToken, and spotify
 //   profile), and invoke a callback with a user object.
 passport.use(new SpotifyStrategy({
-      clientID: appKey,
-      clientSecret: appSecret,
-      callbackURL: 'http://localhost:3000/callback'
+        clientID: appKey,
+        clientSecret: appSecret,
+        callbackURL: 'http://localhost:3000/callback'
     },
     function(accessToken, refreshToken, profile, done) {
-      // asynchronous verification, for effect...
-      process.nextTick(function () {
-        // To keep the example simple, the user's spotify profile is returned to
-        // represent the logged-in user. In a typical application, you would want
-        // to associate the spotify account with a user record in your database,
-        // and return that user instead.
-        return done(null, profile);
-      });
+        // asynchronous verification, for effect...
+        token = accessToken;
+        console.log(recom(token))
+        process.nextTick(function () {
+            // To keep the example simple, the user's spotify profile is returned to
+            // represent the logged-in user. In a typical application, you would want
+            // to associate the spotify account with a user record in your database,
+            // and return that user instead.
+            return done(null, profile);
+        });
     }));
-
-
 /* GET home page. */
 
-app.get('/', function(req, res){
-  res.render('index', { user: req.user });
+router.get('/', function(req, res){
+    //pass token to the webAPI used by recommender
+    var getGenres = []
+    var getArtists = recom(token).getTopArtist(10).then(function (data) {
+        reqData.artist = data;
+        for (var artistIndex in data.items){
+            if(data.items[artistIndex].genres)
+                var genres = data.items[artistIndex].genres
+                for (var genreIndex in genres){
+                    if(getGenres.indexOf(genres[genreIndex])<0)
+                        getGenres.push(genres[genreIndex])
+                }
+        }
+        reqData.genre = getGenres
+    });
+
+    var getTracks = recom(token).getTopTrack(10).then(function (data) {
+        reqData.track = data
+    })
+
+    Promise.all([getArtists, getTracks]).then(function () {
+        reqData.user = req.user;
+        console.log(reqData)
+        res.render('index',{data:reqData})
+    })
 });
 
-app.get('/account', ensureAuthenticated, function(req, res){
+router.get('/account', ensureAuthenticated, function(req, res){
   res.render('account', { user: req.user });
 });
 
-app.get('/login', function(req, res){
+router.get('/login', function(req, res){
   res.render('login', { user: req.user });
 });
 
@@ -63,8 +89,8 @@ app.get('/login', function(req, res){
 //   request. The first step in spotify authentication will involve redirecting
 //   the user to spotify.com. After authorization, spotify will redirect the user
 //   back to this application at /auth/spotify/callback
-app.get('/auth/spotify',
-    passport.authenticate('spotify', {scope: ['user-read-email', 'user-read-private'], showDialog: true}),
+router.get('/auth/spotify',
+    passport.authenticate('spotify', {scope: ['user-read-email', 'user-read-private', 'user-top-read'], showDialog: true}),
     function(req, res){
 // The request will be redirected to spotify for authentication, so this
 // function will not be called.
@@ -75,13 +101,13 @@ app.get('/auth/spotify',
 //   request. If authentication fails, the user will be redirected back to the
 //   login page. Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/callback',
+router.get('/callback',
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     function(req, res) {
       res.redirect('/');
     });
 
-app.get('/logout', function(req, res){
+router.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
