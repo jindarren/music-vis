@@ -4,7 +4,7 @@ block content
     if !data.user
         h2 Welcome! Please log in.
         p
-            a(href='/login') login
+            a(href='/spotify/login') login
     else
         h2 Hello, #{ data.user.username }.
         p Your email is #{ data.user.emails[0].value }
