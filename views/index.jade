@@ -9,12 +9,20 @@ block content
         h2 Hello, #{ data.user.username }.
         p Your email is #{ data.user.emails[0].value }
         h2 The top artists you have
-        each artist in data.artist.items
+        each artist in data.artist
             p #{artist.name}
         h2 The top tracks you have
-        each track in data.track.items
+        each track in data.track
             p #{track.name}
         h2 The top genres you have
         each genre in data.genre
             p #{genre}
-
+        h2 The recommendations by artist seeds
+        each song in recom.byArtist.tracks
+            p #{song.name}
+        h2 The recommendations by track seeds
+        each song in recom.byTrack.tracks
+            p #{song.name}
+        h2 The recommendations by genre seeds
+        each song in recom.byGernre.tracks
+            p #{song.name}
