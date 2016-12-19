@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Passport-Spotify Example
+    title Spotify Visualization
   body
         if !data
           p
@@ -13,3 +13,7 @@ html
             a(href='/account') Account
             a(href='/logout') Log Out
         block content
+
+        script(type = "text/javascript", src = "../d3/d3.min.js", charset = 'utf-8')
+        script(type = "text/javascript", src = "../jquery/dist/jquery.min.js", charset = 'utf-8')
+        script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')

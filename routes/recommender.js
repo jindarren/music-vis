@@ -16,7 +16,15 @@ var recommender = function (token) {
     spotifyApi.setAccessToken(token);
 
     return {
-         getTopArtists: function (limitNum) {
+
+        getArtistByTrack: function () {
+        },
+
+        getGenreByTrack: function () {
+
+        },
+
+        getTopArtists: function (limitNum) {
             return spotifyApi.getMyTopArtists({
                 time_range: 'long_term',
                 limit: limitNum,
@@ -38,44 +46,44 @@ var recommender = function (token) {
             });
         },
 
-        getTopGenres: function (){
-             return spotifyApi.getAvailableGenreSeeds()
-                 .then(function (data) {
-                     return data.body
-                 },function (err) {
-                     return err
-                 })
+        getTopGenres: function () {
+            return spotifyApi.getAvailableGenreSeeds()
+                .then(function (data) {
+                    return data.body
+                }, function (err) {
+                    return err
+                })
         },
 
-        getRecommendationByArtist:function (limitNum,seeds) {
-             return spotifyApi.getRecommendations({
-                 limit:limitNum,
-                 seed_artists:seeds
-             }).then(function(data){
-                 return data.body
-             },function (err) {
-                return err;
-             })
-        },
-
-        getRecommendationByTrack:function (limitNum,seeds) {
+        getRecommendationByArtist: function (limitNum, seeds) {
             return spotifyApi.getRecommendations({
-                limit:limitNum,
-                seed_tracks:seeds
-            }).then(function(data){
+                limit: limitNum,
+                seed_artists: seeds
+            }).then(function (data) {
                 return data.body
-            },function (err) {
+            }, function (err) {
                 return err;
             })
         },
 
-        getRecommendationByGenre:function (limitNum,seeds) {
+        getRecommendationByTrack: function (limitNum, seeds) {
             return spotifyApi.getRecommendations({
-                limit:limitNum,
-                seed_genres:seeds
-            }).then(function(data){
+                limit: limitNum,
+                seed_tracks: seeds
+            }).then(function (data) {
                 return data.body
-            },function (err) {
+            }, function (err) {
+                return err;
+            })
+        },
+
+        getRecommendationByGenre: function (limitNum, seeds) {
+            return spotifyApi.getRecommendations({
+                limit: limitNum,
+                seed_genres: seeds
+            }).then(function (data) {
+                return data.body
+            }, function (err) {
                 return err;
             })
         }

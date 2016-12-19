@@ -51,22 +51,78 @@ passport.use(new SpotifyStrategy({
     }));
 /* GET home page. */
 
+
+var getArtistsByTrack = function () {
+    return recom(token).getArtistByTrack()
+}
+
+var getGenresByTrack = function () {
+    return recom(token).getGenreByTrack()
+}
+
+/*
+route for web API
+ */
+
+router.get('/getArtist',function (req,res) {
+    var result = {}
+    recom(token).getTopArtists().then(function (data) {
+        result.items = data.items;
+        res.json(result)})
+})
+
+router.get('/getTrack',function (req,res) {
+    var result = {}
+    recom(token).getTopTracks().then(function (data) {
+        result.items = data.items;
+        res.json(result)})
+})
+
+router.get('/getGenre',function (req,res) {
+    var result = {}
+    recom(token).getTopGenres().then(function (data) {
+        result.items = data.tracks;
+        res.json(result)})
+})
+
+router.get('/getRecomByArtist',function (req,res) {
+    var result = {}
+    recom(token).getRecommendationByArtist(req.query.limit, req.query.artists).then(function (data) {
+        result.items = data.tracks;
+        res.json(result)})
+})
+
+router.get('/getRecomByTrack',function (req,res) {
+    var result = {}
+    recom(token).getRecommendationByTrack(req.query.limit, req.query.tracks).then(function (data) {
+        result.items = data.tracks;
+        res.json(result)})
+})
+
+router.get('/getRecomByGenre',function (req,res) {
+    var result = {}
+    recom(token).getRecommendationByGenre(req.query.limit, req.query.genres).then(function (data) {
+        result.items = data;
+        res.json(result)})
+})
+
+
+
 router.get('/', function (req, res) {
     //pass token to the webAPI used by recommender
     console.log("my token " + token)
     if (token) {
         console.log(token)
-
         var getArtists =
             recom(token).getTopArtists(5).then(function (data) {
-                reqData.artist = data.items.slice(0,5);
-
+                reqData.artist = data.items.slice(0, 5);
                 var seed_artists = '';
                 for (var artistIndex in data.items) {
                     if (data.items[artistIndex].id)
                         seed_artists += data.items[artistIndex].id + ','
                 }
                 seed_artists = seed_artists.substring(0, seed_artists.length - 1)
+                console.log(seed_artists)
                 return seed_artists
             }).then(function (data) {
                 return recom(token).getRecommendationByArtist(10, data);
@@ -76,13 +132,15 @@ router.get('/', function (req, res) {
 
         var getTracks =
             recom(token).getTopTracks(5).then(function (data) {
-                reqData.track = data.items.slice(0,5)
+                reqData.track = data.items.slice(0, 5)
                 var seed_tracks = '';
                 for (var trackIndex in data.items) {
                     if (data.items[trackIndex].id)
                         seed_tracks += data.items[trackIndex].id + ','
                 }
                 seed_tracks = seed_tracks.substring(0, seed_tracks.length - 1)
+                console.log(seed_tracks)
+
                 return seed_tracks;
             }).then(function (data) {
                 return recom(token).getRecommendationByTrack(10, data);
@@ -92,13 +150,15 @@ router.get('/', function (req, res) {
 
         var getGenres =
             recom(token).getTopGenres().then(function (data) {
-                reqData.genre = data.genres.slice(0,5)
+                reqData.genre = data.genres.slice(0, 5)
                 var seed_genres = '';
                 for (var genreIndex = 0; genreIndex < 5; genreIndex++) {
                     if (data.genres[genreIndex])
                         seed_genres += data.genres[genreIndex] + ','
                 }
                 seed_genres = seed_genres.substring(0, seed_genres.length - 1)
+                console.log(seed_genres)
+
                 return seed_genres;
             }).then(function (data) {
                 return recom(token).getRecommendationByGenre(10, data)
@@ -120,8 +180,8 @@ router.get('/', function (req, res) {
     }
     else {
         reqData.user = req.user;
-        res.render('index',{
-            data:reqData
+        res.render('index', {
+            data: reqData
         })
     }
 });
