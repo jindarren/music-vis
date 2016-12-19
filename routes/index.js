@@ -3,7 +3,6 @@ var router = express.Router();
 var recom = require('./recommender');
 var passport = require('passport');
 var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index.js').Strategy;
-var context = '/spotify'
 var path    = require('path');
 
 
@@ -36,7 +35,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new SpotifyStrategy({
         clientID: appKey,
         clientSecret: appSecret,
-        callbackURL: 'http://localhost:3302/spotify/callback'
+        callbackURL: 'http://localhost:3000/callback'
     },
     function(accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
@@ -52,7 +51,7 @@ passport.use(new SpotifyStrategy({
     }));
 /* GET home page. */
 
-router.get(path.join(context, '/'), function(req, res){
+router.get('/', function(req, res){
     //pass token to the webAPI used by recommender
     var getGenres = []
     console.log(token)
@@ -80,20 +79,17 @@ router.get(path.join(context, '/'), function(req, res){
     })
 });
 
-router.get(path.join(context, '/account'), ensureAuthenticated, function(req, res){
+router.get('/account', ensureAuthenticated, function(req, res){
     res.render('account', { user: req.user });
 });
 
-router.get(path.join(context, '/login'), function(req, res){
-    res.render('login', { user: req.user });
-});
 
 // GET /auth/spotify
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request. The first step in spotify authentication will involve redirecting
 //   the user to spotify.com. After authorization, spotify will redirect the user
 //   back to this application at /auth/spotify/callback
-router.get(path.join(context, '/auth/spotify'),
+router.get('/auth/spotify',
     passport.authenticate('spotify', {scope: ['user-read-email', 'user-read-private', 'user-top-read'], showDialog: true}),
     function(req, res){
 // The request will be redirected to spotify for authentication, so this
@@ -105,15 +101,15 @@ router.get(path.join(context, '/auth/spotify'),
 //   request. If authentication fails, the user will be redirected back to the
 //   login page. Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-router.get(path.join(context, '/callback'),
-    passport.authenticate('spotify', { failureRedirect: path.join(context, '/login') }),
+router.get('/callback',
+    passport.authenticate('spotify', { failureRedirect:  '/' }),
     function(req, res) {
-        res.redirect(path.join(context, '/'));
+        res.redirect('/');
     });
 
-router.get(path.join(context, '/logout'), function(req, res){
+router.get('/logout', function(req, res){
     req.logout();
-    res.redirect(path.join(context, '/'));
+    res.redirect('/');
 });
 
 // Simple route middleware to ensure user is authenticated.
@@ -123,7 +119,7 @@ router.get(path.join(context, '/logout'), function(req, res){
 //   login page.
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
-    res.redirect(path.join(context, '/login'));
+    res.redirect('/');
 }
 
 module.exports = router;

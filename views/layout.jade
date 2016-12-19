@@ -3,13 +3,13 @@ html
   head
     title Passport-Spotify Example
   body
-        if !user
+        if !data.user
           p
-            a(href='/spotify') Home
-            a(href='/spotify/login') Log In
+            a(href='/') Home
+            a(href='/auth/spotify') Log In
         else
           p
-            a(href='/spotify') Home
-            a(href='/spotify/account') Account
-            a(href='/spotify/logout') Log Out
+            a(href='/') Home
+            a(href='/account') Account
+            a(href='/logout') Log Out
         block content

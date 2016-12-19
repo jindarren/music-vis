@@ -8,8 +8,7 @@ var express = require('express'),
     session = require('express-session'),
     passport = require('passport');
 
-var context = '/spotify'
-var port         = process.env.port || 3302;
+var port         = process.env.port || 3000;
 var index = require('./routes/index');
 var app = express();
 
@@ -45,8 +44,7 @@ app.use(session({
 // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
-//app.use(express.static(path.join(__dirname, 'public')));
-app.use(context, express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 
