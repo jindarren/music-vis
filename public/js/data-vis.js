@@ -5,36 +5,106 @@
 var width = 250,
     height = 600
 
-var svg = d3.select("body")
-    .append("svg")
-    .attr("width",width)
-    .attr("height",height);
-
 var rectHeight = 25;
-console.log("hello")
-
-
-var addRect = function(){
-
-}
-
 
 $.get('/getArtist',function(data){
-        console.log(data)
-        svg.selectAll("rect")
+    var svg = d3.select("svg#artists")
+        .attr("width",width)
+        .attr("height",height);
+
+        var rect = svg.selectAll("g")
             .data(data.items)
             .enter()
-            .append("rect")
-            .attr("x",10)
-            .attr("y",function(d,i){
-                return i * rectHeight;
+            .append("g")
+            .attr('transform', function(d,i){
+                return "translate(0," + i * rectHeight + ")";
             })
+
+        rect.append("rect")
             .attr("width",230)
             .attr("height",rectHeight-2)
-            .attr("fill","steelblue")
+
+        rect.append('text')
+            .attr("x",10)
+            .attr("y",rectHeight/2+2)
+            .text(function(d){
+                return d.name
+            })
 })
 
 
+$.get('/getTrack',function(data){
+    var svg = d3.select("svg#tracks")
+        .attr("width",width)
+        .attr("height",height);
+
+    var rect = svg.selectAll("g")
+        .data(data.items)
+        .enter()
+        .append("g")
+        .attr('transform', function(d,i){
+            return "translate(0," + i * rectHeight + ")";
+        })
+
+    rect.append("rect")
+        .attr("width",230)
+        .attr("height",rectHeight-2)
+
+    rect.append('text')
+        .attr("x",10)
+        .attr("y",rectHeight/2+2)
+        .text(function(d){
+            return d.name
+        })
+})
 
 
+$.get('/getGenre',function(data){
+    var svg = d3.select("svg#genres")
+        .attr("width",width)
+        .attr("height",height);
 
+    var rect = svg.selectAll("g")
+        .data(data.items)
+        .enter()
+        .append("g")
+        .attr('transform', function(d,i){
+            return "translate(0," + i * rectHeight + ")";
+        })
+
+    rect.append("rect")
+        .attr("width",230)
+        .attr("height",rectHeight-2)
+
+    rect.append('text')
+        .attr("x",10)
+        .attr("y",rectHeight/2+2)
+        .text(function(d){
+            return d
+        })
+})
+
+$.get('/getRecomByGernre',function(data){
+    var svg = d3.select("svg#genres")
+        .attr("width",width)
+        .attr("height",height);
+
+    var rect = svg.selectAll("g")
+        .data(data.items)
+        .enter()
+        .append("g")
+        .attr('transform', function(d,i){
+            return "translate(0," + i * rectHeight + ")";
+        })
+
+    rect.append("rect")
+        .attr("width",230)
+        .attr("height",rectHeight-2)
+
+    rect.append('text')
+        .attr("x",10)
+        .attr("y",rectHeight/2+2)
+        .text(function(d){
+            return d
+        })
+})

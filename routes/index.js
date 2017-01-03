@@ -81,7 +81,7 @@ router.get('/getTrack',function (req,res) {
 router.get('/getGenre',function (req,res) {
     var result = {}
     recom(token).getTopGenres().then(function (data) {
-        result.items = data.tracks;
+        result.items = data.genres;
         res.json(result)})
 })
 
@@ -104,6 +104,11 @@ router.get('/getRecomByGenre',function (req,res) {
     recom(token).getRecommendationByGenre(req.query.limit, req.query.genres).then(function (data) {
         result.items = data;
         res.json(result)})
+})
+
+router.get('/getAccount',function (req,res) {
+    recom(token).getRecommendationByGenre().then(function (data) {
+        res.json(data)})
 })
 
 

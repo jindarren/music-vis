@@ -6,23 +6,40 @@ block content
         p
             a(href='/auth/spotify') login
     else
-        h2 Hello, #{ data.user.username }.
-        p Your email is #{ data.user.emails[0].value }
-        h2 The top artists you have
-        each artist in data.artist
-            p #{artist.name}
-        h2 The top tracks you have
-        each track in data.track
-            p #{track.name}
-        h2 The top genres you have
-        each genre in data.genre
-            p #{genre}
-        h2 The recommendations by artist seeds
-        each song in recom.byArtist.tracks
-            p #{song.name}
-        h2 The recommendations by track seeds
-        each song in recom.byTrack.tracks
-            p #{song.name}
-        h2 The recommendations by genre seeds
-        each song in recom.byGernre.tracks
-            p #{song.name}
+
+        div.row
+            div.bio.col-md-3
+                h2 Name: #{ data.user.displayName }
+                p
+                    img(src = "#{ data.user.photos[0] }")
+                p Country: #{ data.user.country }
+                p Email: #{ data.user.emails[0].value }
+                p Profile #{data.user.profileUrl}
+            div.col-md-4
+                div.data
+                    h2 The top artists you have
+                    svg#artists
+                //each artist in data.artist
+                //    p #{artist.name}
+                div.data
+                    h2 The top tracks you have
+                    svg#tracks
+                //each track in data.track
+                //    p #{track.name}
+                div.data
+                    h2 The top genres you have
+                    svg#genres
+            div.reccom.col-md-4
+                h2 Recommendations
+                svg#recom
+        //each genre in data.genre
+        //    p #{genre}
+        //h2 The recommendations by artist seeds
+        //each song in recom.byArtist.tracks
+        //    p #{song.name}
+        //h2 The recommendations by track seeds
+        //each song in recom.byTrack.tracks
+        //    p #{song.name}
+        //h2 The recommendations by genre seeds
+        //each song in recom.byGernre.tracks
+        //    p #{song.name}

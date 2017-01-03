@@ -6,3 +6,32 @@ body {
 a {
   color: #00B7FF;
 }
+
+svg text {
+  fill: black;
+  font: 12px sans-serif;
+}
+
+svg rect {
+  fill: lightgray
+}
+
+
+.bio {
+    top:10px;
+    margin:10px;
+    overflow: auto;
+}
+
+.seed {
+    margin:10px;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.recom {
+    margin:10px;
+    max-height: 1000px;
+    overflow: auto;
+}
+
