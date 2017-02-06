@@ -1,0 +1,20 @@
+{
+  "nodes": [
+    {"id": "Owl City", "group": 1, "weight": 5},
+    {"id": "A Rocket To The Moon", "group": 1, "weight": 3},
+    {"id": "Metro Station", "group": 1, "weight": 3},
+    {"id": "Hot Chelle Rae", "group": 1,"weight": 2},
+    {"id": "Imagine Dragons", "group": 2, "weight": 5},
+    {"id": "WALK THE MOON", "group": 2, "weight": 3},
+    {"id": "fun.", "group": 2, "weight": 2},
+    {"id": "Neon Trees", "group": 2, "weight": 1}
+  ],
+  "links": [
+    {"source": "Owl City", "target": "A Rocket To The Moon", "value": 10},
+    {"source": "Owl City", "target": "Metro Station", "value": 8},
+    {"source": "Owl City", "target": "Hot Chelle Rae", "value": 6},
+    {"source": "Imagine Dragons", "target": "WALK THE MOON", "value": 10},
+    {"source": "Imagine Dragons", "target": "fun.", "value": 8},
+    {"source": "Imagine Dragons", "target": "Neon Trees", "value": 6}
+  ]
+}

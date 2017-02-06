@@ -1,37 +1,71 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 20px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+    color: #00B7FF;
 }
 
 svg text {
-  fill: black;
-  font: 12px sans-serif;
+    fill: black;
+    font: 12px sans-serif;
 }
 
 svg rect {
-  fill: lightgray
-}
-
-
-.bio {
-    top:10px;
-    margin:10px;
-    overflow: auto;
+    fill: lightgray
 }
 
 .seed {
-    margin:10px;
-    max-height: 300px;
-    overflow: auto;
+    margin: 10px;
+    height: 150px;
 }
 
 .recom {
-    margin:10px;
-    max-height: 1000px;
+    margin: 10px;
+    height: 325px;
     overflow: auto;
 }
 
+#custom-handle, #custom-handle-2 {
+    width: 3em;
+    height: 1.6em;
+    top: 50%;
+    margin-top: -.8em;
+    text-align: center;
+    line-height: 1.6em;
+}
+
+.top-space{
+    padding-top: 10px;
+}
+
+.seed-block{
+    height: 300px;
+    width: 100%;
+    padding: 5px;
+    /*border: rgba(90,5,94,0.07) 0.5px solid;*/
+    background-color: rgba(5,28,94,0.07);
+}
+
+#artist-block{
+    height: 300px;
+    width: 100%;
+    border: rgba(90,5,94,0.07) 0.5px solid;
+}
+
+.all-border{
+    border: rgba(37,11,52,0.18) 0.5px solid;
+    background-color: rgba(10,2,7,0.35);
+    padding: 1px;
+}
+
+.links line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+}
+
+.nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}

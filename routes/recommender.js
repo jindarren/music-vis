@@ -17,11 +17,23 @@ var recommender = function (token) {
 
     return {
 
-        getArtistByTrack: function () {
+        getFollowedArtists: function (limitNum){
+            return spotifyApi.getFollowedArtists({
+                type: 'artist',
+                limit: limitNum,
+            }).then(function (data) {
+                return data.body.artists.items
+            }, function (err) {
+                return err;
+            });
         },
 
-        getGenreByTrack: function () {
-
+        getArtistRelatedArtists: function (id){
+            return spotifyApi.getArtistRelatedArtists(id).then(function (data){
+                return data.body.artists
+            }, function (err) {
+                return err
+            })
         },
 
         getTopArtists: function (limitNum) {
@@ -29,7 +41,7 @@ var recommender = function (token) {
                 time_range: 'long_term',
                 limit: limitNum,
             }).then(function (data) {
-                return data.body
+                return data.body.items
             }, function (err) {
                 return err;
             });
@@ -40,7 +52,7 @@ var recommender = function (token) {
                 time_range: 'long_term',
                 limit: limitNum,
             }).then(function (data) {
-                return data.body
+                return data.body.items
             }, function (err) {
                 return err;
             });
@@ -49,18 +61,42 @@ var recommender = function (token) {
         getTopGenres: function () {
             return spotifyApi.getAvailableGenreSeeds()
                 .then(function (data) {
-                    return data.body
+                    return data.body.genres
                 }, function (err) {
                     return err
                 })
         },
+
+        getRecommendationByFollowedArtist: function (artists, country) {
+            var artist_arr = artists.split(',');
+            var promise = []
+
+
+            for (var index in artist_arr){
+                promise[index]=spotifyApi.getArtistTopTracks(artist_arr[index], country).then(function(data){
+                    return data.body.tracks
+                }), function (err) {
+                    return err
+                }
+            }
+
+            return Promise.all(promise).then(function(data){
+                var recommendations = []
+                for (var index in data){
+                    recommendations = recommendations.concat(data[index])
+                }
+                console.log(recommendations)
+                return recommendations
+            })
+        },
+
 
         getRecommendationByArtist: function (limitNum, seeds) {
             return spotifyApi.getRecommendations({
                 limit: limitNum,
                 seed_artists: seeds
             }).then(function (data) {
-                return data.body
+                return data.body.tracks
             }, function (err) {
                 return err;
             })
@@ -71,7 +107,7 @@ var recommender = function (token) {
                 limit: limitNum,
                 seed_tracks: seeds
             }).then(function (data) {
-                return data.body
+                return data.body.tracks
             }, function (err) {
                 return err;
             })
@@ -82,11 +118,12 @@ var recommender = function (token) {
                 limit: limitNum,
                 seed_genres: seeds
             }).then(function (data) {
-                return data.body
+                return data.body.tracks
             }, function (err) {
                 return err;
             })
-        }
+        },
+
     }
 };
 

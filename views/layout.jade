@@ -3,21 +3,21 @@ html
   head
     title Spotify Visualization
   body
-        if !data
-          p
-            a(href='/') Home
-            a(href='/auth/spotify') Log In
-        else
-          p
-            a(href='/') Home
-            a(href='/account') Account
-            a(href='/logout') Log Out
-        block content
+    if !data
+      p
+        a(href='/') Home
+        a(href='/auth/spotify') Log In
+    else
+      p Welcome #{data.displayName}
+      p
+        a(href='/logout') Log Out
+      block content
 
-        script(type = "text/javascript", src = "../d3/d3.min.js", charset = 'utf-8')
-        script(type = "text/javascript", src = "../jquery/dist/jquery.min.js", charset = 'utf-8')
-        script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')
-        script(type = "text/javascript", src = "http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js", charset = 'utf-8')
+    script(type = "text/javascript", src = "../jquery/dist/jquery.js", charset = 'utf-8')
+    script(type = "text/javascript", src = "../jquery-ui/jquery-ui.js", charset = 'utf-8')
+    script(type = "text/javascript", src = "../d3/d3.min.js", charset = 'utf-8')
+    script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')
 
-        link(rel="stylesheet" type = "text/css", href = "../stylesheets/style.css")
-        link(rel="stylesheet" type = "text/css", href = "http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css")
+    link(rel="stylesheet" type = "text/css", href = "../bootstrap/dist/css/bootstrap.css")
+    link(rel="stylesheet" type = "text/css", href = "../jquery-ui/themes/base/jquery-ui.css")
+    link(rel="stylesheet" type = "text/css", href = "../stylesheets/style.css")
