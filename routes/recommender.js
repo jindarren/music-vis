@@ -85,7 +85,7 @@ var recommender = function (token) {
                 for (var index in data){
                     recommendations = recommendations.concat(data[index])
                 }
-                console.log(recommendations)
+                // console.log(recommendations)
                 return recommendations
             })
         },

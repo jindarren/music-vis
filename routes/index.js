@@ -41,6 +41,7 @@ passport.use(new SpotifyStrategy({
     function (accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
         token = accessToken;
+        reqData.token = accessToken
         process.nextTick(function () {
             // To keep the example simple, the user's spotify profile is returned to
             // represent the logged-in user. In a typical application, you would want
@@ -87,21 +88,21 @@ router.get('/getGenre',function (req,res) {
 
 router.get('/getRecomByArtist',function (req,res) {
     var result = {}
-    recom(token).getRecommendations(req.query.artists,req.query.country).then(function (data) {
+    recom(token).getRecommendationByArtist(req.query.limit,req.query.seed).then(function (data) {
         result.items = data;
         res.json(result)})
 })
 
 router.get('/getRecomByTrack',function (req,res) {
     var result = {}
-    recom(token).getRecommendations(req.query.limit, req.query.tracks).then(function (data) {
+    recom(token).getRecommendationByTrack(req.query.limit,req.query.seed).then(function (data) {
         result.items = data;
         res.json(result)})
 })
 
 router.get('/getRecomByGenre',function (req,res) {
     var result = {}
-    recom(token).getRecommendations(req.query.limit, req.query.genres).then(function (data) {
+    recom(token).getRecommendationByGenre(req.query.limit,req.query.seed).then(function (data) {
         result.items = data;
         res.json(result)})
 })
@@ -117,30 +118,41 @@ router.get('/initiate', function (req, res) {
     //pass token to the webAPI used by recommender
     if (token) {
         var getFollowedArtists =
-            recom(token).getFollowedArtists(50).then(function (data) {
+            recom(token).getFollowedArtists(5).then(function (data) {
                 reqData.followed_artist = data;
                 reqData.similar_artist = [];
+                var artists = []
+                var selected_data
+                var promise = []
 
                 for(var index in data){
-                    var similar_artists = {}
-                    similar_artists.artist = data[index].name
-                    recom(token).getArtistRelatedArtists(data[index].id).then(function (data) {
-                        console.log(data)
-                        similar_artists.similar = data
-                        reqData.similar_artist.push(similar_artists)
+                    artists[index] = data[index].name
+                    promise[index] = recom(token).getArtistRelatedArtists(data[index].id).then(function (data) {
+                        return data
+
                     }), function (err) {
                         return err
                     }
                 }
 
-                var selected_data = data.slice(0, 5)
-                var seed_artists = '';
-                for (var artistIndex in selected_data) {
-                    if (selected_data[artistIndex].id)
-                        seed_artists += selected_data[artistIndex].id + ','
-                }
-                seed_artists = seed_artists.substring(0, seed_artists.length - 1)
-                return seed_artists
+                return Promise.all(promise).then(function (data) {
+                    selected_data = data[0]
+                    for (var index in data){
+                        var similar_artists = {}
+                        similar_artists.artist = artists[index]
+                        similar_artists.similar = data[index]
+                        reqData.similar_artist.push(similar_artists)
+                    }
+                    var seed_artists = '';
+                    for (var artistIndex in selected_data) {
+                        if (selected_data[artistIndex].id)
+                            seed_artists += selected_data[artistIndex].id + ','
+                    }
+                    seed_artists = seed_artists.substring(0, seed_artists.length - 1)
+                    // console.log(seed_artists)
+                    return seed_artists
+                })
+
             }).then(function (data) {
                  return recom(token).getRecommendationByFollowedArtist(data,'US');
             }).then(function(recom){
@@ -148,7 +160,7 @@ router.get('/initiate', function (req, res) {
             });
 
         var getTopArtists =
-            recom(token).getTopArtists(50).then(function (data) {
+            recom(token).getTopArtists(5).then(function (data) {
                 reqData.artist = data;
                 var selected_data = data.slice(0, 5)
                 var seed_artists = '';
@@ -159,13 +171,13 @@ router.get('/initiate', function (req, res) {
                 seed_artists = seed_artists.substring(0, seed_artists.length - 1)
                 return seed_artists
             }).then(function (data) {
-                return recom(token).getRecommendationByArtist(100, data);
+                return recom(token).getRecommendationByArtist(10, data);
             }).then(function (recom){
                 recommendations.byArtist = recom
             });
 
         var getTracks =
-            recom(token).getTopTracks(50).then(function (data) {
+            recom(token).getTopTracks(5).then(function (data) {
                 //reqData.track = data.slice(0, 5)
                 reqData.track = data
                 var selected_data = data.slice(0, 5)
@@ -178,7 +190,7 @@ router.get('/initiate', function (req, res) {
                 // console.log(seed_tracks)
                 return seed_tracks;
             }).then(function (data) {
-                return recom(token).getRecommendationByTrack(100, data);
+                return recom(token).getRecommendationByTrack(10, data);
             }).then(function (recom) {
                 recommendations.byTrack = recom
             })
@@ -196,7 +208,7 @@ router.get('/initiate', function (req, res) {
                 // console.log(seed_genres)
                 return seed_genres;
             }).then(function (data) {
-                return recom(token).getRecommendationByGenre(100, data)
+                return recom(token).getRecommendationByGenre(10, data)
             }).then(function (recom) {
                 recommendations.byGernre = recom
             })

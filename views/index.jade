@@ -7,20 +7,20 @@ block content
             a(href='/auth/spotify') login
     else
         div.row
-            div.col-md-3
+            div.col-md-2
                 h4 The top artists you have
                 div.seed
-                    svg#artists
+                    ul.none#artists
                 h4 The artists you follow
                 div.seed
-                    svg#follow-artists
+                    ul.none#follow-artists
                 h4 The top tracks you have
                 div.seed
-                    svg#tracks
+                    ul.none#tracks
                 h4 The top genres you have
                 div.seed
-                    svg#genres
-            div.col-md-5
+                    ul.none#genres
+            div.col-md-6
                 h4 Seeds based recommendations
                 label Weight
                 div#wg-slider.top-space
@@ -44,15 +44,16 @@ block content
                         svg(width="100%" height="100%")
             div.col-md-4
                 h4 Seeds based recommendations
+                div.recom
+                    div#recom-seed
+                        ul.none.sortable#recom-seeds
+                h4 Artists based recommendations
                 label Number of recommendations
                 select#number(name="number")
                     option 10
                     option 20
                     option 50
                     option 100
-                    option all
                 div.recom
-                    svg#recom-seed
-                h4 Artists based recommendations
-                div.recom
-                    svg#recom-artist
+                    div#recom-artist
+                        ul.none.sortable#recom-artists

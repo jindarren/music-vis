@@ -12,8 +12,20 @@ svg text {
     font: 12px sans-serif;
 }
 
-svg rect {
-    fill: lightgray
+#sel-artists, .recom-artist {
+    background-color: rgba(255, 1, 13, 0.1)
+}
+
+#sel-tracks, .recom-track {
+    background-color: rgba(255, 255, 0, 0.19)
+}
+
+#sel-genres, .recom-genre {
+    background-color: rgba(0, 0, 255, 0.19)
+}
+
+.recom-follow {
+    background-color: rgba(128, 128, 128, 0.47)
 }
 
 .seed {
@@ -68,4 +80,17 @@ svg rect {
 .nodes circle {
     stroke: #fff;
     stroke-width: 1.5px;
+}
+
+ul.none {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.lift-top{
+    z-index: 99
+}
+
+.col-md-2 p{
+    font-size: 10px;
 }

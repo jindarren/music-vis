@@ -2,173 +2,303 @@
  * Created by jinyc2 on 12/19/2016.
  */
 
-var width = 250,
-    height = 150
-
-var rectHeight = 25;
+var token
 
 $.get('/initiate',function(data){
     console.log(data)
+    token = data.seed.token
 
-    var svg_artist = d3.select("svg#artists")
-        .attr("width",width)
-        .attr("height",height);
+    var recom_by_artist = data.recom.byArtist,
+        recom_by_track = data.recom.byTrack,
+        recom_by_genre = data.recom.byGernre
 
-    var rect_artist = svg_artist.selectAll("g")
-        .data(data.seed.artist)
-        .enter()
-        .append("g")
-        .attr('transform', function(d,i){
-            return "translate(0," + i * rectHeight + ")";
-        })
+    $( function() {
+        $( ".sortable" ).sortable();
+    } );
 
-    rect_artist.append("rect")
-        .attr("width",230)
-        .attr("height",rectHeight-2)
+    var getRecomBySeed = function(recoms_seed, type){
 
-    rect_artist.append('text')
-        .attr("x",10)
-        .attr("y",rectHeight/2+2)
-        .text(function(d){
-            return d.name
-        })
+        $("."+type).remove();
+        for(index in recoms_seed){
+            $("#recom-seeds").append("<li class='ui-state-default lift-top "+type+ "' id="+recoms_seed[index].id+">"+recoms_seed[index].name+"</li>")
+        }
 
+    }
 
-    var svg_artist2 = d3.select("svg#follow-artists")
-        .attr("width",width)
-        .attr("height",height);
-
-    var rect_artist2 = svg_artist2.selectAll("g")
-        .data(data.seed.followed_artist)
-        .enter()
-        .append("g")
-        .attr('transform', function(d,i){
-            return "translate(0," + i * rectHeight + ")";
-        })
-
-    rect_artist2.append("rect")
-        .attr("width",230)
-        .attr("height",rectHeight-2)
-
-    rect_artist2.append('text')
-        .attr("x",10)
-        .attr("y",rectHeight/2+2)
-        .text(function(d){
-            return d.name
-        })
+    getRecomBySeed(recom_by_artist,"recom-artist")
+    getRecomBySeed(recom_by_track,"recom-track")
+    getRecomBySeed(recom_by_genre,"recom-genre")
 
 
-    var svg_tracks = d3.select("svg#tracks")
-        .attr("width",width)
-        .attr("height",height);
+    var recoms_artist = data.recom.byFollowedArtist
 
-    var rect_tracks = svg_tracks.selectAll("g")
-        .data(data.seed.track)
-        .enter()
-        .append("g")
-        .attr('transform', function(d,i){
-            return "translate(0," + i * rectHeight + ")";
-        })
-
-    rect_tracks.append("rect")
-        .attr("width",230)
-        .attr("height",rectHeight-2)
-
-    rect_tracks.append('text')
-        .attr("x",10)
-        .attr("y",rectHeight/2+2)
-        .text(function(d){
-            return d.name
-        })
+    var getRecomByArtists = function (recoms_artist, type, num) {
 
 
 
-    var svg_genres = d3.select("svg#genres")
-        .attr("width",width)
-        .attr("height",height);
+        $("."+type).remove();
+        for(index in recoms_artist){
+            if(index<num)
+                $("#recom-artists").append("<li class='ui-state-default lift-top "+type+ "' id="+recoms_artist[index].id+">"+recoms_artist[index].name+"</li>")
+        }
 
-    var rect_genres = svg_genres.selectAll("g")
-        .data(data.seed.genre)
-        .enter()
-        .append("g")
-        .attr('transform', function(d,i){
-            return "translate(0," + i * rectHeight + ")";
-        })
+    }
 
-    rect_genres.append("rect")
-        .attr("width",230)
-        .attr("height",rectHeight-2)
+    getRecomByArtists(recoms_artist,"recom-follow",200)
 
-    rect_genres.append('text')
-        .attr("x",10)
-        .attr("y",rectHeight/2+2)
-        .text(function(d){
-            return d
-        })
+    $("#number").change(function () {
+        $( "select option:selected" ).each(function() {
+            var num = parseInt($( this ).text());
+            console.log(num)
+            getRecomByArtists(recoms_artist,"recom-follow",num)
+
+        });
+    })
+
+/******************************Seed artist recommendations*************************************************/
+    // drag and drop
+
+    var selected_seed_artist = data.seed.artist.slice(0,5)
+    for(var index in selected_seed_artist){
+        $('#artists').append("<li class='ui-state-default lift-top' id="+selected_seed_artist[index].id+" >"+selected_seed_artist[index].name+"</li>")
+    }
+    var dragged_artist = "", dropped_artists=""
+
+    $(function() {
+        $( "#artists li").draggable({
+            start: function() {
+                dragged_artist = $(this).attr("id")
+            }
+        });
+        $( "#sel-artists" ).droppable({
+            drop: function() {
+                if(dropped_artists.indexOf(dragged_artist)<0)
+                    dropped_artists += dragged_artist+','
+                var req_artists= dropped_artists.slice(0, dropped_artists.length-1)
+                $( this )
+                    .addClass( "ui-state-highlight" )
+                    .empty()
+                $.ajax({
+                    url: "/getRecomByArtist?limit=20&seed="+req_artists,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function(data) {
+                        console.log("The returned data", data);
+                        d3.select("svg#recom-seed").selectAll('*').remove()
+                        recom_by_artist = data.items
+                        getRecomBySeed(recom_by_artist, "recom-artist")
+                    },
+                    error: function(err){
+                        console.log(err)
+                    }
+                });
+            }
+        });
+        $( "div .seed" ).eq(0).droppable({
+            drop: function() {
+                if(dropped_artists.indexOf(dragged_artist)>-1)
+                    dropped_artists = dropped_artists.replace(dragged_artist+',','')
+                console.log(dropped_artists)
+                var req_artists= dropped_artists.slice(0, dropped_artists.length-1)
+                $.ajax({
+                    url: "/getRecomByArtist?limit=20&seed="+req_artists,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function(data) {
+                        console.log("The returned data", data);
+                        d3.select("svg#recom-seed").selectAll('*').remove()
+                        recom_by_artist = data.items
+                        getRecomBySeed(recom_by_artist, "recom-artist")
+                    },
+                    error: function(err){
+                        console.log(err)
+                    }
+                });
+
+                $( this )
+                    .addClass( "ui-state-highlight" )
+            }
+        });
+    });
+
+    /******************************Followed artist recommendations*************************************************/
 
 
-    var recoms_seed = [], recoms_artist
+    var selected_seed_followed_artist = data.seed.followed_artist.slice(0,5)
 
-    recoms_seed = recoms_seed.concat(data.recom.byGernre, data.recom.byTrack, data.recom.byArtist)
-    recoms_artist = data.recom.byFollowedArtist
+    for(var index in selected_seed_followed_artist){
+        $('#follow-artists').append("<li class='ui-state-default lift-top' id="+selected_seed_followed_artist[index].id+" >"+selected_seed_followed_artist[index].name+"</li>")
+    }
 
-    var svg_recom_seed = d3.select("svg#recom-seed")
-        .attr("width",width+50)
-        .attr("height",height*6);
+    $(function() {
+        $( "#follow-artists li").draggable();
+        $( "#artist-block" ).droppable({
+            drop: function( event, ui ) {
+                $( this )
+                    .addClass( "ui-state-highlight" )
+            }
+        });
+        $( "div .seed" ).eq(1).droppable({
+            drop: function( event, ui ) {
+                $( this )
+                    .addClass( "ui-state-highlight" )
+            }
+        });
+    });
 
-    var rect_recom_seed = svg_recom_seed.selectAll("g")
-        .data(recoms_seed)
-        .enter()
-        .append("g")
-        .attr('transform', function(d,i){
-            return "translate(0," + i * rectHeight + ")";
-        })
+    /******************************Seed track recommendations*************************************************/
 
-    rect_recom_seed.append("rect")
-        .attr("width",300)
-        .attr("height",rectHeight-2)
+    var dragged_track = "", dropped_tracks=""
 
-    rect_recom_seed.append('text')
-        .attr("x",10)
-        .attr("y",rectHeight/2+2)
-        .text(function(d){
-            if(d.name)
-                return d.name
-        })
+    var selected_seed_track = data.seed.track.slice(0,5)
+    for(var index in selected_seed_track){
+        $('#tracks').append("<li class='ui-state-default lift-top' id="+selected_seed_track[index].id+" >"+selected_seed_track[index].name+"</li>")
+    }
+
+    $(function() {
+        $( "#tracks li").draggable({
+            start: function() {
+                dragged_track = $(this).attr("id")
+            }
+        });
+        $( "#sel-tracks" ).droppable({
+            drop: function() {
+                if(dropped_tracks.indexOf(dragged_track)<0)
+                    dropped_tracks += dragged_track+','
+                var req_tracks= dropped_tracks.slice(0, dropped_tracks.length-1)
+                $( this )
+                    .addClass( "ui-state-highlight" )
+                    .empty()
+                $.ajax({
+                    url: "/getRecomByTrack?limit=20&seed="+req_tracks,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function(data) {
+                        console.log("The returned data", data);
+                        //getRecomBySeed(data)
+                        d3.select("svg#recom-seed").selectAll('*').remove()
+                        recom_by_track=data.items
+                        getRecomBySeed(recom_by_track, "recom-track")
+                    },
+                    error: function(err){
+                        console.log(err)
+                    }
+                });
+            }
+        });
+        $( "div .seed" ).eq(2).droppable({
+            drop: function() {
+                if(dropped_tracks.indexOf(dragged_track)>-1)
+                    dropped_tracks = dropped_tracks.replace(dragged_track+',','')
+                //dropped_artists = dropped_artists.slice(0, dropped_artists.length-1)
+                console.log(dropped_tracks)
+                var req_tracks= dropped_tracks.slice(0, dropped_tracks.length-1)
+                $.ajax({
+                    url: "/getRecomByTrack?limit=20&seed="+req_tracks,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function(data) {
+                        console.log("The returned data", data);
+                        d3.select("svg#recom-seed").selectAll('*').remove()
+                        recom_by_track=data.items
+                        getRecomBySeed(recom_by_track, "recom-track")
+                    },
+                    error: function(err){
+                        console.log(err)
+                    }
+                });
+
+                $( this )
+                    .addClass( "ui-state-highlight" )
+            }
+        });
+    });
+
+    /******************************Seed genre recommendations*************************************************/
+
+    var dragged_genre = "", dropped_genres=""
+
+    var selected_seed_genre = data.seed.genre.slice(0,5)
+    for(var index in selected_seed_genre){
+        $('#genres').append("<li class='ui-state-default lift-top' id="+selected_seed_genre[index]+" >"+selected_seed_genre[index]+"</li>")
+    }
+
+    $(function() {
+        $( "#genres li").draggable({
+            start: function() {
+                dragged_genre = $(this).attr("id")
+            }
+        });
+        $( "#sel-genres" ).droppable({
+            drop: function() {
+                if(dropped_genres.indexOf(dragged_genre)<0)
+                    dropped_genres += dragged_genre+','
+                var req_genres= dropped_genres.slice(0, dropped_genres.length-1)
+                $( this )
+                    .addClass( "ui-state-highlight" )
+                    .empty()
+                $.ajax({
+                    url: "/getRecomByGenre?limit=20&seed="+req_genres,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function(data) {
+                        console.log("The returned data", data);
+                        d3.select("svg#recom-seed").selectAll('*').remove()
+                        recom_by_genre = data.items
+                        getRecomBySeed(recom_by_genre,"recom-genre")
+                    },
+                    error: function(err){
+                        console.log(err)
+                    }
+                });
+            }
+        });
+        $( "div .seed" ).eq(3).droppable({
+            drop: function() {
+                if(dropped_genres.indexOf(dragged_genre)>-1)
+                    dropped_genres = dropped_genres.replace(dragged_genre+',','')
+                console.log(dropped_genres)
+                var req_genres= dropped_genres.slice(0, dropped_genres.length-1)
+                $.ajax({
+                    url: "/getRecomByGenre?limit=20&seed="+req_genres,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function(data) {
+                        console.log("The returned data", data);
+                        d3.select("svg#recom-seed").selectAll('*').remove()
+                        recom_by_genre = data.items
+                        getRecomBySeed(recom_by_genre,"recom-genre")
+                    },
+                    error: function(err){
+                        console.log(err)
+                    }
+                });
+
+                $( this )
+                    .addClass( "ui-state-highlight" )
+            }
+        });
+    });
 
 
-    var svg_recom_artist = d3.select("svg#recom-artist")
-        .attr("width",width+50)
-        .attr("height",height*2);
-
-    var rect_recom_artist = svg_recom_artist.selectAll("g")
-        .data(recoms_artist)
-        .enter()
-        .append("g")
-        .attr('transform', function(d,i){
-            return "translate(0," + i * rectHeight + ")";
-        })
-
-    rect_recom_artist.append("rect")
-        .attr("width",300)
-        .attr("height",rectHeight-2)
-
-    rect_recom_artist.append('text')
-        .attr("x",10)
-        .attr("y",rectHeight/2+2)
-        .text(function(d){
-            if(d.name)
-                return d.name
-        })
-
+    // add text in processing module
     for(index in data.seed.artist){
-        $("#sel-artists").append('<p class="all-border">'+data.seed.artist[index].name+'</p>')
+        if(index<5)
+            $("#sel-artists").append('<p class="all-border">'+data.seed.artist[index].name+'</p>')
     }
     for(index in data.seed.genre){
-        $("#sel-genres").append('<p class="all-border">'+data.seed.genre[index]+'</p>')
+        if(index<5)
+            $("#sel-genres").append('<p class="all-border">'+data.seed.genre[index]+'</p>')
     }
     for(index in data.seed.track){
-        $("#sel-tracks").append($('<p class="all-border">'+data.seed.track[index].name+'</p>'))
+        if(index<5)
+            $("#sel-tracks").append($('<p class="all-border">'+data.seed.track[index].name+'</p>'))
     }
 
 
@@ -245,8 +375,6 @@ $.get('/initiate',function(data){
         d.fy = null;
     }
 
-
-
 })
 
 
@@ -272,9 +400,4 @@ $(function() {
             handle.text( ui.value );
         }
     });
-} );
-
-
-$( function() {
-    $( "#number" ).selectmenu();
 } );
