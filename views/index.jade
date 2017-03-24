@@ -7,53 +7,96 @@ block content
             a(href='/auth/spotify') login
     else
         div.row
-            div.col-md-2
-                h4 The top artists you have
-                div.seed
-                    ul.none#artists
-                h4 The artists you follow
-                div.seed
-                    ul.none#follow-artists
-                h4 The top tracks you have
-                div.seed
-                    ul.none#tracks
-                h4 The top genres you have
-                div.seed
-                    ul.none#genres
-            div.col-md-6
-                h4 Seeds based recommendations
-                label Weight
-                div#wg-slider.top-space
-                    div#custom-handle.ui-slider-handle
-                div.row.top-space
-                    div.col-md-4
-                        p Artist seeds
-                        div.seed-block#sel-artists
-                    div.col-md-4
-                        p Track seeds
-                        div.seed-block#sel-tracks
-                    div.col-md-4
-                        p Genre seeds
-                        div.seed-block#sel-genres
-                h4 Artists based recommendations
-                label Weight
-                div#wg-slider-2.top-space
-                    div#custom-handle-2.ui-slider-handle
-                div.row.top-space
-                    div#artist-block
-                        svg(width="100%" height="100%")
-            div.col-md-4
-                h4 Seeds based recommendations
-                div.recom
-                    div#recom-seed
-                        ul.none.sortable#recom-seeds
-                h4 Artists based recommendations
-                label Number of recommendations
+            div.col-md-3.sub-block
+                h4 Recommendations source
+                div.seed#artist-div
+                    h5 The top artists you have&nbsp&nbsp&nbsp&nbsp
+                        i.fa.fa-plus-circle#artist-refresh
+                    div#artist-seed
+                div.seed#follow-div
+                    h5 The artists you follow&nbsp&nbsp&nbsp&nbsp
+                        i.fa.fa-plus-circle#follow-refresh
+                    div#artist-follow
+                div.seed#track-div
+                    h5 The top tracks you have&nbsp&nbsp&nbsp&nbsp
+                        i.fa.fa-plus-circle#track-refresh
+                    div#track-seed
+                div.seed#genre-div
+                    h5 The top genres you have&nbsp&nbsp&nbsp&nbsp
+                        i.fa.fa-plus-circle#genre-refresh
+                    div#genre-seed
+            div.col-md-5.sub-block
+                h4 Recommendations Processor
+                form
+                    div#radio
+                        input#radio-1(type="radio" name="radio" value="seed" checked="checked")
+                        label(for="radio-1") Seed based
+                        input#radio-2(type="radio" name="radio" value="artist")
+                        label(for="radio-2") Artist based
+                        input#radio-3(type="radio" name="radio" value="hybrid")
+                        label(for="radio-3") Hybrid
+                br
+                br
+
+                div#artist-block
+                    div.drop-block
+                        h6 Selected artist tags
+                        div#drop-sim-artists
+                    div#network-chart
+                div#seed-block
+                    div.drop-block
+                        h6 Selected artist tags
+                        div#drop-artists
+                        h6 Selected track tags
+                        div#drop-tracks
+                        h6 Selected genre tags
+                        div#drop-genres
+                    div#details
+
+                //div.seed-bar
+                //    span.box-flex Artist tags
+                //    ul.none.sortable#artist-bar
+                //div.seed-bar
+                //    span.box-flex Track tags
+                //    ul.none.sortable#track-bar
+                //div.seed-bar
+                //    span.box-flex Genre tags
+                //    ul.none.sortable#genre-bar
+
+                div#hybrid-block
+                    div#slider-title
+                        label Seed based
+                        label Artist based
+                    div#wg-slider
+
+            div.col-md-3.sub-block
+                h4 Recommendations
+                label Number &nbsp
                 select#number(name="number")
                     option 10
                     option 20
                     option 50
                     option 100
+                label &nbsp&nbsp&nbsp&nbsp Sort by &nbsp
+                    select#number(name="sort")
+                        option popularity
+                        option relevance
+                        option genre
                 div.recom
-                    div#recom-artist
-                        ul.none.sortable#recom-artists
+                    div.sortable#recom-seeds
+
+                //h4.bg-info Recommendations
+                //label Number of results &nbsp
+                //select#number(name="number")
+                //    option 10
+                //    option 20
+                //    option 50
+                //    option 100
+                //label &nbsp&nbsp&nbsp&nbsp Sort by &nbsp
+                //    select#number(name="sort")
+                //        option popularity
+                //        option relevance
+                //        option genre
+                //div.recom
+                //    div#recom-artist
+                //        ul.none.sortable#recom-artists

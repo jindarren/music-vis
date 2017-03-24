@@ -1,42 +1,43 @@
 body {
-    padding: 20px;
+    margin: 20px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    height: 100%;
+    width: 100%;
+    color: lightgrey;
+    background-color: #292929;
 }
 
 a {
     color: #00B7FF;
 }
 
-svg text {
-    fill: black;
-    font: 12px sans-serif;
-}
-
-#sel-artists, .recom-artist {
-    background-color: rgba(255, 1, 13, 0.1)
-}
-
-#sel-tracks, .recom-track {
-    background-color: rgba(255, 255, 0, 0.19)
-}
-
-#sel-genres, .recom-genre {
-    background-color: rgba(0, 0, 255, 0.19)
-}
-
-.recom-follow {
-    background-color: rgba(128, 128, 128, 0.47)
+.sub-block{
+    background-color: #0a0a0a;
+    margin: 10px;
 }
 
 .seed {
     margin: 10px;
-    height: 150px;
+    height: 30%;
+    float: left;
+}
+
+.seed > div {
+    height: 33%;
+    overflow: auto;
+}
+
+.seed span{
+    display: inline-block;
+    max-width:120px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow : ellipsis;
 }
 
 .recom {
     margin: 10px;
-    height: 325px;
-    overflow: auto;
+    height: 100%;
 }
 
 #custom-handle, #custom-handle-2 {
@@ -52,19 +53,93 @@ svg text {
     padding-top: 10px;
 }
 
-.seed-block{
-    height: 300px;
-    width: 100%;
-    padding: 5px;
-    /*border: rgba(90,5,94,0.07) 0.5px solid;*/
+#artist-block, #seed-block{
     background-color: rgba(5,28,94,0.07);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height:100%;
 }
 
-#artist-block{
-    height: 300px;
-    width: 100%;
-    border: rgba(90,5,94,0.07) 0.5px solid;
+#details{
+    width: 80%;
+    height: 100%;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
+
+.details-sub{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.details-sub img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.details-sub i{
+    color: gold;
+}
+
+#details audio{
+    max-width: 100%;
+}
+
+.popularity-star{
+    display: inline-block;
+}
+
+.detail-title{
+    font-weight: bold;
+}
+
+.drop-block{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.drop-block > div{
+    width: 100%;
+    height: 20%;
+    margin: 5px;
+    background-color: rgba(62, 62, 62, 0.82);
+    display: flex;
+    flex-direction: column;
+}
+
+.drop-block span{
+    width: 100%;
+    height: 16%;
+    margin-top: 2px;
+    float: left;
+}
+
+/*.seed-bar{*/
+    /*width:30%;*/
+    /*height:90%;*/
+/*}*/
+
+/*.seed-bar span{*/
+    /*font-size: 14px;*/
+    /*font-weight: bold;*/
+    /*padding-bottom: 20px;*/
+/*}*/
+
+
+
+/*#artist-block{*/
+    /*border: rgba(90,5,94,0.07) 0.5px solid;*/
+/*}*/
+
 
 .all-border{
     border: rgba(37,11,52,0.18) 0.5px solid;
@@ -87,10 +162,80 @@ ul.none {
     padding-left: 0px;
 }
 
-.lift-top{
-    z-index: 99
+#hybrid-block, #follow-div{
+    display: none;
 }
 
-.col-md-2 p{
-    font-size: 10px;
+.fa-plus-circle:hover{
+    transform: scale(1.2);
+    transition: 0.1s linear;
+}
+
+#network-chart {
+    width: 78%;
+    height: 100%;
+    margin-left: 10px;
+    border: 1px solid #292929;
+}
+
+#radio{
+    display: flex;
+    justify-content: center;
+}
+
+#artist-follow span ,
+#artist-seed span ,
+#drop-artists span,
+.recom-artist{
+    background-color: rgba(240, 173, 78, 0.6);
+}
+
+#track-seed span, #drop-tracks span, #track-bar li, .recom-track{
+    background-color: rgba(51, 122, 183, 0.6);
+}
+
+#genre-seed span ,#drop-genres span, #genre-bar li, .recom-genre{
+    background-color: rgba(92, 184, 92, 0.6);
+}
+
+
+#recom-seeds span{
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    margin: 3px;
+    padding-left:5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+#recom-seeds span a{
+    color: white;
+}
+
+.br-wrapper{
+    display: inline-block;
+}
+
+.box-flex{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.seed-bar li{
+    height: 80px;
+}
+
+#slider-title{
+    display: flex;
+    justify-content: space-between;
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+}
+
+.fa-times{
+    color: lightgrey;
 }

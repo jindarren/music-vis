@@ -2,22 +2,30 @@ doctype html
 html
   head
     title Spotify Visualization
+    link(rel="stylesheet" type = "text/css", href = "../bootstrap/dist/css/bootstrap.css")
+    link(rel="stylesheet" type = "text/css", href = "../components-font-awesome/css/font-awesome.css")
+    link(rel="stylesheet" type = "text/css", href = "../jquery-bar-rating/dist/themes/fontawesome-stars.css")
   body
     if !data
       p
         a(href='/') Home
         a(href='/auth/spotify') Log In
     else
-      p Welcome #{data.displayName}
-      p
-        a(href='/logout') Log Out
+      p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp
+        a.btn.btn-primary(href='/logout' role="button") Log Out
+
       block content
 
     script(type = "text/javascript", src = "../jquery/dist/jquery.js", charset = 'utf-8')
     script(type = "text/javascript", src = "../jquery-ui/jquery-ui.js", charset = 'utf-8')
-    script(type = "text/javascript", src = "../d3/d3.min.js", charset = 'utf-8')
+    script(type = "text/javascript", src = "../d3/d3.js", charset = 'utf-8')
+    script(type = "text/javascript", src = "../patternomaly/dist/patternomaly.js", charset = 'utf-8')
+    script(type = "text/javascript", src = "../chart.js/dist/Chart.js", charset = 'utf-8')
+    script(type = "text/javascript", src = "../vis/dist/vis.js", charset = 'utf-8')
+    script(type = "text/javascript", src = "../jquery-bar-rating/dist/jquery.barrating.min.js", charset = 'utf-8')
+
     script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')
 
-    link(rel="stylesheet" type = "text/css", href = "../bootstrap/dist/css/bootstrap.css")
     link(rel="stylesheet" type = "text/css", href = "../jquery-ui/themes/base/jquery-ui.css")
+    link(rel="stylesheet" type = "text/css", href = "../vis/dist/vis.css")
     link(rel="stylesheet" type = "text/css", href = "../stylesheets/style.css")

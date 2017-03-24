@@ -10,7 +10,7 @@ var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
 var appSecret = '592a9effa09b4ab8b8c87e439c9b014b';
 
 var reqData = {};
-var recommendations = {};
+//var recommendations = {};
 var token;
 
 // Passport session setup.
@@ -62,7 +62,7 @@ var getGenresByTrack = function () {
 }
 
 /*
-route for web API
+ route for web API
  */
 
 router.get('/getArtist',function (req,res) {
@@ -118,7 +118,7 @@ router.get('/initiate', function (req, res) {
     //pass token to the webAPI used by recommender
     if (token) {
         var getFollowedArtists =
-            recom(token).getFollowedArtists(5).then(function (data) {
+            recom(token).getFollowedArtists(50).then(function (data) {
                 reqData.followed_artist = data;
                 reqData.similar_artist = [];
                 var artists = []
@@ -129,7 +129,6 @@ router.get('/initiate', function (req, res) {
                     artists[index] = data[index].name
                     promise[index] = recom(token).getArtistRelatedArtists(data[index].id).then(function (data) {
                         return data
-
                     }), function (err) {
                         return err
                     }
@@ -153,14 +152,15 @@ router.get('/initiate', function (req, res) {
                     return seed_artists
                 })
 
-            }).then(function (data) {
-                 return recom(token).getRecommendationByFollowedArtist(data,'US');
-            }).then(function(recom){
-                recommendations.byFollowedArtist = recom
             });
+            //     .then(function (data) {
+            //     return recom(token).getRecommendationByFollowedArtist(data,'US');
+            // }).then(function(recom){
+            //     recommendations.byFollowedArtist = recom
+            // });
 
         var getTopArtists =
-            recom(token).getTopArtists(5).then(function (data) {
+            recom(token).getTopArtists(50).then(function (data) {
                 reqData.artist = data;
                 var selected_data = data.slice(0, 5)
                 var seed_artists = '';
@@ -170,14 +170,15 @@ router.get('/initiate', function (req, res) {
                 }
                 seed_artists = seed_artists.substring(0, seed_artists.length - 1)
                 return seed_artists
-            }).then(function (data) {
-                return recom(token).getRecommendationByArtist(10, data);
-            }).then(function (recom){
-                recommendations.byArtist = recom
             });
+            //     .then(function (data) {
+            //     return recom(token).getRecommendationByArtist(10, data);
+            // }).then(function (recom){
+            //     recommendations.byArtist = recom
+            // });
 
         var getTracks =
-            recom(token).getTopTracks(5).then(function (data) {
+            recom(token).getTopTracks(50).then(function (data) {
                 //reqData.track = data.slice(0, 5)
                 reqData.track = data
                 var selected_data = data.slice(0, 5)
@@ -189,11 +190,12 @@ router.get('/initiate', function (req, res) {
                 seed_tracks = seed_tracks.substring(0, seed_tracks.length - 1)
                 // console.log(seed_tracks)
                 return seed_tracks;
-            }).then(function (data) {
-                return recom(token).getRecommendationByTrack(10, data);
-            }).then(function (recom) {
-                recommendations.byTrack = recom
-            })
+            });
+            //     .then(function (data) {
+            //     return recom(token).getRecommendationByTrack(10, data);
+            // }).then(function (recom) {
+            //     recommendations.byTrack = recom
+            // })
 
         var getGenres =
             recom(token).getTopGenres().then(function (data) {
@@ -207,19 +209,20 @@ router.get('/initiate', function (req, res) {
                 seed_genres = seed_genres.substring(0, seed_genres.length - 1)
                 // console.log(seed_genres)
                 return seed_genres;
-            }).then(function (data) {
-                return recom(token).getRecommendationByGenre(10, data)
-            }).then(function (recom) {
-                recommendations.byGernre = recom
-            })
+            });
+            //     .then(function (data) {
+            //     return recom(token).getRecommendationByGenre(10, data)
+            // }).then(function (recom) {
+            //     recommendations.byGernre = recom
+            // })
 
 
         Promise.all([getFollowedArtists, getTopArtists, getTracks, getGenres]).then(function () {
             // console.log(recommendations)
             // console.log(reqData)
             res.json({
-                seed: reqData,
-                recom: recommendations
+                seed: reqData
+                //recom: recommendations
             })
         })
     }
