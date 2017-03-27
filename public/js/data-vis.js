@@ -11,58 +11,12 @@ $(window).resize(function() {
 });
 
 
-/********bar chart***************/
-
-//var ctx_seed = $("#seed-block canvas").get(0).getContext("2d");
-
-// var seed_data = {
-//     datasets: [{
-//         data: [0, 0, 0],
-//         backgroundColor:
-//             [
-//                 'rgba(240, 173, 78, 0.6)',
-//                 'rgba(51, 122, 183, 0.6)',
-//                 'rgba(92, 184, 92, 0.6)'
-//             ]
-//     }],
-//     labels: ['Artists', 'Tracks', 'Genres']
-// };
-
-
-// var seedBarChart = function() {
-//     new Chart(ctx_seed, {
-//         type: 'bar',
-//         data: seed_data,
-//         options: {
-//             animation: {
-//                 animateScale: true
-//             },
-//             legend: {
-//                 display: false
-//             },
-//             scales: {
-//                 yAxes: [{
-//                     ticks: {
-//                         max: 5,
-//                         min: 0,
-//                         stepSize: 1
-//                     }
-//                 }]
-//             }
-//         }
-//     })
-// }
-//
-// console.log(seed_data.datasets[0].data[0])
-// seedBarChart();
 
 $.get('/initiate',function(data){
     console.log(data)
     token = data.seed.token
 
-    var recom_by_artist = data.recom.byArtist,
-        recom_by_track = data.recom.byTrack,
-        recom_by_genre = data.recom.byGernre
+    var recom_by_artist, recom_by_track, recom_by_genre , recom_by_similar;
 
     $( function() {
         $( ".sortable" ).sortable();
@@ -82,26 +36,19 @@ $.get('/initiate',function(data){
         });
     }
 
-    getRecomBySeed(recom_by_artist,"recom-artist")
-    getRecomBySeed(recom_by_track,"recom-track")
-    getRecomBySeed(recom_by_genre,"recom-genre")
-
-
-    var recoms_artist = data.recom.byFollowedArtist
 
     var getRecomByArtists = function (recoms_artist, type, num) {
 
         $("."+type).remove();
         for(index in recoms_artist){
             if(index<num)
-                //$("#recom-artists").append("<li class='ui-state-default lift-top "+type+ "' id="+recoms_artist[index].id+">"+recoms_artist[index].name+"</li>")
                 $("#recom-artists").prepend("<li class='ui-state-default lift-top "+type+ "' id="+recoms_artist[index].id+"><a target='_blank' href="+recoms_artist[index].external_urls.spotify+">"+recoms_artist[index].name+"</a></li>")
 
         }
 
     }
 
-    getRecomByArtists(recoms_artist,"recom-follow",200)
+    //getRecomByArtists(recoms_artist,"recom-follow",200)
 
     $("#number").change(function () {
         $( "select option:selected" ).each(function() {
@@ -116,7 +63,6 @@ $.get('/initiate',function(data){
 $('.drop-block div').sortable()
 
 //function for showing detail page
-
 
     var visPopularity = function(rate){
         if(rate>=0 && rate<21)
@@ -172,26 +118,20 @@ $('.drop-block div').sortable()
 
     var selected_seed_artist = data.seed.artist.slice(0,5)
     var dragged_artist = "", dragged_artist_name="", dropped_artists=""
+    recom.by_artist = []
 
 
     for(var index in selected_seed_artist){
-        //dropped_artists += selected_seed_artist[index].id+','
         $('#artist-seed').append("<span class='label' id="+selected_seed_artist[index].id+" >"+selected_seed_artist[index].name+"</span>&nbsp;")
-        //$("#artist-bar").append("<li class='lift-top ui-state-default box-flex' id="+selected_seed_artist[index].id+"bar"+" >"+selected_seed_artist[index].name+"</li>")
     }
 
-    //dropped_artists = dropped_artists.slice(0, dropped_artists.length-1)
-
-
     var regDragArtist = function() {
-        $( "#artist-seed span").each(function(){
-            $(this).draggable({
+        $( "#artist-seed span").draggable({
                 start: function() {
                     dragged_artist = $(this).attr("id")
                     dragged_artist_name = $(this).text()
                     $( "#drop-artists" ).css("border","solid 1px #37BCF7")
-                    $( "#artist-seed").css("overflow","visible");
-
+                    //$( "#artist-seed").css("overflow","auto");
                 },
                 stop: function () {
                     $( "#drop-artists" ).css("border","0")
@@ -200,8 +140,7 @@ $('.drop-block div').sortable()
                 helper: "clone",
                 cursor: "move",
                 stack: "#artist-seed span"
-            });
-        })
+        });
 
 
         $("#drop-artists").droppable({
@@ -209,10 +148,10 @@ $('.drop-block div').sortable()
                 classes: {
                     "ui-droppable-active": "ui-state-highlight"
                 },
-                tolerance: "fit",
+                tolerance: "intersect",
 
                 drop: function() {
-                    $( "#artist-seed").css("overflow","auto");
+                    //$( "#artist-seed").css("overflow","auto");
                     $("#"+dragged_artist).css("border","solid 1px black")
                     $("#"+dragged_artist).draggable('disable')
                     $('#drop-artists').append("<span class='label' id="+dragged_artist+">"+dragged_artist_name+"  "+"<i class='fa fa-times'></i></span>")
@@ -220,15 +159,14 @@ $('.drop-block div').sortable()
                     $('#drop-artists i').each(function () {
                         $(this).click(function () {
                             $(this).parent().remove()
-                            var dragged_Artist_id = $(this).parent().attr('id')
-                            console.log(dragged_Artist_id)
+                            var dragged_artist_id = $(this).parent().attr('id')
+                            console.log(dragged_artist_id)
 
-                            $("#"+dragged_Artist_id).css("border","0")
-                            $("#"+dragged_Artist_id).draggable("enable");
-                            dropped_artists = dropped_artists.replace(dragged_Artist_id+',','')
+                            $("#"+dragged_artist_id).css("border","0")
+                            $("#"+dragged_artist_id).draggable("enable");
+                            dropped_artists = dropped_artists.replace(dragged_artist_id+',','')
                             console.log(dropped_artists)
-                            //seed_data.datasets[0].data[0] = dropped_artists.split(',').length-1;
-                            //seedBarChart()
+
                         })
                     })
 
@@ -242,10 +180,6 @@ $('.drop-block div').sortable()
                     })
 
 
-                    //seed_data.datasets[0].data[0] = dropped_artists.split(',').length;
-                    //console.log(seed_data)
-                    //seedBarChart()
-
                     if(dropped_artists.indexOf(dragged_artist)<0)
                         dropped_artists += dragged_artist+','
                     var req_artists= dropped_artists.slice(0, dropped_artists.length-1)
@@ -258,11 +192,12 @@ $('.drop-block div').sortable()
                         success: function(data) {
                             console.log("The returned data", data);
                             recom_by_artist = data.items
-                            recom.push({
+                            recom.by_artist.push({
                                 seed:dropped_artists,
-                                result:recoms_artist
+                                result:recom_by_artist
                             })
                             getRecomBySeed(recom_by_artist, "recom-artist")
+                            console.log(recom)
                         },
                         error: function(err){
                             console.log(err)
@@ -271,82 +206,6 @@ $('.drop-block div').sortable()
                 }
             });
 
-
-        // $( "div .seed" ).eq(0).droppable({
-        //     accept: "#artist-seed span",
-        //     classes: {
-        //         "ui-droppable-active": "ui-state-highlight"
-        //     },
-        //     drop: function() {
-        //         if(dropped_artists.indexOf(dragged_artist)>-1)
-        //             dropped_artists = dropped_artists.replace(dragged_artist+',','')
-        //         console.log(dropped_artists)
-        //         var req_artists= dropped_artists.slice(0, dropped_artists.length-1)
-        //         $.ajax({
-        //             url: "/getRecomByArtist?limit=20&seed="+req_artists,
-        //             headers: {
-        //                 'Authorization': 'Bearer ' + token
-        //             },
-        //             success: function(data) {
-        //                 console.log("The returned data", data);
-        //                 $("#recom-seeds").empty()
-        //                 recom_by_artist = data.items
-        //                 getRecomBySeed(recom_by_artist, "recom-artist")
-        //             },
-        //             error: function(err){
-        //                 console.log(err)
-        //             }
-        //         });
-        //     }
-        // });
-
-        // $( "#artist-seed span").each(function(){
-        //     $(this).click(function(){
-        //         dragged_artist = $(this).attr("id")
-        //         if(!$(this).hasClass('selected')) {
-        //             $(this).addClass('selected')
-        //             //$(this).css({"border":"solid 1px rgba(51, 122, 183, 1)", "background-color":"rgba(51, 122, 183, 1)"})
-        //             if(dropped_artists.indexOf(dragged_artist)<0) {
-        //                 dropped_artists += dragged_artist + ','
-        //                 req_tracks = dropped_artists.slice(0, dropped_artists.length - 1)
-        //             }
-        //             if($('#artist-bar li').length<5)
-        //                 $('#artist-bar').append("<li class='lift-top ui-state-default box-flex' id="+dragged_artist+'bar'+" >"+$(this).text()+"</li>")
-        //             else{
-        //                 $('#artist-bar li:eq(0)').remove()
-        //                 $('#artist-bar').append("<li class='lift-top ui-state-default box-flex' id="+dragged_artist+'bar'+" >"+$(this).text()+"</li>")
-        //             }
-        //
-        //         }
-        //         else if($(this).hasClass('selected')){
-        //             $(this).removeClass('selected')
-        //             //$(this).css({"border":"0px", "background-color":"rgba(51, 122, 183, 0.5)"})
-        //             if(dropped_artists.indexOf(dragged_artist)>-1) {
-        //                 dropped_artists = dropped_artists.replace(dropped_artists + ',', '')
-        //                 console.log(dropped_artists)
-        //                 var req_artists = dropped_artists.slice(0, dropped_artists.length - 1)
-        //             }
-        //             $('#'+dragged_artist+'bar').remove()
-        //         }
-        //
-        //         $.ajax({
-        //             url: "/getRecomByArtist?limit=20&seed="+req_artists,
-        //             headers: {
-        //                 'Authorization': 'Bearer ' + token
-        //             },
-        //             success: function(data) {
-        //                 console.log("The returned data", data);
-        //                 //getRecomBySeed(data)
-        //                 //$("#recom-seeds").empty()
-        //                 recom_by_artist=data.items
-        //                 getRecomBySeed(recom_by_artist, "recom-artist")
-        //             },
-        //             error: function(err){
-        //                 console.log(err)
-        //             }
-        //         });
-        //     })
-        // })
     };
 
     regDragArtist()
@@ -355,6 +214,7 @@ $('.drop-block div').sortable()
 
 
     var selected_seed_followed_artist = data.seed.followed_artist.slice(0,5)
+    var dragged_fellow = "", dragged_fellow_name="", dropped_fellows=""
 
     for(var index in selected_seed_followed_artist){
         $('#artist-follow').append("<span class='label' id="+selected_seed_followed_artist[index].id+" >"+selected_seed_followed_artist[index].name+"</span>&nbsp")
@@ -363,24 +223,59 @@ $('.drop-block div').sortable()
     var regDragFollow = function() {
         $( "#artist-follow span").draggable({
             start: function() {
-                dragged_artist = $(this).attr("id");
-                $( "#drop-artists" ).css("background-color","#37BCF7")
+                dragged_fellow = $(this).attr("id");
+                dragged_fellow_name = $(this).text()
+                $( "#drop-sim-artists" ).css("border","solid 1px #37BCF7")
+                //$("#artist-follow").css("overflow","auto");
+            },
+            stop: function () {
+                $( "#drop-sim-artists" ).css("border","0")
             },
             revert: "invalid", // when not dropped, the item will revert back to its initial position
-            containment: "document",
             helper: "clone",
-            cursor: "move"
+            cursor: "move",
+            stack: "#drop-sim-artists span"
         });
 
-        $( "#drop-artists" ).droppable({
+        $( "#drop-sim-artists" ).droppable({
             accept: "#artist-follow span",
             classes: {
                 "ui-droppable-active": "ui-state-highlight"
             },
+            tolerance: "intersect",
+
             drop: function() {
-                if(dropped_artists.indexOf(dragged_artist)<0)
-                    dropped_artists += dragged_artist+','
-                var req_artists= dropped_artists.slice(0, dropped_artists.length-1)
+                //$( "#artist-seed").css("overflow","auto");
+                $("#"+dragged_fellow).css("border","solid 1px black")
+                $("#"+dragged_fellow).draggable('disable')
+                $('#drop-sim-artists').append("<span class='label' id="+dragged_fellow+">"+dragged_fellow_name+"  "+"<i class='fa fa-times'></i></span>")
+
+                $('#drop-sim-artists i').each(function () {
+                    $(this).click(function () {
+                        $(this).parent().remove()
+                        var dragged_fellow_id = $(this).parent().attr('id')
+                        console.log(dragged_fellow_id)
+
+                        $("#"+dragged_fellow_id).css("border","0")
+                        $("#"+dragged_fellow_id).draggable("enable");
+                        dropped_fellows = dropped_fellows.replace(dragged_fellow_id+',','')
+                        console.log(dropped_artists)
+                    })
+                })
+
+                //show detailed page
+                $('#artist-follow span').each(function () {
+                    $(this).click(function () {
+                        var clicked_follow = $(this).attr('id')
+                        console.log(clicked_follow)
+                        showArtistDetails(clicked_follow)
+                    })
+                })
+
+
+                if(dropped_fellows.indexOf(dragged_fellow)<0)
+                    dropped_fellows += dragged_fellow+','
+                var req_follows= dropped_fellows.slice(0, dropped_fellows.length-1)
 
                 $.ajax({
                     url: "/getRecomByArtist?limit=20&seed="+req_artists,
@@ -389,8 +284,11 @@ $('.drop-block div').sortable()
                     },
                     success: function(data) {
                         console.log("The returned data", data);
-                        $("#recom-seeds").empty()
                         recom_by_artist = data.items
+                        recom.push({
+                            seed:dropped_artists,
+                            result:recoms_artist
+                        })
                         getRecomBySeed(recom_by_artist, "recom-artist")
                     },
                     error: function(err){
@@ -399,33 +297,7 @@ $('.drop-block div').sortable()
                 });
             }
         });
-        $( "div .seed" ).eq(1).droppable({
-            accept: "#artist-follow span",
-            classes: {
-                "ui-droppable-active": "ui-state-highlight"
-            },
-            drop: function() {
-                if(dropped_artists.indexOf(dragged_artist)>-1)
-                    dropped_artists = dropped_artists.replace(dragged_artist+',','')
-                console.log(dropped_artists)
-                var req_artists= dropped_artists.slice(0, dropped_artists.length-1)
-                $.ajax({
-                    url: "/getRecomByArtist?limit=20&seed="+req_artists,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function(data) {
-                        console.log("The returned data", data);
-                        $("#recom-seeds").empty()
-                        recom_by_artist = data.items
-                        getRecomBySeed(recom_by_artist, "recom-artist")
-                    },
-                    error: function(err){
-                        console.log(err)
-                    }
-                });
-            }
-        });
+
     };
 
     regDragFollow()
@@ -527,90 +399,10 @@ $('.drop-block div').sortable()
                 });
             }
         });
-        // $( "div .seed" ).eq(2).droppable({
-        //     accept: "#track-seed span",
-        //     classes: {
-        //         "ui-droppable-active": "ui-state-highlight"
-        //     },
-        //     drop: function() {
-        //         if(dropped_tracks.indexOf(dragged_track)>-1)
-        //             dropped_tracks = dropped_tracks.replace(dragged_track+',','')
-        //         console.log(dropped_tracks)
-        //         var req_tracks= dropped_tracks.slice(0, dropped_tracks.length-1)
-        //         $.ajax({
-        //             url: "/getRecomByTrack?limit=20&seed="+req_tracks,
-        //             headers: {
-        //                 'Authorization': 'Bearer ' + token
-        //             },
-        //             success: function(data) {
-        //                 console.log("The returned data", data);
-        //                 $("#recom-seeds").empty()
-        //                 recom_by_track=data.items
-        //                 getRecomBySeed(recom_by_track, "recom-track")
-        //             },
-        //             error: function(err){
-        //                 console.log(err)
-        //             }
-        //         });
-        //     }
-        // });
+
     };
 
     regDragTrack()
-
-
-    // var regDragTrack = function(){
-    //     $( "#track-seed span").each(function(){
-    //         $(this).click(function(){
-    //             dragged_track = $(this).attr("id")
-    //             if(!$(this).hasClass('selected')) {
-    //                 $(this).addClass('selected')
-    //                 //$(this).css({"border":"solid 1px rgba(51, 122, 183, 1)", "background-color":"rgba(51, 122, 183, 1)"})
-    //                 if(dropped_tracks.indexOf(dragged_track)<0) {
-    //                     dropped_tracks += dragged_track + ','
-    //                     req_tracks = dropped_tracks.slice(0, dropped_tracks.length - 1)
-    //                 }
-    //                 if($('#track-bar li').length<5)
-    //                     $('#track-bar').append("<li class='ui-state-default lift-top box-flex' id="+dragged_track+'bar'+" >"+$(this).text()+"</li>")
-    //                 else{
-    //                     $('#track-bar li:eq(0)').remove()
-    //                     $('#track-bar').append("<li class='ui-state-default lift-top box-flex' id="+dragged_track+'bar'+" >"+$(this).text()+"</li>")
-    //                 }
-    //
-    //             }
-    //             else if($(this).hasClass('selected')){
-    //                 $(this).removeClass('selected')
-    //                 //$(this).css({"border":"0px", "background-color":"rgba(51, 122, 183, 0.5)"})
-    //                 if(dropped_tracks.indexOf(dragged_track)>-1) {
-    //                     dropped_tracks = dropped_tracks.replace(dragged_track + ',', '')
-    //                     console.log(dropped_tracks)
-    //                     var req_tracks = dropped_tracks.slice(0, dropped_tracks.length - 1)
-    //                 }
-    //                 $('#'+dragged_track+'bar').remove()
-    //             }
-    //
-    //             $.ajax({
-    //                 url: "/getRecomByTrack?limit=20&seed="+req_tracks,
-    //                 headers: {
-    //                     'Authorization': 'Bearer ' + token
-    //                 },
-    //                 success: function(data) {
-    //                     console.log("The returned data", data);
-    //                     //getRecomBySeed(data)
-    //                     //$("#recom-seeds").empty()
-    //                     $(".recom-track").remove()
-    //                     recom_by_track=data.items
-    //                     getRecomBySeed(recom_by_track, "recom-track")
-    //                 },
-    //                 error: function(err){
-    //                     console.log(err)
-    //                 }
-    //             });
-    //         })
-    //     })
-    // }
-    //
-    // regDragTrack();
 
 
     /******************************Seed genre recommendations*************************************************/
@@ -677,15 +469,9 @@ $('.drop-block div').sortable()
 
                         showGenreDetails(clicked_genre_id)
 
-                        //seed_data.datasets[0].data[2] = dropped_genres.split(',').length-1;
-                        //seedBarChart()
                     })
                 })
 
-
-                //seed_data.datasets[0].data[2] = dropped_genres.split(',').length;
-                //console.log(seed_data)
-                //seedBarChart()
 
 
                 if(dropped_genres.indexOf(dragged_genre)<0)
@@ -707,81 +493,7 @@ $('.drop-block div').sortable()
                 });
             }
         });
-        // $( "div .seed" ).eq(3).droppable({
-        //     accept: "#genre-seed span",
-        //     classes: {
-        //         "ui-droppable-active": "ui-state-highlight"
-        //     },
-        //     drop: function() {
-        //         if(dropped_genres.indexOf(dragged_genre)>-1)
-        //             dropped_genres = dropped_genres.replace(dragged_genre+',','')
-        //         console.log(dropped_genres)
-        //         var req_genres= dropped_genres.slice(0, dropped_genres.length-1)
-        //         $.ajax({
-        //             url: "/getRecomByGenre?limit=20&seed="+req_genres,
-        //             headers: {
-        //                 'Authorization': 'Bearer ' + token
-        //             },
-        //             success: function(data) {
-        //                 console.log("The returned data", data);
-        //                 $("#recom-seeds").empty()
-        //                 recom_by_genre = data.items
-        //                 getRecomBySeed(recom_by_genre,"recom-genre")
-        //             },
-        //             error: function(err){
-        //                 console.log(err)
-        //             }
-        //         });
-        //     }
-        // });
 
-        // $( "#genre-seed span").each(function(){
-        //     $(this).click(function(){
-        //         dragged_genre = $(this).attr("id")
-        //         if(!$(this).hasClass('selected')) {
-        //             $(this).addClass('selected')
-        //             //$(this).css({"border":"solid 1px rgba(51, 122, 183, 1)", "background-color":"rgba(51, 122, 183, 1)"})
-        //             if(dropped_genres.indexOf(dragged_genre)<0) {
-        //                 dropped_genres += dragged_genre + ','
-        //                 req_tracks = dropped_genres.slice(0, dropped_genres.length - 1)
-        //             }
-        //             if($('#genre-bar li').length<5)
-        //                 $('#genre-bar').append("<li class='ui-state-default lift-top box-flex' id="+dragged_genre+'bar'+" >"+$(this).text()+"</li>")
-        //             else{
-        //                 $('#genre-bar li:eq(0)').remove()
-        //                 $('#genre-bar').append("<li class='ui-state-default lift-top box-flex' id="+dragged_genre+'bar'+" >"+$(this).text()+"</li>")
-        //             }
-        //
-        //         }
-        //         else if($(this).hasClass('selected')){
-        //             $(this).removeClass('selected')
-        //             //$(this).css({"border":"0px", "background-color":"rgba(51, 122, 183, 0.5)"})
-        //             if(dropped_genres.indexOf(dragged_genre)>-1) {
-        //                 dropped_genres = dropped_genres.replace(dragged_genre + ',', '')
-        //                 console.log(dropped_genres)
-        //                 var req_genres = dropped_genres.slice(0, dropped_genres.length - 1)
-        //             }
-        //             $('#'+dragged_genre+'bar').remove()
-        //         }
-        //
-        //         $.ajax({
-        //             url: "/getRecomByGenre?limit=20&seed="+req_genres,
-        //             headers: {
-        //                 'Authorization': 'Bearer ' + token
-        //             },
-        //             success: function(data) {
-        //                 console.log("The returned data", data);
-        //                 //getRecomBySeed(data)
-        //                 //$("#recom-seeds").empty()
-        //                 recom_by_genre=data.items
-        //                 getRecomBySeed(recom_by_genre, "recom-genre")
-        //             },
-        //             error: function(err){
-        //                 console.log(err)
-        //             }
-        //         });
-        //     })
-        // })
     };
 
     regDragGenre();
@@ -857,53 +569,98 @@ $('.drop-block div').sortable()
 })
 
 
-/***********Network dataset****************/
+/***********Followed artists visualization****************/
+
+var similar_artist = [{name:"Liu", dis:0},{name:"Zhao", dis:1},{name:"Zhao", dis:2},{name:"Zhao", dis:3}, {name:"Zhao", dis:4}]
 
 
-var nodes = new vis.DataSet([
-    {id: 1, label: 'Justin Bieber'},
-    {id: 2, label: 'Cody Simpson'},
-    {id: 3, label: 'Jason Derulo'},
-    {id: 4, label: 'Nick Jonas'}
-]);
-
-// create an array with edges
-var edges = new vis.DataSet([
-    {from: 1, to: 2},
-    {from: 1, to: 3},
-    {from: 1, to: 4}
-]);
+var visSim = function (artist, similar_artist) {
 
 
-// create a network
-var container = $('#network-chart').get(0);
-var data = {
-    nodes: nodes,
-    edges: edges
-};
-var options = {
-};
-var network = new vis.Network(container, data, options);
-
-console.log(network.getPositions()[1])
-
-$( function() {
-    $( "#wg-slider" ).slider();
-} );
+    var svg_width = $('#artist-block')[0].clientWidth * 0.75;
 
 
-$(function() {
-    $( "#radio" ).buttonset();
+    $('#network-chart').append('<svg/>')
 
-});
+    var svg = d3.select("svg")
+            .attr('width', svg_width)
+            .attr('height', svg_width),
+        radius = svg_width / 2 - 5;
 
+    for (var i = 0; i < 5; i++) {
+        svg.append('circle')
+            .attr("r", (i + 1) / 5 * radius)
+            .attr("cx", svg_width / 2)
+            .attr("cy", svg_width / 2)
+            .attr("stroke", "gray")
+            .attr("stroke-width", "1")
+            .attr("fill", "none")
+    }
+
+    var node = svg.selectAll(".node")
+        .data(similar_artist)
+        .enter().append('g')
+        .attr('opacity','0.5')
+        .call(d3.drag().on("drag", function (d) {
+            d3.select(this).select('circle').raise().attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+            d3.select(this).select('text').raise().attr("x", d.x = d3.event.x).attr("y", d.y = d3.event.y);
+            console.log(calWeight(d3.select(this)))
+        }))
+
+    node.append('circle')
+        .attr("class", 'node')
+        .attr("r", '40')
+        .attr("cx", function (d) {
+            return radius + radius / 2 * Math.sin(d.dis * Math.PI * 2 / 5)
+        })
+        .attr("cy", function (d) {
+            return radius - radius / 2 * Math.cos(d.dis * Math.PI * 2 / 5)
+        })
+        .style("fill", "#e6af52")
+
+    node.append('text')
+        .attr("x", function (d) {
+            return radius + radius / 2 * Math.sin(d.dis * Math.PI * 2 / 5)
+        })
+        .attr("y", function (d) {
+            return radius - radius / 2 * Math.cos(d.dis * Math.PI * 2 / 5)
+        })
+        .text(function (d) {
+            return d.name
+        })
+
+    svg.append('text')
+        .attr("x", svg_width / 2)
+        .attr("y", svg_width / 2)
+        .attr("fill", 'yellow')
+        .text(artist)
+
+
+    var calWeight = function (circle) {
+        var total_weight = 0
+        var weights = []
+        d3.selectAll(".node").each(function () {
+            var dist = radius - Math.sqrt(Math.pow(d3.select(this).attr("cx") - svg_width / 2, 2) + Math.pow(d3.select(this).attr("cy") - svg_width / 2, 2))
+            weights.push(dist)
+            total_weight += dist
+        })
+
+        for (index in weights) {
+            weights[index] = weights[index] / total_weight
+        }
+        return weights
+    }
+
+}
+
+visSim("Yucheng", similar_artist)
 //hide the artist block at the begining
 $("#artist-block").hide();
 
 $("#radio input").each(function(){
     $(this).click(function(){
         if($(this).attr('value')=="artist"){
-            $("#hybrid-block, #seed-block, #track-div, #genre-div， #artist-div").hide()
+            $("#hybrid-block, #seed-block, #track-div, #genre-div, #artist-div").hide()
             $("#artist-block, #follow-div").show()
         }
         else if($(this).attr('value')=="seed"){

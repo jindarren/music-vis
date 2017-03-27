@@ -172,10 +172,9 @@ ul.none {
 }
 
 #network-chart {
-    width: 78%;
+    width: 76%;
     height: 100%;
-    margin-left: 10px;
-    border: 1px solid #292929;
+    margin-left: 20px;
 }
 
 #radio{
