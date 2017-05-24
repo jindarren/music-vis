@@ -4,8 +4,8 @@
 var recommender = function (token) {
     var SpotifyWebApi = require('spotify-web-api-node'),
         appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c',
-        appSecret = '592a9effa09b4ab8b8c87e439c9b014b',
-        redirectUrl = 'http://localhost:3302/spotify/callback';
+        appSecret = 'b368bdb3003747ec861e62d3bf381ba0',
+        redirectUrl = 'http://localhost:3000/callback';
 
     var spotifyApi = new SpotifyWebApi({
         clientId: appKey,
@@ -68,12 +68,10 @@ var recommender = function (token) {
         },
 
         getRecommendationByFollowedArtist: function (artists, country) {
-            var artist_arr = artists.split(',');
             var promise = []
 
-
-            for (var index in artist_arr){
-                promise[index]=spotifyApi.getArtistTopTracks(artist_arr[index], country).then(function(data){
+            for (var index in artists){
+                promise[index]=spotifyApi.getArtistTopTracks(artists[index].id, country).then(function(data){
                     return data.body.tracks
                 }), function (err) {
                     return err

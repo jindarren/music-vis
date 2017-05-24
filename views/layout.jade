@@ -7,9 +7,8 @@ html
     link(rel="stylesheet" type = "text/css", href = "../jquery-bar-rating/dist/themes/fontawesome-stars.css")
   body
     if !data
-      p
-        a(href='/') Home
-        a(href='/auth/spotify') Log In
+      div#login-page
+          a.btn.btn-primary.btn-lg(href='/auth/spotify' role="button") Please use your Facebook account to log in
     else
       p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp
         a.btn.btn-primary(href='/logout' role="button") Log Out
@@ -21,6 +20,8 @@ html
     script(type = "text/javascript", src = "../d3/d3.js", charset = 'utf-8')
     script(type = "text/javascript", src = "../jquery-bar-rating/dist/jquery.barrating.min.js", charset = 'utf-8')
     script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')
+    script(type = "text/javascript", src = "../seiyria-bootstrap-slider/dist/bootstrap-slider.js", charset = 'utf-8')
 
     link(rel="stylesheet" type = "text/css", href = "../jquery-ui/themes/base/jquery-ui.css")
+    link(rel="stylesheet" type = "text/css", href = "../seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css")
     link(rel="stylesheet" type = "text/css", href = "../stylesheets/style.css")

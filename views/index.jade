@@ -13,9 +13,8 @@ block content
                     h5 The top artists you have&nbsp&nbsp&nbsp&nbsp
                         i.fa.fa-plus-circle#artist-refresh
                     div#artist-seed
-                div.seed#follow-div
+                div#follow-div
                     h5 The artists you follow&nbsp&nbsp&nbsp&nbsp
-                        i.fa.fa-plus-circle#follow-refresh
                     div#artist-follow
                 div.seed#track-div
                     h5 The top tracks you have&nbsp&nbsp&nbsp&nbsp
@@ -30,63 +29,51 @@ block content
                 form
                     div#radio
                         input#radio-1(type="radio" name="radio" value="seed" checked="checked")
-                        label(for="radio-1") Seed based
+                        label(for="radio-1") &nbsp&nbspSeed based&nbsp&nbsp
                         input#radio-2(type="radio" name="radio" value="artist")
-                        label(for="radio-2") Artist based
-                        input#radio-3(type="radio" name="radio" value="hybrid")
-                        label(for="radio-3") Hybrid
+                        label(for="radio-2") &nbsp&nbspArtist based&nbsp&nbsp
+                        //input#radio-3(type="radio" name="radio" value="hybrid")
+                        //label(for="radio-3") &nbsp&nbspHybrid&nbsp&nbsp
                 br
-                br
-
                 div#artist-block
-                    div.drop-block
-                        h6 Selected artist tags
+                    //h6 Selected artist tags
+                    div.drop-block-h
                         div#drop-sim-artists
-                    div#network-chart
+                        div#similar-artists
+                    div.details-wide
+                    //div#network-chart
+                        //svg
+                        div#sim-artists-vis
                 div#seed-block
                     div.drop-block
-                        h6 Selected artist tags
-                        div#drop-artists
-                        h6 Selected track tags
-                        div#drop-tracks
-                        h6 Selected genre tags
-                        div#drop-genres
-                    div#details
-
-                div#hybrid-block
-                    div#slider-title
-                        label Seed based
-                        label Artist based
-                    div#wg-slider
+                        h6 Weight of selected artists
+                        input.bootstrap-slider#artist-weight(type="text" value="50" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="artist-weight" data-slider-tooltip="hide" data-slider-handle="round")
+                        div.drop-seeds#drop-artists
+                        h6 Weight of selected tracks
+                        input.bootstrap-slider#track-weight(type="text" value="50" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="track-weight" data-slider-tooltip="hide" data-slider-handle="round")
+                        div.drop-seeds#drop-tracks
+                        h6 Weight of selected genres
+                        input.bootstrap-slider#genre-weight(type="text" value="50" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="genre-weight" data-slider-tooltip="hide" data-slider-handle="round")
+                        div.drop-seeds#drop-genres
+                    div.details
+                //div#hybrid-block
+                //    div#slider-title
+                //        label Seed based
+                //        label Artist based
+                //    div#wg-slider
 
             div.col-md-3.sub-block
                 h4 Recommendations
                 label Number &nbsp
                 select#number(name="number")
-                    option 10
-                    option 20
-                    option 50
-                    option 100
+                    option 30
+                    option(selected="selected") 45
+                    option 60
+                    option 75
                 label &nbsp&nbsp&nbsp&nbsp Sort by &nbsp
-                    select#number(name="sort")
-                        option popularity
-                        option relevance
-                        option genre
+                select#rank(name="rank")
+                    option default
+                    option popularity
                 div.recom
                     div.sortable#recom-seeds
-
-                //h4.bg-info Recommendations
-                //label Number of results &nbsp
-                //select#number(name="number")
-                //    option 10
-                //    option 20
-                //    option 50
-                //    option 100
-                //label &nbsp&nbsp&nbsp&nbsp Sort by &nbsp
-                //    select#number(name="sort")
-                //        option popularity
-                //        option relevance
-                //        option genre
-                //div.recom
-                //    div#recom-artist
-                //        ul.none.sortable#recom-artists
+                    div.sortable#recom-followers

@@ -7,7 +7,7 @@ var path = require('path');
 
 
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
-var appSecret = '592a9effa09b4ab8b8c87e439c9b014b';
+var appSecret = 'b368bdb3003747ec861e62d3bf381ba0';
 
 var reqData = {};
 //var recommendations = {};
@@ -107,6 +107,20 @@ router.get('/getRecomByGenre',function (req,res) {
         res.json(result)})
 })
 
+router.get('/getRecomByFollowSimilar',function (req,res) {
+    var result = {}
+    recom(token).getArtistRelatedArtists(req.query.id).then(function (data) {
+        var selectedRelated = data.slice(0,5);
+        result.similar = selectedRelated
+        return selectedRelated
+    }).then(function (data) {
+        recom(token).getRecommendationByFollowedArtist(data,'US').then(function (data) {
+            result.items = data
+            res.json(result)
+        })
+    })
+})
+
 router.get('/getAccount',function (req,res) {
     recom(token).getRecommendationByGenre().then(function (data) {
         res.json(data)})
@@ -120,109 +134,31 @@ router.get('/initiate', function (req, res) {
         var getFollowedArtists =
             recom(token).getFollowedArtists(50).then(function (data) {
                 reqData.followed_artist = data;
-                reqData.similar_artist = [];
-                var artists = []
-                var selected_data
-                var promise = []
-
-                for(var index in data){
-                    artists[index] = data[index].name
-                    promise[index] = recom(token).getArtistRelatedArtists(data[index].id).then(function (data) {
-                        return data
-                    }), function (err) {
-                        return err
-                    }
-                }
-
-                return Promise.all(promise).then(function (data) {
-                    selected_data = data[0]
-                    for (var index in data){
-                        var similar_artists = {}
-                        similar_artists.artist = artists[index]
-                        similar_artists.similar = data[index]
-                        reqData.similar_artist.push(similar_artists)
-                    }
-                    var seed_artists = '';
-                    for (var artistIndex in selected_data) {
-                        if (selected_data[artistIndex].id)
-                            seed_artists += selected_data[artistIndex].id + ','
-                    }
-                    seed_artists = seed_artists.substring(0, seed_artists.length - 1)
-                    // console.log(seed_artists)
-                    return seed_artists
-                })
-
             });
-            //     .then(function (data) {
-            //     return recom(token).getRecommendationByFollowedArtist(data,'US');
-            // }).then(function(recom){
-            //     recommendations.byFollowedArtist = recom
-            // });
+
 
         var getTopArtists =
             recom(token).getTopArtists(50).then(function (data) {
                 reqData.artist = data;
-                var selected_data = data.slice(0, 5)
-                var seed_artists = '';
-                for (var artistIndex in selected_data) {
-                    if (selected_data[artistIndex].id)
-                        seed_artists += selected_data[artistIndex].id + ','
-                }
-                seed_artists = seed_artists.substring(0, seed_artists.length - 1)
-                return seed_artists
             });
-            //     .then(function (data) {
-            //     return recom(token).getRecommendationByArtist(10, data);
-            // }).then(function (recom){
-            //     recommendations.byArtist = recom
-            // });
+
 
         var getTracks =
             recom(token).getTopTracks(50).then(function (data) {
-                //reqData.track = data.slice(0, 5)
                 reqData.track = data
-                var selected_data = data.slice(0, 5)
-                var seed_tracks = '';
-                for (var trackIndex in selected_data) {
-                    if (selected_data[trackIndex].id)
-                        seed_tracks += selected_data[trackIndex].id + ','
-                }
-                seed_tracks = seed_tracks.substring(0, seed_tracks.length - 1)
-                // console.log(seed_tracks)
-                return seed_tracks;
             });
-            //     .then(function (data) {
-            //     return recom(token).getRecommendationByTrack(10, data);
-            // }).then(function (recom) {
-            //     recommendations.byTrack = recom
-            // })
+
 
         var getGenres =
             recom(token).getTopGenres().then(function (data) {
-                //reqData.genre = data.slice(0, 5)
                 reqData.genre = data
-                var seed_genres = '';
-                for (var genreIndex = 0; genreIndex < 5; genreIndex++) {
-                    if (data[genreIndex])
-                        seed_genres += data[genreIndex] + ','
-                }
-                seed_genres = seed_genres.substring(0, seed_genres.length - 1)
-                // console.log(seed_genres)
-                return seed_genres;
             });
-            //     .then(function (data) {
-            //     return recom(token).getRecommendationByGenre(10, data)
-            // }).then(function (recom) {
-            //     recommendations.byGernre = recom
-            // })
+
 
 
         Promise.all([getFollowedArtists, getTopArtists, getTracks, getGenres]).then(function () {
-            // console.log(recommendations)
-            // console.log(reqData)
             res.json({
                 seed: reqData
-                //recom: recommendations
             })
         })
     }
@@ -233,6 +169,7 @@ router.get('/initiate', function (req, res) {
         })
     }
 });
+
 
 router.get('/',function (req,res) {
     res.render('index',{ data: req.user})
