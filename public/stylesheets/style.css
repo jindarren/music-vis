@@ -272,17 +272,17 @@ ul.none {
 #drop-sim-artists span,
 .recom-artist{
     /*background-color: rgba(240, 173, 78, 0.6);*/
-    border: solid 0.5px rgba(240, 173, 78, 0.6);
+    border: solid 0.5px rgba(240, 184, 25, 0.8);
 }
 
 #track-seed span, #drop-tracks span, #track-bar li, .recom-track{
     /*background-color: rgba(51, 122, 183, 0.6);*/
-    border: solid 0.5px rgba(51, 122, 183, 0.6);
+    border: solid 0.5px rgba(0, 196, 255, 0.8);
 }
 
 #genre-seed span ,#drop-genres span, #genre-bar li, .recom-genre{
     /*background-color: rgba(92, 184, 92, 0.6);*/
-    border: solid 0.5px rgba(92, 184, 92, 0.6);
+    border: solid 0.5px rgba(95, 234, 64, 0.8);
 }
 
 
