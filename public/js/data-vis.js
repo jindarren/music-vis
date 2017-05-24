@@ -377,7 +377,7 @@ $.get('/initiate', function (data) {
             start: function () {
                 dragged_artist = $(this).attr("id")
                 dragged_artist_name = $(this).text();
-                $("#drop-artists").css("border", "solid 1px #FDFDFD");
+                $("#drop-artists").css("border", "solid 2px #F0B819");
                 //$( "#artist-seed").css("overflow","auto");
             },
             stop: function () {
@@ -739,7 +739,7 @@ $.get('/initiate', function (data) {
             start: function () {
                 dragged_track = $(this).attr("id")
                 dragged_track_name = $(this).text()
-                $("#drop-tracks").css("border", "solid 1px #37BCF7")
+                $("#drop-tracks").css("border", "solid 2px #00C4FF")
                 // $("#track-seed").css("overflow", "visible");
             },
             stop: function () {
@@ -857,7 +857,7 @@ $.get('/initiate', function (data) {
         $("#genre-seed span").draggable({
             start: function () {
                 dragged_genre = $(this).attr("id")
-                $("#drop-genres").css("border", "solid 3px #37BCF7")
+                $("#drop-genres").css("border", "solid 2px #5FEA40")
                 // $("#genre-seed").css("overflow", "visible");
             },
 
@@ -879,7 +879,7 @@ $.get('/initiate', function (data) {
             drop: function () {
 
                 // $("#genre-seed").css("overflow", "auto");
-                $("#" + dragged_genre).css("border", "solid 1px #FDFDFD");
+                $("#" + dragged_genre).css("border", "solid 3px #FDFDFD");
                 $("#genre-seed > span#" + dragged_genre).draggable({disabled: true})
 
                 $('#drop-genres').append("<span class='label' id=" + dragged_genre + ">" + "<i class='fa fa-arrows-v'></i>" + " " +dragged_genre + "  " + "<i class='fa fa-times'></i></span>")
