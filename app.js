@@ -8,7 +8,7 @@ var express = require('express'),
     session = require('express-session'),
     passport = require('passport');
 
-var port         = process.env.port || 3000;
+var port         = process.env.port || 3339;
 var index = require('./routes/index');
 var app = express();
 
