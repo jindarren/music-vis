@@ -5,7 +5,7 @@ var recommender = function (token) {
     var SpotifyWebApi = require('spotify-web-api-node'),
         appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c',
         appSecret = 'b368bdb3003747ec861e62d3bf381ba0',
-        redirectUrl = 'https://spotify-recsys-vis.herokuapp.com:3000/callback';
+        redirectUrl = 'https://spotify-recsys-vis.herokuapp.com/callback';
 
     var spotifyApi = new SpotifyWebApi({
         clientId: appKey,
