@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="df3f8091-37ec-4e36-96dd-69e104b90157" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/www" afterPath="$PROJECT_DIR$/bin/www" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/recommender.js" afterPath="$PROJECT_DIR$/routes/recommender.js" />
     </list>
@@ -106,8 +104,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="38" column="80" lean-forward="false" selection-start-line="38" selection-start-column="80" selection-end-line="38" selection-end-column="80" />
+            <state relative-caret-position="310">
+              <caret line="40" column="57" lean-forward="true" selection-start-line="40" selection-start-column="57" selection-end-line="40" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -117,7 +115,7 @@
         <entry file="file://$PROJECT_DIR$/routes/recommender.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
-              <caret line="7" column="63" lean-forward="false" selection-start-line="7" selection-start-column="63" selection-end-line="7" selection-end-column="63" />
+              <caret line="7" column="67" lean-forward="false" selection-start-line="7" selection-start-column="67" selection-end-line="7" selection-end-column="67" />
               <folding />
             </state>
           </provider>
@@ -163,8 +161,8 @@
       <find>recom-seeds</find>
       <find>.sub-block</find>
       <find>re</find>
-      <find>local</find>
       <find>process</find>
+      <find>local</find>
       <find>localhost</find>
     </findStrings>
     <replaceStrings>
@@ -457,7 +455,7 @@
       <workItem from="1495610211522" duration="1374000" />
       <workItem from="1495623230942" duration="1398000" />
       <workItem from="1495625284712" duration="124000" />
-      <workItem from="1495625902877" duration="5937000" />
+      <workItem from="1495625902877" duration="6143000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1486347241897</created>
@@ -498,7 +496,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="393873000" />
+    <option name="totallyTimeSpent" value="394079000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -964,15 +962,15 @@
     <entry file="file://$PROJECT_DIR$/routes/recommender.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="7" column="63" lean-forward="false" selection-start-line="7" selection-start-column="63" selection-end-line="7" selection-end-column="63" />
+          <caret line="7" column="67" lean-forward="false" selection-start-line="7" selection-start-column="67" selection-end-line="7" selection-end-column="67" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="38" column="80" lean-forward="false" selection-start-line="38" selection-start-column="80" selection-end-line="38" selection-end-column="80" />
+        <state relative-caret-position="310">
+          <caret line="40" column="57" lean-forward="true" selection-start-line="40" selection-start-column="57" selection-end-line="40" selection-end-column="57" />
           <folding />
         </state>
       </provider>

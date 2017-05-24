@@ -5,7 +5,7 @@ var recommender = function (token) {
     var SpotifyWebApi = require('spotify-web-api-node'),
         appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c',
         appSecret = 'b368bdb3003747ec861e62d3bf381ba0',
-        redirectUrl = 'http://spotify-recsys.eu-3.evennode.com:'+process.env.PORT+'/callback';
+        redirectUrl = 'http://spotify-recsys.eu-3.evennode.com:3000/callback';
 
     var spotifyApi = new SpotifyWebApi({
         clientId: appKey,
