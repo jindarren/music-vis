@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var recom = require('./recommender');
 var passport = require('passport');
-var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index.js').Strategy;
+var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index').Strategy;
 var path = require('path');
 
 
@@ -36,7 +36,7 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new SpotifyStrategy({
         clientID: appKey,
         clientSecret: appSecret,
-        callbackURL: 'http://spotify-recsys.eu-3.evennode.com:3000/callback'
+        callbackURL: 'http://spotify-recsys.eu-3.evennode.com:3300/callback'
     },
     function (accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
@@ -50,16 +50,6 @@ passport.use(new SpotifyStrategy({
             return done(null, profile);
         });
     }));
-/* GET home page. */
-
-
-var getArtistsByTrack = function () {
-    return recom(token).getArtistByTrack()
-}
-
-var getGenresByTrack = function () {
-    return recom(token).getGenreByTrack()
-}
 
 /*
  route for web API
