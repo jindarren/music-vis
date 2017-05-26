@@ -416,10 +416,6 @@ ul.none {
     background-repeat: repeat;
 }
 
-.selected-label {
-    border: solid 3px #f5f5f5;
-}
-
 .slider.slider-horizontal{
     width: 95%;
 }
