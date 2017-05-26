@@ -398,7 +398,7 @@ $.get('/initiate', function (data) {
             tolerance: "touch",
 
             drop: function () {
-                $("#" + dragged_artist).css("border", "solid 3px #FDFDFD")
+                $("#" + dragged_artist).addClass("selected-label")
                 $("#artist-seed > span#" + dragged_artist).draggable({disabled: true})
 
                 $("#drop-artists").append("<span class='label' id=" + dragged_artist + ">" + "<i class='fa fa-arrows-v'></i>" + " " + dragged_artist_name + "  " + "<i class='fa fa-times'></i></span>")
@@ -425,7 +425,7 @@ $.get('/initiate', function (data) {
                     else
                         xhr.abort()
 
-                    $("#" + dragged_artist_id).css("border", "0")
+                    $("#" + dragged_artist_id).removeClass("selected-label")
                     $("#artist-seed > span#" + dragged_artist_id).draggable("enable")
                     $(this).parent().remove();
 
@@ -761,7 +761,7 @@ $.get('/initiate', function (data) {
             drop: function () {
 
                 //$("#track-seed").css("overflow", "auto");
-                $("#" + dragged_track).css("border", "solid 3px #FDFDFD")
+                $("#" + dragged_track).addClass("selected-label")
                 $("#track-seed > span#" + dragged_track).draggable({disabled: true})
 
                 $('#drop-tracks').append("<span class='label' id=" + dragged_track + ">" + "<i class='fa fa-arrows-v'></i>" + " "+dragged_track_name + "  " + "<i class='fa fa-times'></i></span>")
@@ -788,7 +788,7 @@ $.get('/initiate', function (data) {
                         else
                             xhr.abort()
 
-                    $("#" + dragged_track_id).css("border", "0")
+                    $("#" + dragged_track_id).removeClass("selected-label")
                     $("#track-seed > span#" + dragged_track_id).draggable("enable")
                     $(this).parent().remove();
 
@@ -879,7 +879,7 @@ $.get('/initiate', function (data) {
             drop: function () {
 
                 // $("#genre-seed").css("overflow", "auto");
-                $("#" + dragged_genre).css("border", "solid 3px #FDFDFD");
+                $("#" + dragged_genre).addClass("selected-label");
                 $("#genre-seed > span#" + dragged_genre).draggable({disabled: true})
 
                 $('#drop-genres').append("<span class='label' id=" + dragged_genre + ">" + "<i class='fa fa-arrows-v'></i>" + " " +dragged_genre + "  " + "<i class='fa fa-times'></i></span>")
@@ -908,7 +908,7 @@ $.get('/initiate', function (data) {
                         xhr.abort()
 
 
-                    $("#" + dragged_genre_id).css("border", "0")
+                    $("#" + dragged_genre_id).removeClass("selected-label")
                     $("#genre-seed > span#" + dragged_genre_id).draggable("enable")
                     $(this).parent().remove()
 
