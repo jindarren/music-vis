@@ -1,5 +1,4 @@
 html, body {
-    width: 100%;
     height: 100%;
     margin: 20px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -26,11 +25,11 @@ a {
     margin: 10px;
 }
 
+
 .seed {
     margin: 10px;
-    height: 30%;
+    height: 28%;
     float: left;
-    height: 33%;
     overflow: auto;
 }
 
@@ -45,7 +44,7 @@ a {
 
 .seed span{
     display: inline-block;
-    max-width:120px;
+    max-width:10vw;
     white-space:nowrap;
     overflow:hidden;
     text-overflow : ellipsis;
@@ -53,7 +52,7 @@ a {
 
 .recom {
     margin: 10px;
-    height: 100%;
+    height: 85%;
     overflow: auto;
 }
 
@@ -74,7 +73,7 @@ a {
     background-color: rgba(5,28,94,0.07);
     display: flex;
     flex-direction: row;
-    height:100%;
+    height:88%;
 }
 
 #sim-artists-vis{
@@ -105,17 +104,19 @@ a {
 
 .details{
     width: 50%;
-    height: 100%;
-    margin-left: 20px;
+    height: 85%;
+    margin-left: 5vw;
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-.details-wide{
-    width: 60%;
-    height: 100%;
-    margin-left: 20px;
+
+
+.details-narrow{
+    width: 40%;
+    height: 85%;
+    margin-left: 3vw;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -136,8 +137,18 @@ a {
     padding: 5px;
 }
 
+.details-sub p{
+    margin-top: 1vh;
+    font-size: 1.5vh;
+}
+
+.details-sub p:nth-child(1){
+    font-size: 2.5vh;
+    font-weight: bold;
+}
+
 .details-sub img{
-    max-width: 100%;
+    max-width: 60%;
 }
 
 .details-sub i{
@@ -147,6 +158,19 @@ a {
 
 .details audio{
     max-width: 100%;
+}
+
+
+.details-sub-title{
+    color: white;
+    font-size: 2vh;
+    font-weight: bold;
+}
+
+.genre-tag{
+    color: #00B7FF;
+    font-size: 2.5vh;
+    font-weight: bold;
 }
 
 .popularity-star{
@@ -174,13 +198,16 @@ a {
 #similar-artists{
     width: 60%;
     height: 100%;
+    margin-left: 1vw;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    overflow: auto;
 }
 
 #drop-sim-artists{
     width: 40%;
-    height: 80%;
+    height: 100%;
     margin: 5px;
     background-color: rgba(62, 62, 62, 0.82);
     display: flex;
@@ -191,6 +218,8 @@ a {
 .drop-seeds{
     width: 100%;
     height: 20%;
+    padding-left: 5px;
+    padding-right: 5px;
     margin: 5px;
     background-color: rgba(62, 62, 62, 0.82);
     display: flex;
@@ -271,17 +300,17 @@ ul.none {
 #drop-artists span,
 #drop-sim-artists span,
 .recom-artist{
-    /*background-color: rgba(240, 173, 78, 0.6);*/
+    background-color: rgba(240, 173, 78, 0.6);
     border: solid 0.5px rgba(240, 184, 25, 0.8);
 }
 
 #track-seed span, #drop-tracks span, #track-bar li, .recom-track{
-    /*background-color: rgba(51, 122, 183, 0.6);*/
+    background-color: rgba(51, 122, 183, 0.6);
     border: solid 0.5px rgba(0, 196, 255, 0.8);
 }
 
 #genre-seed span ,#drop-genres span, #genre-bar li, .recom-genre{
-    /*background-color: rgba(92, 184, 92, 0.6);*/
+    background-color: rgba(92, 184, 92, 0.6);
     border: solid 0.5px rgba(95, 234, 64, 0.8);
 }
 
@@ -326,10 +355,12 @@ ul.none {
 .fa-times{
     color: lightgrey;
     float: right;
+    cursor: default;
 }
 
 .label{
     text-align: left;
+    cursor:move;
 }
 
 .fa-arrows-v{
@@ -354,19 +385,22 @@ ul.none {
 }
 
 .artist-img{
-    width: 100px;
-    height:100px;
+    width: 10vh;
+    height:10vh;
     border-radius: 50%;
-    margin-top: 20px;
-    margin-left: 20px;
+    margin-top: 4vh;
+    margin-left: 2vw;
+    cursor:move;
+    font-size: 1.5vh;
 }
 
 .artist-img-drop{
-    width: 12vh;
-    height: 12vh;
+    width: 6vw;
+    height: 6vw;
     border-radius: 50%;
     margin-top: 40px;
     margin-left: 10px;
+    cursor:pointer;
 }
 
 .img-circle {
@@ -411,11 +445,50 @@ ul.none {
     background: #468b46;
 }
 
-.highlight-results {
-    background-image: url('../img/highlight.png');
-    background-repeat: repeat;
-}
-
 .slider.slider-horizontal{
     width: 95%;
+}
+
+
+/*
+ *  scrollbar style
+ */
+
+.customized-scroll::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.customized-scroll::-webkit-scrollbar
+{
+    width: 3px;
+    background-color: #F5F5F5;
+}
+
+.customized-scroll::-webkit-scrollbar-thumb
+{
+    border-radius: 3px;
+    background-color: #FFF;
+    background-image: -webkit-linear-gradient(top,
+    #e4f5fc 0%,
+    #bfe8f9 50%,
+    #9fd8ef 51%,
+    #2ab0ed 100%);
+}
+
+.loading{
+    height: 100%;
+    opacity: 0.6;
+    background: white
+    url("../img/default.gif")
+    50% 50%
+    no-repeat;
+    overflow: hidden;
+    display: block;
+}
+
+.narrow-loading{
+    width: 60%;
 }

@@ -114,9 +114,34 @@ $("#rank").change(function () {
 
 
 //highlight the recommendations of selected seeds
+// var highlightenResults = function (seedID, resultListID) {
+//     $("#" + resultListID + " span").removeClass("highlight-results");
+//     $("span." + seedID).addClass("highlight-results");
+// }
+
 var highlightenResults = function (seedID, resultListID) {
-    $("#" + resultListID + " span").removeClass("highlight-results");
-    $("span." + seedID).addClass("highlight-results");
+    $("#" + resultListID + " span").each(function () {
+        if(resultListID == "recom-followers"){
+            $("#similar-artists > div").each(function () {
+                if(!$(this).hasClass(seedID)){
+                    $(this).css("opacity","0.3")
+                    var ele = $(this);
+                    setTimeout(function () {
+                        ele.css("opacity","1")
+                    }, 10000)
+
+                }
+            })
+        }
+
+        if(!$(this).hasClass(seedID)){
+            $(this).css("opacity","0.3")
+            var ele = $(this);
+            setTimeout(function () {
+                ele.css("opacity","1")
+            }, 10000)
+        }
+    })
 }
 
 
@@ -141,51 +166,69 @@ var getRecomBySeed = function (resultListID) {
 
         if(resultListID=="recom-seeds"){
 
-            for (var i = 0; i < numOfArtistSeeds; i++) {
-                console.log(i)
-                var seed = recom.by_artist[i].seed,
-                    weight = (numOfArtistSeeds - recom.artistRankList.indexOf(seed)) / numOfArtistSeeds,
-                    numOfRecoms = Math.round(numOfRecomByArtist * weight);
+            if(recom.by_artist.length>0){
+
+                for (var i = 0; i < numOfArtistSeeds; i++) {
+                    console.log(i)
+                    var seed = recom.by_artist[i].seed,
+                        weight = (numOfArtistSeeds - recom.artistRankList.indexOf(seed)) / numOfArtistSeeds,
+                        numOfRecoms = Math.round(numOfRecomByArtist * weight);
                     console.log("recoms of artist", numOfRecoms)
-                if(numOfRecoms>50)
-                    numOfRecoms = 50
+                    if(numOfRecoms>50)
+                        numOfRecoms = 50
 
-                for (var j = 0; j < numOfRecoms; j++) {
-                    $("#"+resultListID).prepend("<span class='recom-items lift-top recom-artist " + seed + "' id=' "+ recom.by_artist[i].recoms[j].id +"'  data-popu=' "+recom.by_artist[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_artist[i].recoms[j].external_urls.spotify + ">" + recom.by_artist[i].recoms[j].name + "</a>" + rating + "</span>")
+                    for (var j = 0; j < numOfRecoms; j++) {
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-artist " + seed + "' id=' "+ recom.by_artist[i].recoms[j].id +"'  data-popu=' "+recom.by_artist[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_artist[i].recoms[j].external_urls.spotify + ">" + recom.by_artist[i].recoms[j].name + "</a>" + rating + "</span>")
+                    }
                 }
+
             }
 
-            for (var i = 0; i < numOfTrackSeeds; i++) {
-                var seed = recom.by_track[i].seed,
-                    weight = (numOfTrackSeeds - recom.trackRankList.indexOf(seed)) / numOfTrackSeeds,
-                    numOfRecoms = Math.round(numOfRecomByTrack * weight);
+
+
+            if(recom.by_track.length>0){
+
+                for (var i = 0; i < numOfTrackSeeds; i++) {
+                    var seed = recom.by_track[i].seed,
+                        weight = (numOfTrackSeeds - recom.trackRankList.indexOf(seed)) / numOfTrackSeeds,
+                        numOfRecoms = Math.round(numOfRecomByTrack * weight);
                     console.log("recoms of track", numOfRecoms)
-                if(numOfRecoms>50)
-                    numOfRecoms = 50
+                    if(numOfRecoms>50)
+                        numOfRecoms = 50
 
 
-                for (var j = 0; j < numOfRecoms; j++) {
-                    $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id=' "+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
+                    for (var j = 0; j < numOfRecoms; j++) {
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id=' "+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
+                    }
                 }
+
             }
 
-            for (var i = 0; i < numOfGenreSeeds; i++) {
-                var seed = recom.by_genre[i].seed,
-                    weight = (numOfGenreSeeds - recom.genreRankList.indexOf(seed)) / numOfGenreSeeds,
-                    numOfRecoms = Math.round(numOfRecomByGenre * weight);
+
+
+
+            if(recom.by_genre.length>0){
+                for (var i = 0; i < numOfGenreSeeds; i++) {
+                    var seed = recom.by_genre[i].seed,
+                        weight = (numOfGenreSeeds - recom.genreRankList.indexOf(seed)) / numOfGenreSeeds,
+                        numOfRecoms = Math.round(numOfRecomByGenre * weight);
                     console.log("recoms of genre", numOfRecoms)
-                if(numOfRecoms>50)
-                    numOfRecoms = 50
+                    if(numOfRecoms>50)
+                        numOfRecoms = 50
 
 
-                for (var j = 0; j < numOfRecoms; j++) {
-                    $("#"+resultListID).prepend("<span class='recom-items lift-top recom-genre " + seed + "' id=' "+ recom.by_genre[i].recoms[j].id + "' data-popu=' "+recom.by_genre[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_genre[i].recoms[j].external_urls.spotify + ">" + recom.by_genre[i].recoms[j].name + "</a>" + rating + "</span>")
+                    for (var j = 0; j < numOfRecoms; j++) {
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-genre " + seed + "' id=' "+ recom.by_genre[i].recoms[j].id + "' data-popu=' "+recom.by_genre[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_genre[i].recoms[j].external_urls.spotify + ">" + recom.by_genre[i].recoms[j].name + "</a>" + rating + "</span>")
+                    }
                 }
+
             }
+
+
 
 
         }
-        else if(resultListID=="recom-followers"){
+        else if(resultListID=="recom-followers" && recom.by_follow.length > 0){
             var total = 0
             for(index in recom.by_follow){
                 for(indexweight in recom.by_follow[index].weights){
@@ -209,31 +252,44 @@ var getRecomBySeed = function (resultListID) {
     else {
 
         if(resultListID=="recom-seeds"){
-            for (var i = 0; i < numOfArtistSeeds; i++) {
 
-                var numOfRecoms = Math.round(numOfRecomByArtist / numOfArtistSeeds);
+            if(recom.by_artist.length>0){
+                for (var i = 0; i < numOfArtistSeeds; i++) {
 
-                for (var j = 0; j < numOfRecoms; j++) {
-                    $("#"+resultListID).prepend("<span class='recom-items lift-top recom-artist " + seed + "' id=' "+ recom.by_artist[i].recoms[j].id +"'  data-popu=' "+recom.by_artist[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_artist[i].recoms[j].external_urls.spotify + ">" + recom.by_artist[i].recoms[j].name + "</a>" + rating + "</span>")
+                    var numOfRecoms = Math.round(numOfRecomByArtist / numOfArtistSeeds);
+
+                    for (var j = 0; j < numOfRecoms; j++) {
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-artist " + seed + "' id=' "+ recom.by_artist[i].recoms[j].id +"'  data-popu=' "+recom.by_artist[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_artist[i].recoms[j].external_urls.spotify + ">" + recom.by_artist[i].recoms[j].name + "</a>" + rating + "</span>")
+                    }
                 }
+
             }
 
-            for (var i = 0; i < numOfTrackSeeds; i++) {
-                var numOfRecoms = Math.round(numOfRecomByTrack / numOfTrackSeeds);
-                for (var j = 0; j < numOfRecoms; j++) {
-                    $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id=' "+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
+            if(recom.by_track.length>0){
+                for (var i = 0; i < numOfTrackSeeds; i++) {
+                    var numOfRecoms = Math.round(numOfRecomByTrack / numOfTrackSeeds);
+                    for (var j = 0; j < numOfRecoms; j++) {
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id=' "+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
+                    }
                 }
+
             }
 
-            for (var i = 0; i < numOfGenreSeeds; i++) {
-                var numOfRecoms = Math.round(numOfRecomByGenre / numOfGenreSeeds);
-                for (var j = 0; j < numOfRecoms; j++) {
-                    $("#"+resultListID).prepend("<span class='recom-items lift-top recom-genre " + seed + "' id=' "+ recom.by_genre[i].recoms[j].id + "' data-popu=' "+recom.by_genre[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_genre[i].recoms[j].external_urls.spotify + ">" + recom.by_genre[i].recoms[j].name + "</a>" + rating + "</span>")
+
+            if(recom.by_genre.length>0){
+                for (var i = 0; i < numOfGenreSeeds; i++) {
+                    var numOfRecoms = Math.round(numOfRecomByGenre / numOfGenreSeeds);
+                    for (var j = 0; j < numOfRecoms; j++) {
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-genre " + seed + "' id=' "+ recom.by_genre[i].recoms[j].id + "' data-popu=' "+recom.by_genre[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_genre[i].recoms[j].external_urls.spotify + ">" + recom.by_genre[i].recoms[j].name + "</a>" + rating + "</span>")
+                    }
                 }
+
             }
+
+
 
         }
-        else if(resultListID=="recom-followers"){
+        else if(resultListID=="recom-followers",recom.by_follow.length>0){
             var total = 0
             for(index in recom.by_follow){
                 for(indexweight in recom.by_follow[index].weights){
@@ -291,13 +347,12 @@ $.get('/initiate', function (data) {
     console.log(data)
     token = data.seed.token
 
-
     var showArtistDetails = function (id) {
         $.each(data.seed.artist, function (i, v) {
             if (v.id == id) {
                 var popularity = visPopularity(v.popularity)
                 $('.details').empty()
-                $('.details').append("<div class='details-sub'><p><a target='_blank' href=" + v.external_urls.spotify + ">" + v.name + "</a></p><img src=" + v.images[0].url + "><p class='detail-title'>Popularity: " + popularity + "</p><p class='detail-title'>Genres: <span>" + v.genres.slice(0, 3).toString() + "</span></p><p class='detail-title number'>#followers: <span>" + v.followers.total + "</span></p></div>")
+                $('.details').append("<div class='details-sub'><p><a target='_blank' href=" + v.external_urls.spotify + ">" + v.name + "</a></p><img src=" + v.images[0].url + "><p class='detail-title'><span class='details-sub-title'>Popularity: </span>" + popularity + "</p><p class='detail-title'><span class='details-sub-title'>Genres: </span><span>" + v.genres.slice(0, 3).toString().replace(',', ', ') + "</span></p><p class='detail-title number'><span class='details-sub-title'>#followers: </span><span>" + v.followers.total + "</span></p></div>")
             }
         })
     }
@@ -306,8 +361,8 @@ $.get('/initiate', function (data) {
         $.each(collections, function (i, v) {
             if (v.id == id) {
                 var popularity = visPopularity(v.popularity)
-                $('.details-wide').empty()
-                $('.details-wide').append("<div class='details-sub'><p><a target='_blank' href=" + v.external_urls.spotify + ">" + v.name + "</a></p><img src=" + v.images[0].url + "><p class='detail-title'>Popularity: " + popularity + "</p><p class='detail-title'>Genres: <span>" + v.genres.slice(0, 3).toString() + "</span></p><p class='detail-title number'>#followers: <span>" + v.followers.total + "</span></p></div>")
+                $('.details-narrow').empty()
+                $('.details-narrow').append("<div class='details-sub'><p><a target='_blank' href=" + v.external_urls.spotify + ">" + v.name + "</a></p><img src=" + v.images[0].url + "><p class='detail-title'><span class='details-sub-title'>Popularity: </span>" + popularity + "</p><p class='detail-title'><span class='details-sub-title'>Genres: </span><span>" + v.genres.slice(0, 3).toString().replace(',', ', ') + "</span></p><p class='detail-title number'><span class='details-sub-title'>#followers: </span><span>" + v.followers.total + "</span></p></div>")
             }
         })
     }
@@ -319,30 +374,40 @@ $.get('/initiate', function (data) {
                 var popularity = visPopularity(v.popularity)
 
                 $('.details').empty()
-                $('.details').append("<div class='details-sub'><p><a target='_blank' href=" + v.external_urls.spotify + ">" + v.name + "</a></p><img src=" + v.album.images[0].url + "><p class='detail-title'>Popularity: </p>" + popularity + "<p class='detail-title'>Genres: </p><p>" + v.artists[0].name + "</p><audio src=" + v.preview_url + " controls='controls'></audio></div>")
+                $('.details').append("<div class='details-sub'><p><a target='_blank' href=" + v.external_urls.spotify + ">" + v.name + "</a></p><img src=" + v.album.images[0].url + "><p class='detail-title'><span class='details-sub-title'>Popularity: </span>" + popularity + "</p><p class='detail-title'><span class='details-sub-title'>Artist: </span>" + v.artists[0].name + "</p><p class='detail-title'><span class='details-sub-title'>Album: </span>" + v.album.name + "</p><audio src=" + v.preview_url + " controls='controls'></audio></div>")
             }
         })
     }
 
 
     var showGenreDetails = function (label) {
-        $.get('https://api.spotify.com/v1/search?q=' + label + '&type=artist,track', function (data) {
-            console.log(data);
-            $('.details').empty();
-            $('.details').append("<div class='details-sub'><h5>The top artist of this genre tag</h5></div><div class='details-sub'><h5>The top tracks of this genre tag</h5></div>");
+        $.ajax({
+            url: "https://api.spotify.com/v1/search?q=" + label + "&type=artist,track",
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (data) {
+                console.log(data);
+                $('.details').empty();
+                $('.details').append("<div class='details-sub'><h5>The top artist of <span class='genre-tag'>"+label+"</span></h5></div><div class='details-sub'><h5>The top tracks of <span class='genre-tag'>"+label+"</span></h5></div>");
 
-            var numOfArtists = data.artists.items.length < 5 ? data.artists.items.length : 5;
-            var numOfTracks = data.tracks.items.length < 5 ? data.tracks.items.length : 5;
+                var numOfArtists = data.artists.items.length < 5 ? data.artists.items.length : 5;
+                var numOfTracks = data.tracks.items.length < 5 ? data.tracks.items.length : 5;
 
 
-            for (var i = 0; i < numOfArtists; i++) {
-                $("#seed-block > div.details > div.details-sub:eq(0)").append(visPopularity(data.artists.items[i].popularity) + "<p><a target='_blank' href=" + data.artists.items[i].external_urls.spotify + ">" + data.artists.items[i].name + "</a></p>")
+                for (var i = 0; i < numOfArtists; i++) {
+                    $("#seed-block > div.details > div.details-sub:eq(0)").append("<p><a target='_blank' href=" + data.artists.items[i].external_urls.spotify + ">" + data.artists.items[i].name + "</a></p>" + visPopularity(data.artists.items[i].popularity))
+                }
+
+                for (var i = 0; i < numOfTracks; i++) {
+                    $("#seed-block > div.details > div.details-sub:eq(1)").append("<p><a target='_blank' href=" + data.tracks.items[i].external_urls.spotify + ">" + data.tracks.items[i].name + "</a></p>"+visPopularity(data.tracks.items[i].popularity))
+                }
+            },
+            error: function (err) {
+                console.log(err)
             }
+        });
 
-            for (var i = 0; i < numOfTracks; i++) {
-                $("#seed-block > div.details > div.details-sub:eq(1)").append(visPopularity(data.tracks.items[i].popularity) + "<p><a target='_blank' href=" + data.tracks.items[i].external_urls.spotify + ">" + data.tracks.items[i].name + "</a></p>")
-            }
-        })
     }
 
 
@@ -449,6 +514,12 @@ $.get('/initiate', function (data) {
                         'Authorization': 'Bearer ' + token
                     },
                     success: function (data) {
+                        //$("div.recom").removeClass("loading")
+
+                        $("div#recom-seeds").show();
+                        $("div.loading").hide();
+
+
                         console.log("The returned data", data);
                         recom.by_artist.push({
                             seed: dragged_artist,
@@ -459,9 +530,26 @@ $.get('/initiate', function (data) {
                         getRecomBySeed("recom-seeds");
                         console.log(recom)
                     },
-                    error: function (err) {
-                        console.log(err)
+                    error: function (jqXHR, err) {
+                        console.log(err);
+                        if(err === "timeout"){
+                            $.ajax(this)
+                        }
+                    },
+
+                    beforeSend: function () {
+                        //$("div.recom").addClass("loading")
+                        $("div#recom-seeds").hide();
+                        $("div.loading").show();
+                    },
+
+                    complete: function () {
+                        //$("div.recom").removeClass("loading")
+                        $("div#recom-seeds").show();
+                        $("div.loading").hide();
+
                     }
+
                 });
             }
         });
@@ -552,6 +640,10 @@ $.get('/initiate', function (data) {
                     },
                     success: function (data) {
 
+                        $("div#recom-followers").show();
+                        $("div#similar-artists").show()
+                        $("div.loading").hide();
+
                         console.log("The returned data", data);
 
                         recom.by_follow.push({
@@ -609,8 +701,23 @@ $.get('/initiate', function (data) {
 
 
                     },
-                    error: function (err) {
-                        console.log(err)
+                    error: function (jqXHR, err) {
+                        console.log(err);
+                        if(err === "timeout"){
+                            $.ajax(this)
+                        }
+                    },
+
+                    beforeSend: function () {
+                        $("div#recom-followers").hide();
+                        $("div#similar-artists").hide()
+                        $("div.loading").show();
+                    },
+
+                    complete: function () {
+                        $("div#recom-followers").show();
+                        $("div#similar-artists").show()
+                        $("div.loading").hide();
                     }
                 });
             }
@@ -803,13 +910,7 @@ $.get('/initiate', function (data) {
                         showTrackDetails(clicked_track_id);
                         highlightenResults(clicked_track_id, "recom-seeds");
 
-                    //seed_data.datasets[0].data[1] = dropped_tracks.split(',').length-1;
-                        //seedBarChart()
                 })
-
-                //seed_data.datasets[0].data[1] = dropped_tracks.split(',').length;
-                //console.log(seed_data)
-                //seedBarChart()
 
 
                 var xhr = $.ajax({
@@ -818,6 +919,8 @@ $.get('/initiate', function (data) {
                         'Authorization': 'Bearer ' + token
                     },
                     success: function (data) {
+                        $("div.recom").removeClass("loading")
+
                         console.log("The returned data", data);
                         //getRecomBySeed(data)
 
@@ -829,8 +932,19 @@ $.get('/initiate', function (data) {
                         getRecomBySeed("recom-seeds");
                         console.log(recom)
                     },
-                    error: function (err) {
-                        console.log(err)
+                    error: function (jqXHR, err) {
+                        console.log(err);
+                        if(err === "timeout"){
+                            $.ajax(this)
+                        }
+                    },
+
+                    beforeSend: function () {
+                        $("div.recom").addClass("loading")
+                    },
+
+                    complete: function () {
+                        $("div.recom").removeClass("loading")
                     }
                 });
             }
@@ -931,6 +1045,7 @@ $.get('/initiate', function (data) {
                         'Authorization': 'Bearer ' + token
                     },
                     success: function (data) {
+                        $("div.recom").removeClass("loading")
                         console.log("The returned data", data);
                         recom.by_genre.push({
                             seed: dragged_genre,
@@ -939,8 +1054,19 @@ $.get('/initiate', function (data) {
                         recom.genreRankList.push(dragged_genre);
                         getRecomBySeed("recom-seeds");
                     },
-                    error: function (err) {
-                        console.log(err)
+                    error: function (jqXHR, err) {
+                        console.log(err);
+                        if(err === "timeout"){
+                            $.ajax(this)
+                        }
+                    },
+
+                    beforeSend: function () {
+                        $("div.recom").addClass("loading")
+                    },
+
+                    complete: function () {
+                        $("div.recom").removeClass("loading")
                     }
                 });
             }
@@ -1024,7 +1150,7 @@ $.get('/initiate', function (data) {
 
 
 //hide the artist block at the beginning
-$("#artist-block, #follow-div, #recom-followers").hide()
+$("#artist-block, #follow-div, #recom-followers, .loading").hide()
 
 $("#radio input").each(function () {
     $(this).click(function () {

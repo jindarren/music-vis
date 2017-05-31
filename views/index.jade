@@ -9,18 +9,18 @@ block content
         div.row
             div.col-md-3.sub-block
                 h4 Recommendations source
-                div.seed#artist-div
+                div.seed.customized-scroll#artist-div
                     h5 The top artists you have&nbsp&nbsp&nbsp&nbsp
                         i.fa.fa-plus-circle#artist-refresh
                     div#artist-seed
                 div#follow-div
                     h5 The artists you follow&nbsp&nbsp&nbsp&nbsp
                     div#artist-follow
-                div.seed#track-div
+                div.seed.customized-scroll#track-div
                     h5 The top tracks you have&nbsp&nbsp&nbsp&nbsp
                         i.fa.fa-plus-circle#track-refresh
                     div#track-seed
-                div.seed#genre-div
+                div.seed.customized-scroll#genre-div
                     h5 The top genres you have&nbsp&nbsp&nbsp&nbsp
                         i.fa.fa-plus-circle#genre-refresh
                     div#genre-seed
@@ -39,8 +39,10 @@ block content
                     //h6 Selected artist tags
                     div.drop-block-h
                         div#drop-sim-artists
-                        div#similar-artists
-                    div.details-wide
+                        div.customized-scroll#similar-artists
+                            p Related artists of the selected artists
+                        div.loading.narrow-loading
+                    div.details-narrow
                     //div#network-chart
                         //svg
                         div#sim-artists-vis
@@ -74,6 +76,7 @@ block content
                 select#rank(name="rank")
                     option default
                     option popularity
-                div.recom
-                    div.sortable#recom-seeds
-                    div.sortable#recom-followers
+                div.recom.customized-scroll
+                    div#recom-seeds
+                    div#recom-followers
+                    div.loading
