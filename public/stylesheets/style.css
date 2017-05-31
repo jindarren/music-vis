@@ -481,7 +481,7 @@ ul.none {
 .loading{
     height: 100%;
     opacity: 0.6;
-    background: white
+    background: #404040
     url("../img/default.gif")
     50% 50%
     no-repeat;

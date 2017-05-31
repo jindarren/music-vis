@@ -519,7 +519,6 @@ $.get('/initiate', function (data) {
                         $("div#recom-seeds").show();
                         $("div.loading").hide();
 
-
                         console.log("The returned data", data);
                         recom.by_artist.push({
                             seed: dragged_artist,
@@ -919,7 +918,10 @@ $.get('/initiate', function (data) {
                         'Authorization': 'Bearer ' + token
                     },
                     success: function (data) {
-                        $("div.recom").removeClass("loading")
+                        //$("div.recom").removeClass("loading")
+
+                        $("div#recom-seeds").show();
+                        $("div.loading").hide();
 
                         console.log("The returned data", data);
                         //getRecomBySeed(data)
@@ -940,11 +942,13 @@ $.get('/initiate', function (data) {
                     },
 
                     beforeSend: function () {
-                        $("div.recom").addClass("loading")
+                        $("div#recom-seeds").hide();
+                        $("div.loading").show();
                     },
 
                     complete: function () {
-                        $("div.recom").removeClass("loading")
+                        $("div#recom-seeds").show();
+                        $("div.loading").hide();
                     }
                 });
             }
@@ -1045,7 +1049,11 @@ $.get('/initiate', function (data) {
                         'Authorization': 'Bearer ' + token
                     },
                     success: function (data) {
-                        $("div.recom").removeClass("loading")
+                        //$("div.recom").removeClass("loading")
+
+                        $("div#recom-seeds").show();
+                        $("div.loading").hide();
+
                         console.log("The returned data", data);
                         recom.by_genre.push({
                             seed: dragged_genre,
@@ -1062,11 +1070,13 @@ $.get('/initiate', function (data) {
                     },
 
                     beforeSend: function () {
-                        $("div.recom").addClass("loading")
+                        $("div#recom-seeds").hide();
+                        $("div.loading").show();
                     },
 
                     complete: function () {
-                        $("div.recom").removeClass("loading")
+                        $("div#recom-seeds").show();
+                        $("div.loading").hide();
                     }
                 });
             }
