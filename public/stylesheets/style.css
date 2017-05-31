@@ -470,12 +470,10 @@ ul.none {
 .customized-scroll::-webkit-scrollbar-thumb
 {
     border-radius: 3px;
-    background-color: #FFF;
+    background-color: #ffffff;
     background-image: -webkit-linear-gradient(top,
-    #e4f5fc 0%,
-    #bfe8f9 50%,
-    #9fd8ef 51%,
-    #2ab0ed 100%);
+    #ff0ac1 90%,
+    #ce15ed 100%);
 }
 
 .loading{
