@@ -41,8 +41,8 @@ passport.use(new SpotifyStrategy({
     },
     function (accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
-        token = refreshToken;
-        reqData.token = refreshToken
+        token = accessToken;
+        reqData.token = accessToken
         process.nextTick(function () {
             // To keep the example simple, the user's spotify profile is returned to
             // represent the logged-in user. In a typical application, you would want
