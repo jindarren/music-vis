@@ -374,8 +374,8 @@ $.ajax({
     success: function (data) {
 
         if(data.seed.artist.length<6 || data.seed.track.length<6){
-            $(".row").hide();
-            confirm("Sorry, you are not eligible for this study. Because you have no sufficient usage data on Spotify to generate recommendations.")
+            $(body).css('opacity', 0.2);
+            alert("Sorry, you are not eligible for this study. Because you have no sufficient usage data on Spotify to generate recommendations.")
         }
 
         $("div.seed").show();
