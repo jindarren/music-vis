@@ -163,7 +163,11 @@ router.get('/initiate', function (req, res) {
 
 
 router.get('/',function (req,res) {
-    res.render('index',{ data: req.user})
+    res.render('layout',{ data: req.user})
+})
+
+router.get('/logged',function (req,res) {
+    res.render('index')
 })
 
 router.get('/account', ensureAuthenticated, function (req, res) {
@@ -194,12 +198,12 @@ router.get('/auth/spotify',
 router.get('/callback',
     passport.authenticate('spotify', {failureRedirect: '/'}),
     function (req, res) {
-        res.redirect('/');
+        res.redirect('/logged');
     });
 
 router.get('/logout', function (req, res) {
     req.logout();
-    res.redirect('/');
+    res.redirect('/layout');
 });
 
 // Simple route middleware to ensure user is authenticated.
@@ -211,7 +215,7 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/');
+    res.redirect('/logged');
 }
 
 module.exports = router;

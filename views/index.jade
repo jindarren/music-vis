@@ -1,11 +1,12 @@
-extends ./layout
-
-block content
-    if !data
-        h2 Welcome! Please log in.
-        p
-            a(href='/auth/spotify') login
-    else
+doctype html
+html
+    head
+        title Spotify Visualization
+        link(rel="shortcut icon" href="../favicon.ico" type="image/x-icon")
+        link(rel="stylesheet" type = "text/css", href = "../bootstrap/dist/css/bootstrap.css")
+        link(rel="stylesheet" type = "text/css", href = "../components-font-awesome/css/font-awesome.css")
+        link(rel="stylesheet" type = "text/css", href = "../jquery-bar-rating/dist/themes/fontawesome-stars.css")
+    body
         div.row
             div.col-md-3.sub-block
                 h4 Recommendations source
@@ -83,3 +84,14 @@ block content
                     div#recom-seeds
                     div#recom-followers
                     div.loading#result-loading
+
+        script(type = "text/javascript", src = "../jquery/dist/jquery.js", charset = 'utf-8')
+        script(type = "text/javascript", src = "../jquery-ui/jquery-ui.js", charset = 'utf-8')
+        script(type = "text/javascript", src = "../d3/d3.js", charset = 'utf-8')
+        script(type = "text/javascript", src = "../jquery-bar-rating/dist/jquery.barrating.min.js", charset = 'utf-8')
+        script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')
+        script(type = "text/javascript", src = "../seiyria-bootstrap-slider/dist/bootstrap-slider.js", charset = 'utf-8')
+
+        link(rel="stylesheet" type = "text/css", href = "../jquery-ui/themes/base/jquery-ui.css")
+        link(rel="stylesheet" type = "text/css", href = "../seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css")
+        link(rel="stylesheet" type = "text/css", href = "../stylesheets/style.css")
