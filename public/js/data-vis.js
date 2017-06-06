@@ -4,7 +4,7 @@
 
 var token;
 var totalRecomsNum = 20;
-
+var artistWeightBar, trackWeightBar, genreWeightBar;
 var recom = {};
 recom.weights = [];
 recom.artistRankList = [];
@@ -15,9 +15,9 @@ recom.by_track = [];
 recom.by_follow = [];
 recom.by_genre = [];
 
-recom.weights[0] = 50;
-recom.weights[1] = 50;
-recom.weights[2] = 50;
+recom.weights[0] = 0;
+recom.weights[1] = 0;
+recom.weights[2] = 0;
 recom.enableSeedWeight = true;
 
 $(document).ready(function () {
@@ -50,21 +50,21 @@ $(document).ready(function () {
 //apply weight for algorithm
 //weight slider
 
-    $("#artist-weight").bootstrapSlider()
+    artistWeightBar = $("#artist-weight").bootstrapSlider()
         .on("slideStop", function () {
             var val = $(this).bootstrapSlider("getValue")
             recom.weights[0] = val;
             getRecomBySeed("recom-seeds");
         });
 
-    $("#track-weight").bootstrapSlider()
+    trackWeightBar = $("#track-weight").bootstrapSlider()
         .on("slideStop", function () {
             var val = $(this).bootstrapSlider("getValue")
             recom.weights[1] = val;
             getRecomBySeed("recom-seeds");
         });
 
-    $("#genre-weight").bootstrapSlider()
+    genreWeightBar = $("#genre-weight").bootstrapSlider()
         .on("slideStop", function () {
             var val = $(this).bootstrapSlider("getValue")
             recom.weights[2] = val;
@@ -176,8 +176,8 @@ var getRecomBySeed = function (resultListID) {
     var rating = "<select class='rating'> <option value='1'>1</option> <option value='2'>2</option> <option value='3'>3</option> <option value='4'>4</option> <option value='5'>5</option></select>"
 
     var totalAlgorithmWeight = recom.weights[0] + recom.weights[1] + recom.weights[2],
-        numOfRecomByArtist = Math.floor(recom.weights[0] / totalAlgorithmWeight * totalRecomsNum),
-        numOfRecomByTrack = Math.floor(recom.weights[1] / totalAlgorithmWeight * totalRecomsNum),
+        numOfRecomByArtist = Math.ceil(recom.weights[0] / totalAlgorithmWeight * totalRecomsNum),
+        numOfRecomByTrack = Math.ceil(recom.weights[1] / totalAlgorithmWeight * totalRecomsNum),
         //numOfRecomByGenre = Math.round(recom.weights[2] / totalAlgorithmWeight * totalRecomsNum);
         numOfRecomByGenre = totalRecomsNum - numOfRecomByArtist - numOfRecomByTrack;
 
@@ -186,6 +186,8 @@ var getRecomBySeed = function (resultListID) {
     var numOfArtistSeeds = recom.artistRankList.length,
         numOfTrackSeeds = recom.trackRankList.length,
         numOfGenreSeeds = recom.genreRankList.length;
+
+    console.log(numOfArtistSeeds,numOfTrackSeeds,numOfGenreSeeds)
 
     if (recom.enableSeedWeight) {
 
@@ -207,23 +209,18 @@ var getRecomBySeed = function (resultListID) {
                     }
                 }
 
-
-
             }
-
-
 
             if(recom.by_track.length>0){
 
                 for (var i = 0; i < numOfTrackSeeds; i++) {
                     var seed = recom.by_track[i].seed,
-                        totalWeight = (numOfArtistSeeds+1)*numOfArtistSeeds/2,
+                        totalWeight = (numOfTrackSeeds+1)*numOfTrackSeeds/2,
                         weight = (numOfTrackSeeds - recom.trackRankList.indexOf(seed)) / totalWeight,
                         numOfRecoms = Math.ceil(numOfRecomByTrack * weight);
-                    console.log("recoms of track", numOfRecoms)
+
                     // if(numOfRecoms>50)
                     //     numOfRecoms = 50
-
 
                     for (var j = 0; j < numOfRecoms; j++) {
                         $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id=' "+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
@@ -232,13 +229,10 @@ var getRecomBySeed = function (resultListID) {
 
             }
 
-
-
-
             if(recom.by_genre.length>0){
                 for (var i = 0; i < numOfGenreSeeds; i++) {
                     var seed = recom.by_genre[i].seed,
-                        totalWeight = (numOfArtistSeeds+1)*numOfArtistSeeds/2,
+                        totalWeight = (numOfGenreSeeds+1)*numOfGenreSeeds/2,
                         weight = (numOfGenreSeeds - recom.genreRankList.indexOf(seed)) / totalWeight,
                         numOfRecoms = Math.ceil(numOfRecomByGenre * weight);
                     console.log("recoms of genre", numOfRecoms)
@@ -252,8 +246,6 @@ var getRecomBySeed = function (resultListID) {
                 }
 
             }
-
-
 
 
         }
@@ -275,6 +267,13 @@ var getRecomBySeed = function (resultListID) {
                     }
                 }
             }
+
+        }
+
+
+        console.log($("#" + resultListID +" span").length);
+        if($("#" + resultListID +" span").length>20){
+            $("#" + resultListID).find('span:gt(19)').remove();
         }
 
     }
@@ -508,6 +507,11 @@ $.ajax({
                         $("#artist-seed > span#" + dragged_artist).draggable({disabled: true})
 
                         $("#drop-artists").append("<span class='label' id=" + dragged_artist + ">" + "<i class='fa fa-arrows-v'></i>" + " " + dragged_artist_name + "  " + "<i class='fa fa-times'></i></span>")
+                        if($("#drop-artists span").length == 1) {
+                            recom.weights[0] = 100;
+                            artistWeightBar.bootstrapSlider('setValue', 100)
+                        }
+
                         if(!recom.enableSeedWeight){
                             $(".fa-arrows-v").hide();
                             $(".drop-seeds").sortable({disabled: true})
@@ -534,8 +538,14 @@ $.ajax({
                             $("#" + dragged_artist_id).css("border", "solid 0.5px rgba(240, 184, 25, 0.8)")
                             $("#artist-seed > span#" + dragged_artist_id).draggable("enable")
                             $(this).parent().remove();
+                            console.log($("#drop-artists span"))
 
-                            //$("span." + dragged_artist_id).remove();
+                            if($("#drop-artists span").length==0) {
+                                recom.weights[0] = 0;
+                                artistWeightBar.bootstrapSlider('setValue', 0)
+                                getRecomBySeed("recom-seeds");
+
+                            }
 
                         })
 
@@ -906,6 +916,13 @@ $.ajax({
                         $("#track-seed > span#" + dragged_track).draggable({disabled: true})
 
                         $('#drop-tracks').append("<span class='label' id=" + dragged_track + ">" + "<i class='fa fa-arrows-v'></i>" + " "+dragged_track_name + "  " + "<i class='fa fa-times'></i></span>")
+
+                        if($("#drop-tracks span").length == 1) {
+                            recom.weights[1] = 100;
+                            trackWeightBar.bootstrapSlider('setValue', 100)
+                        }
+
+
                         if(!recom.enableSeedWeight){
                             $(".fa-arrows-v").hide();
                             $(".drop-seeds").sortable({disabled: true})
@@ -932,6 +949,13 @@ $.ajax({
                             $("#" + dragged_track_id).css("border", "solid 0.5px rgba(0, 196, 255, 0.8)")
                             $("#track-seed > span#" + dragged_track_id).draggable("enable")
                             $(this).parent().remove();
+
+                            if($("#drop-tracks span").length==0) {
+                                recom.weights[1] = 0;
+                                trackWeightBar.bootstrapSlider('setValue', 0)
+                                getRecomBySeed("recom-seeds");
+
+                            }
 
                         })
 
@@ -1035,6 +1059,11 @@ $.ajax({
 
                         $('#drop-genres').append("<span class='label' id=" + dragged_genre + ">" + "<i class='fa fa-arrows-v'></i>" + " " +dragged_genre + "  " + "<i class='fa fa-times'></i></span>")
 
+                        if($("#drop-genres span").length == 1) {
+                            recom.weights[2] = 100;
+                            genreWeightBar.bootstrapSlider('setValue', 100)
+                        }
+
                         if(!recom.enableSeedWeight){
                             $(".fa-arrows-v").hide();
                             $(".drop-seeds").sortable({disabled: true})
@@ -1062,6 +1091,13 @@ $.ajax({
                             $("#" + dragged_genre_id).css("border", "solid 0.5px rgba(95, 234, 64, 0.8)");
                             $("#genre-seed > span#" + dragged_genre_id).draggable("enable")
                             $(this).parent().remove()
+
+                            if($("#drop-genres span").length==0) {
+                                recom.weights[2] = 0;
+                                genreWeightBar.bootstrapSlider('setValue', 0)
+                                getRecomBySeed("recom-seeds");
+
+                            }
 
                         })
 

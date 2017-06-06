@@ -167,7 +167,7 @@ router.get('/',function (req,res) {
 })
 
 router.get('/logged',function (req,res) {
-    res.render('index')
+    res.render('index', {data: req.user})
 })
 
 router.get('/account', ensureAuthenticated, function (req, res) {
