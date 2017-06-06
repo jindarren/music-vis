@@ -3,7 +3,7 @@
  */
 
 var token;
-var totalRecomsNum = 45;
+var totalRecomsNum = 20;
 
 var recom = {};
 recom.weights = [];
@@ -73,12 +73,12 @@ $(document).ready(function () {
 
 //Select the total number of recommendations
 
-    $("#number").change(function () {
-        var num = parseInt($("select#number option:selected").text());
-        totalRecomsNum = num;
-        getRecomBySeed("recom-seeds")
-        getRecomBySeed("recom-followers")
-    });
+    // $("#number").change(function () {
+    //     var num = parseInt($("select#number option:selected").text());
+    //     totalRecomsNum = num;
+    //     getRecomBySeed("recom-seeds")
+    //     getRecomBySeed("recom-followers")
+    // });
 
 
 
@@ -372,6 +372,11 @@ $.ajax({
     url: "/initiate",
 
     success: function (data) {
+
+        if(data.seed.artist.length<6 || data.seed.track.length<6){
+            $(".row").hide();
+            confirm("Sorry, you are not eligible for this study. Because you have no sufficient usage data on Spotify to generate recommendations.")
+        }
 
         $("div.seed").show();
         $("div#initial-loading").hide();
