@@ -9,12 +9,15 @@ html
   body
     if !data
       div#login-page
-          div#tutorial
+          div#intro
               p Welcome to participate our study. Please note you need to be a frequent or heavy user of Spotify, otherwise the system cannot generate recommendations for you. Thank you.
+              br
               p A tutorial video will play before each task. So please pay attemtntion to watch the tutorial before starting your task. After you will be guided to finish a questionnaire.
               p In this study, we aim to get your perceived quality of recommended songs and measure your cognitive load while using our system.
               p Our study will provide recommendations to you with three different setting ups. You will be asked to play with each setting up and rate the top 20 recommended songs in the end.
-          a.btn.btn-primary.btn-lg(href='/auth/spotify' role="button") Please log in to Spotify to start :)
+              br
+              br
+              a.btn.btn-primary.btn-lg(href='/auth/spotify' role="button") Please log in to Spotify to start :)
     else
       p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp
         a.btn.btn-primary(href='/logout' role="button") Log Out

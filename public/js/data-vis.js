@@ -483,6 +483,11 @@ $.ajax({
                     'Authorization': 'Bearer ' + token
                 },
                 success: function (data) {
+
+                    recom.weights[0] = 100;
+
+                    $("div#recom-seeds").show();
+                    $("div.loading").hide();
                     //$("div.recom").removeClass("loading")
 
                     console.log("The returned data", data);
@@ -492,7 +497,7 @@ $.ajax({
                     })
                     recom.artistRankList.push(dragged_artist);
 
-                    getRecomBySeed("recom-seeds");
+                    //getRecomBySeed("recom-seeds");
                     console.log(recom)
                 },
                 error: function (jqXHR, err) {
@@ -641,7 +646,50 @@ $.ajax({
 
 
             var selected_seed_followed_artist = data.seed.followed_artist.slice(0, 10)
-            var dragged_follow = "", dragged_follow_name = "", dragged_follow_img;
+            var dragged_follow = data.seed.followed_artist[0].id, dragged_follow_name = "", dragged_follow_img;
+
+            $.ajax({
+                url: "/getRecomByFollowSimilar?id=" + dragged_follow,
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (data) {
+
+                    $("div#recom-followers").show();
+                    $("div#similar-artists").show()
+                    $("div.loading").hide();
+
+                    console.log("The returned data", data);
+
+                    recom.by_follow.push({
+                        seed: dragged_follow,
+                        similars: data.similar,
+                        recoms: data.items,
+                        weights: []
+                    })
+
+
+                    //initialize the weight for the added similar artists
+                    for(index in data.similar){
+                        var weight = {
+                            id: data.similar[index].id,
+                            weight: 50
+                        }
+                        recom.by_follow[recom.by_follow.length-1].weights.push(weight)
+                    }
+                    getRecomBySeed("recom-followers")
+
+                },
+                error: function (jqXHR, err) {
+                    console.log(err);
+                    if(err === "timeout"){
+                        $.ajax(this)
+                    }
+                }
+
+            });
+
+
 
             for (var index in selected_seed_followed_artist) {
                 var artistImages = selected_seed_followed_artist[index].images
@@ -922,7 +970,37 @@ $.ajax({
 
 
             var selected_seed_track = data.seed.track.slice(0, 5)
-            var dragged_track = "", dragged_track_name = "";
+            var dragged_track = data.seed.track[0].id, dragged_track_name = "";
+
+
+            $.ajax({
+                url: "/getRecomByTrack?limit=50&seed=" + dragged_track,
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (data) {
+                    recom.weights[1] = 100;
+
+                    $("div#recom-seeds").show();
+                    $("div.loading").hide();
+
+                    console.log("The returned data", data);
+
+                    recom.by_track.push({
+                        seed: dragged_track,
+                        recoms: data.items
+                    })
+                    recom.trackRankList.push(dragged_track);
+                    //getRecomBySeed("recom-seeds");
+                    console.log(recom)
+                },
+                error: function (jqXHR, err) {
+                    console.log(err);
+                    if(err === "timeout"){
+                        $.ajax(this)
+                    }
+                }
+            });
 
 
             for (var index in selected_seed_track) {
@@ -1061,7 +1139,36 @@ $.ajax({
             /******************************Seed genre recommendations*************************************************/
 
             var selected_seed_genre = data.seed.genre.slice(0, 5)
-            var dragged_genre = "";
+            var dragged_genre = data.seed.genre[0];
+
+            $.ajax({
+                url: "/getRecomByGenre?limit=50&seed=" + dragged_genre,
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (data) {
+                    //$("div.recom").removeClass("loading")
+
+                    recom.weights[2] = 100;
+
+                    $("div#recom-seeds").show();
+                    $("div.loading").hide();
+
+                    console.log("The returned data", data);
+                    recom.by_genre.push({
+                        seed: dragged_genre,
+                        recoms: data.items
+                    })
+                    recom.genreRankList.push(dragged_genre);
+                    getRecomBySeed("recom-seeds");
+                },
+                error: function (jqXHR, err) {
+                    console.log(err);
+                    if(err === "timeout"){
+                        $.ajax(this)
+                    }
+                }
+            });
 
             for (var index in selected_seed_genre) {
                 //dropped_genres+= selected_seed_genre[index]+','
