@@ -475,8 +475,33 @@ $.ajax({
                 // drag and drop
 
             var selected_seed_artist = data.seed.artist.slice(0, 5)
-            var dragged_artist = "", dragged_artist_name = "";
+            var dragged_artist = data.seed.artist[0].id, dragged_artist_name = "";
 
+            $.ajax({
+                url: "/getRecomByArtist?limit=20&seed=" + dragged_artist,
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (data) {
+                    //$("div.recom").removeClass("loading")
+
+                    console.log("The returned data", data);
+                    recom.by_artist.push({
+                        seed: dragged_artist,
+                        recoms: data.items
+                    })
+                    recom.artistRankList.push(dragged_artist);
+
+                    getRecomBySeed("recom-seeds");
+                    console.log(recom)
+                },
+                error: function (jqXHR, err) {
+                    console.log(err);
+                    if(err === "timeout"){
+                        $.ajax(this)
+                    }
+                }
+            });
 
             for (var index in selected_seed_artist) {
                 $('#artist-seed').append("<span class='label' id=" + selected_seed_artist[index].id + " >" + selected_seed_artist[index].name + "</span>&nbsp;")
@@ -623,7 +648,7 @@ $.ajax({
                 if(artistImages.length>0)
                     $('#artist-follow').append("<div class='artist-img' id=" + selected_seed_followed_artist[index].id + " >" + "<img class='img-circle' src=" + artistImages[artistImages.length - 1].url + ">" + selected_seed_followed_artist[index].name + "</div>&nbsp")
                 else
-                    console.log(selected_seed_followed_artist)
+                    console.log(selected_seed_followed_artist[index])
             }
 
             var regDragFollow = function () {
