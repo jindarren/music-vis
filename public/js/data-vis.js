@@ -648,7 +648,7 @@ $.ajax({
                 if(artistImages.length>0)
                     $('#artist-follow').append("<div class='artist-img' id=" + selected_seed_followed_artist[index].id + " >" + "<img class='img-circle' src=" + artistImages[artistImages.length - 1].url + ">" + selected_seed_followed_artist[index].name + "</div>&nbsp")
                 else
-                    console.log(selected_seed_followed_artist[index])
+                    $('#artist-follow').append("<div class='artist-img' id=" + selected_seed_followed_artist[index].id + " >" + "<img class='img-circle' src='../img/no-image.png' >" + selected_seed_followed_artist[index].name + "</div>&nbsp")
             }
 
             var regDragFollow = function () {
@@ -753,7 +753,16 @@ $.ajax({
                                     var slider = '<input type="text" class="bootstrap-slider follow-weight-slider" value="50" data-slider-min="0" ' +
                                         'data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="follow-slider" id="' + data.similar[index].id + '" data-slider-tooltip="hide" data-slider-handle="round" />'
 
-                                    $("#similar-artists").append("<div class="+dragged_follow+"><span id="+data.similar[index].id+"><img class='img-circle-sm' src=" + data.similar[index].images[0].url + ">" + '&nbsp' + data.similar[index].name + "<span/>" + slider+"</div>")
+                                    var artistImages = data.similar[index].images
+
+
+                                    if(artistImages.length>0){
+                                        $("#similar-artists").append("<div class="+dragged_follow+"><span id="+data.similar[index].id+"><img class='img-circle-sm' src=" + artistImages[artistImages.length-1].url + ">" + '&nbsp' + data.similar[index].name + "<span/>" + slider+"</div>")
+                                    }
+                                    else{
+                                        $("#similar-artists").append("<div class="+dragged_follow+"><span id="+data.similar[index].id+"><img class='img-circle-sm' src='../img/no-image.png'>" + '&nbsp' + data.similar[index].name + "<span/>" + slider+"</div>")
+
+                                    }
 
                                     $('span#' + data.similar[index].id).click(function () {
                                         var clicked_follow = $(this).attr('id');
