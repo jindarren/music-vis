@@ -5,8 +5,8 @@ var recommender = function (token) {
     var SpotifyWebApi = require('spotify-web-api-node'),
         appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c',
         appSecret = 'b368bdb3003747ec861e62d3bf381ba0',
-        redirectUrl = 'http://spotify-recsys.eu-3.evennode.com/callback';
-        //redirectUrl = 'http://localhost:3000/callback';
+        //redirectUrl = 'http://spotify-recsys.eu-3.evennode.com/callback';
+        redirectUrl = 'http://localhost:3000/callback';
 
     var spotifyApi = new SpotifyWebApi({
         clientId: appKey,
@@ -50,7 +50,7 @@ var recommender = function (token) {
 
         getTopTracks: function (limitNum) {
             return spotifyApi.getMyTopTracks({
-                time_range: 'long_term',
+                time_range: 'short_term',
                 limit: limitNum,
             }).then(function (data) {
                 return data.body.items

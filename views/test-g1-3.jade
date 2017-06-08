@@ -10,10 +10,16 @@ html
     if !data
       div#login-page
           div#tutorial
-              p Welcome to participate our study. Please note you need to be a frequent or heavy user of Spotify, otherwise the system cannot generate recommendations for you. Thank you.
-              p A tutorial video will play before each task. So please pay attemtntion to watch the tutorial before starting your task. After you will be guided to finish a questionnaire.
-              p In this study, we aim to get your perceived quality of recommended songs and measure your cognitive load while using our system.
-              p Our study will provide recommendations to you with three different setting ups. You will be asked to play with each setting up and rate the top 20 recommended songs in the end.
+              p We leverage Spotify API to design this music recommender system. The system consists of two visualizing recommender systems which allow the user to interact with the recommender sysytem to explore good songs.
+              h4 Seed based recommender
+              p The following video gives a tutorial for using the seed based recommender system.
+              iframe(width="560" height="315" src="https://www.youtube.com/embed/8KfwJWr6sjg?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0" frameborder="0" allowfullscreen)
+              br
+              br
+              h4 Artist based recommender
+              p The following video gives a tutorial for using the artist based recommender system.
+              iframe(width="560" height="315" src="https://www.youtube.com/embed/x3NuAfYEGjU?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0" frameborder="0" allowfullscreen)
+
           a.btn.btn-primary.btn-lg(href='/auth/spotify' role="button") Please log in to Spotify to start :)
     else
       p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp

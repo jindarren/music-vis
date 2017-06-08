@@ -80,9 +80,6 @@ $(document).ready(function () {
     //     getRecomBySeed("recom-followers")
     // });
 
-
-
-
 })
 
 
@@ -376,9 +373,17 @@ $.ajax({
 
         success: function (data) {
 
-            if(data.seed.artist.length<6 || data.seed.track.length<6){
+            if(data.seed.followed_artist.length<6 || data.seed.track.length<6){
                 alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
                 window.location.href = "/logout";
+            }
+
+            if(data.seed.artist.length<4){
+                console.log("less")
+                for(index in data.seed.followed_artist){
+                    console.log("add")
+                    data.seed.artist.push(data.seed.followed_artist[index])
+                }
             }
 
             $("div.seed").show();
@@ -560,7 +565,7 @@ $.ajax({
                         })
 
                         var xhr = $.ajax({
-                            url: "/getRecomByArtist?limit=50&seed=" + dragged_artist,
+                            url: "/getRecomByArtist?limit=20&seed=" + dragged_artist,
                             headers: {
                                 'Authorization': 'Bearer ' + token
                             },
@@ -615,7 +620,8 @@ $.ajax({
 
             for (var index in selected_seed_followed_artist) {
                 var artistImages = selected_seed_followed_artist[index].images
-                $('#artist-follow').append("<div class='artist-img' id=" + selected_seed_followed_artist[index].id + " >" + "<img class='img-circle' src=" + artistImages[artistImages.length - 1].url + ">" + selected_seed_followed_artist[index].name + "</div>&nbsp")
+                if(artistImages.length>0)
+                    $('#artist-follow').append("<div class='artist-img' id=" + selected_seed_followed_artist[index].id + " >" + "<img class='img-circle' src=" + artistImages[artistImages.length - 1].url + ">" + selected_seed_followed_artist[index].name + "</div>&nbsp")
             }
 
             var regDragFollow = function () {
