@@ -622,6 +622,8 @@ $.ajax({
                 var artistImages = selected_seed_followed_artist[index].images
                 if(artistImages.length>0)
                     $('#artist-follow').append("<div class='artist-img' id=" + selected_seed_followed_artist[index].id + " >" + "<img class='img-circle' src=" + artistImages[artistImages.length - 1].url + ">" + selected_seed_followed_artist[index].name + "</div>&nbsp")
+                else
+                    console.log(selected_seed_followed_artist)
             }
 
             var regDragFollow = function () {
