@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="df3f8091-37ec-4e36-96dd-69e104b90157" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/data-vis.js" afterPath="$PROJECT_DIR$/public/js/data-vis.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/recommender.js" afterPath="$PROJECT_DIR$/routes/recommender.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -74,11 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="data-vis.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="data-vis.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="629" column="51" lean-forward="true" selection-start-line="629" selection-start-column="51" selection-end-line="629" selection-end-column="51" />
+            <state relative-caret-position="15">
+              <caret line="615" column="0" lean-forward="true" selection-start-line="615" selection-start-column="0" selection-end-line="615" selection-end-column="0" />
               <folding>
                 <marker date="1496912605000" expanded="true" signature="16159:16441" ph="..." />
                 <marker date="1496912605000" expanded="true" signature="22147:22153" ph=" " />
@@ -110,11 +111,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1890">
-              <caret line="126" column="39" lean-forward="false" selection-start-line="126" selection-start-column="24" selection-end-line="126" selection-end-column="39" />
+            <state relative-caret-position="450">
+              <caret line="39" column="10" lean-forward="false" selection-start-line="39" selection-start-column="10" selection-end-line="39" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -123,8 +124,8 @@
       <file leaf-file-name="recommender.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/recommender.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="41" column="33" lean-forward="false" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
+            <state relative-caret-position="120">
+              <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -207,9 +208,9 @@
         <option value="$PROJECT_DIR$/views/test-g1-1.jade" />
         <option value="$PROJECT_DIR$/public/js/t1.css" />
         <option value="$PROJECT_DIR$/public/js/t1.js" />
-        <option value="$PROJECT_DIR$/routes/index.js" />
-        <option value="$PROJECT_DIR$/routes/recommender.js" />
         <option value="$PROJECT_DIR$/public/js/data-vis.js" />
+        <option value="$PROJECT_DIR$/routes/recommender.js" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
       </list>
     </option>
   </component>
@@ -225,7 +226,7 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="40" />
+    <option name="y" value="39" />
     <option name="width" value="1440" />
     <option name="height" value="817" />
   </component>
@@ -466,7 +467,7 @@
       <workItem from="1496802263156" duration="19000" />
       <workItem from="1496806639921" duration="2733000" />
       <workItem from="1496892349815" duration="7060000" />
-      <workItem from="1496912395045" duration="333000" />
+      <workItem from="1496912395045" duration="577000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1486347241897</created>
@@ -678,11 +679,18 @@
       <option name="project" value="LOCAL" />
       <updated>1496910632305</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="update">
+      <created>1496912732380</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1496912732380</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="467001000" />
+    <option name="totallyTimeSpent" value="467245000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -694,7 +702,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="40" width="1440" height="817" extended-state="0" />
+    <frame x="0" y="39" width="1440" height="817" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11064129" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1111,26 +1119,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/recommender.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="41" column="33" lean-forward="false" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1890">
-          <caret line="126" column="39" lean-forward="false" selection-start-line="126" selection-start-column="24" selection-end-line="126" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="629" column="51" lean-forward="true" selection-start-line="629" selection-start-column="51" selection-end-line="629" selection-end-column="51" />
+        <state relative-caret-position="15">
+          <caret line="615" column="0" lean-forward="true" selection-start-line="615" selection-start-column="0" selection-end-line="615" selection-end-column="0" />
           <folding>
             <marker date="1496912605000" expanded="true" signature="16159:16441" ph="..." />
             <marker date="1496912605000" expanded="true" signature="22147:22153" ph=" " />
@@ -1138,6 +1130,22 @@
             <marker date="1496912605000" expanded="true" signature="57506:57512" ph=" " />
             <marker date="1496912605000" expanded="true" signature="58357:58363" ph=" " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/recommender.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="39" column="10" lean-forward="false" selection-start-line="39" selection-start-column="10" selection-end-line="39" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>
