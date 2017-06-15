@@ -36,7 +36,7 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new SpotifyStrategy({
         clientID: appKey,
         clientSecret: appSecret,
-        callbackURL: 'http://spotify-recsys.eu-3.evennode.com/callback'
+        callbackURL: 'http://spotify-recsys.eu-3.evennode.com/callback',
         //callbackURL: 'http://localhost:3000/callback'
     },
     function (accessToken, refreshToken, profile, done) {
@@ -166,6 +166,81 @@ router.get('/',function (req,res) {
     res.render('layout',{ data: req.user})
 })
 
+router.get('/test-g1-1',function (req,res) {
+    res.render('test-g1-1')
+})
+
+router.get('/g1-1',function (req,res) {
+    res.render('g1-1', {data: req.user})
+})
+
+router.get('/test-g1-2',function (req,res) {
+    res.render('test-g1-2')
+})
+
+router.get('/g1-2',function (req,res) {
+    res.render('g1-2', {data: req.user})
+})
+
+router.get('/test-g1-3',function (req,res) {
+    res.render('test-g1-3')
+})
+
+router.get('/g1-3',function (req,res) {
+    res.render('g1-3', {data: req.user})
+})
+
+
+router.get('/test-g2-1',function (req,res) {
+    res.render('test-g2-1')
+})
+
+router.get('/g2-1',function (req,res) {
+    res.render('g2-1', {data: req.user})
+})
+
+router.get('/test-g2-2',function (req,res) {
+    res.render('test-g2-2')
+})
+
+router.get('/g2-2',function (req,res) {
+    res.render('g2-2', {data: req.user})
+})
+
+router.get('/test-g2-3',function (req,res) {
+    res.render('test-g2-3')
+})
+
+router.get('/g2-3',function (req,res) {
+    res.render('g2-3', {data: req.user})
+})
+
+
+router.get('/test-g3-1',function (req,res) {
+    res.render('test-g3-1')
+})
+
+router.get('/g3-1',function (req,res) {
+    res.render('g3-1', {data: req.user})
+})
+
+router.get('/test-g3-2',function (req,res) {
+    res.render('test-g3-2')
+})
+
+router.get('/g3-2',function (req,res) {
+    res.render('g3-2', {data: req.user})
+})
+
+router.get('/test-g3-3',function (req,res) {
+    res.render('test-g3-3')
+})
+
+router.get('/g3-3',function (req,res) {
+    res.render('g3-3', {data: req.user})
+})
+
+
 router.get('/logged',function (req,res) {
     res.render('index', {data: req.user})
 })
@@ -198,7 +273,7 @@ router.get('/auth/spotify',
 router.get('/callback',
     passport.authenticate('spotify', {failureRedirect: '/'}),
     function (req, res) {
-        res.redirect('/logged');
+        res.redirect('/test-g1-1');
     });
 
 router.get('/logout', function (req, res) {
@@ -215,7 +290,7 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/logged');
+    res.redirect('/test-g1-1');
 }
 
 module.exports = router;
