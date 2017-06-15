@@ -497,3 +497,8 @@ ul.none {
 .narrow-loading{
     width: 60%;
 }
+
+.questionnaire{
+    display: none;
+    float: right;
+}

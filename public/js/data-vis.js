@@ -132,6 +132,17 @@ $("#rank").change(function () {
                 $("#recom-seeds").append((sortedRecoms[index].span[0].outerHTML))
             }
         }
+
+        $("div").remove(".br-widget");
+
+        $('.rating').barrating({
+            theme: 'fontawesome-stars'
+        });
+
+        $('.rating').onSelect(function(value, text, event){
+          console.log(value, text, event)
+        })
+
     }
     else if(rankby == "default"){
         getRecomBySeed("recom-seeds")
@@ -343,10 +354,11 @@ var getRecomBySeed = function (resultListID) {
         }
     }
 
-    $(function () {
-        $('.rating').barrating({
-            theme: 'fontawesome-stars'
-        });
+    $('.rating').barrating({
+        theme: 'fontawesome-stars',
+        onSelect: function(value, text, event) {
+            console.log(value, $(this)[0].$elem.parents('.recom-items').attr('id'))
+        }
     });
 
 }
@@ -1468,3 +1480,10 @@ $.ajax({
         }
 
     });
+
+setTimeout(function () {
+    $("#nasa-t1").show();
+    $("#nasa-t2").show();
+    $("#nasa-t3").show();
+    $("#recsysque").show();
+}, 1000*300 )
