@@ -1,31 +1,18 @@
 doctype html
 html
-  head
-    title Spotify Visualization
-    link(rel="shortcut icon" href="../favicon.ico" type="image/x-icon")
-    link(rel="stylesheet" type = "text/css", href = "../bootstrap/dist/css/bootstrap.css")
-    link(rel="stylesheet" type = "text/css", href = "../components-font-awesome/css/font-awesome.css")
-    link(rel="stylesheet" type = "text/css", href = "../jquery-bar-rating/dist/themes/fontawesome-stars.css")
-  body
-    if !data
-      div#login-page
-          div#tutorial
-              p We leverage Spotify API to design this music recommender system. The system consists of two visualizing recommender systems which allow the user to interact with the recommender sysytem to explore good songs.
-              h4 Seed based recommender
-              p The following video gives a tutorial for using the seed based recommender system.
-              iframe(width="560" height="315" src="https://www.youtube.com/embed/8KfwJWr6sjg?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0" frameborder="0" allowfullscreen)
-              br
-              br
-              h4 Artist based recommender
-              p The following video gives a tutorial for using the artist based recommender system.
-              iframe(width="560" height="315" src="https://www.youtube.com/embed/x3NuAfYEGjU?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0" frameborder="0" allowfullscreen)
-
-          a.btn.btn-primary.btn-lg(href='/auth/spotify' role="button") Please log in to Spotify to start :)
-    else
-      p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp
-        a.btn.btn-primary(href='/logout' role="button") Log Out
-
-      block content
+    head
+        title Spotify Visualization
+        link(rel="shortcut icon" href="../favicon.ico" type="image/x-icon")
+        link(rel="stylesheet" type = "text/css", href = "../bootstrap/dist/css/bootstrap.css")
+        link(rel="stylesheet" type = "text/css", href = "../components-font-awesome/css/font-awesome.css")
+        link(rel="stylesheet" type = "text/css", href = "../jquery-bar-rating/dist/themes/fontawesome-stars.css")
+    body
+        div#login-page
+            div#intro
+                h4 Task 1: Modify the recommendation results and recommendation source
+                p Please watch the following tutorial before the task.
+                iframe(width="560" height="315" src="https://www.youtube.com/embed/1-0Z2cxXmpc?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0" frameborder="0" allowfullscreen)
+            a.btn.btn-primary.btn-lg(href='/g1-2' role="button") Start task 2
 
     script(type = "text/javascript", src = "../jquery/dist/jquery.js", charset = 'utf-8')
     script(type = "text/javascript", src = "../jquery-ui/jquery-ui.js", charset = 'utf-8')

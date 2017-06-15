@@ -11,7 +11,7 @@ html
             a.btn.btn-primary(href='/logout' role="button") Log Out
 
         div.row
-            div.col-md-3.sub-block
+            div.col-md-3.sub-block#source-block
                 h4 Recommendations source
                 div.seed.customized-scroll#artist-div
                     h5 The top artists you have&nbsp&nbsp&nbsp&nbsp
@@ -30,7 +30,7 @@ html
                     div#genre-seed
                 div.loading#initial-loading
 
-            div.col-md-5.sub-block
+            div.col-md-5.sub-block#processor-block
                 h4 Recommendations Processor
                 form
                     div#radio
@@ -92,8 +92,8 @@ html
         script(type = "text/javascript", src = "../jquery-ui/jquery-ui.js", charset = 'utf-8')
         script(type = "text/javascript", src = "../d3/d3.js", charset = 'utf-8')
         script(type = "text/javascript", src = "../jquery-bar-rating/dist/jquery.barrating.min.js", charset = 'utf-8')
-        script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')
         script(type = "text/javascript", src = "../seiyria-bootstrap-slider/dist/bootstrap-slider.js", charset = 'utf-8')
+        script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')
 
         link(rel="stylesheet" type = "text/css", href = "../jquery-ui/themes/base/jquery-ui.css")
         link(rel="stylesheet" type = "text/css", href = "../seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css")

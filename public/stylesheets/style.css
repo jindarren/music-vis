@@ -22,7 +22,7 @@ a {
 }
 
 
-#intro p:nth-child(1){
+.intro p:nth-child(1){
     color: #00B7FF;
     font-weight: bold;
 }

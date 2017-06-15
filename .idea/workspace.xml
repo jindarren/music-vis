@@ -5,13 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df3f8091-37ec-4e36-96dd-69e104b90157" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/g1-1.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/g1-2.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/g1-3.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/g2-1.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/g2-2.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/g2-3.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/g3-1.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/g3-2.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/g3-3.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/test-g2-1.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/test-g2-2.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/test-g2-3.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/test-g3-1.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/test-g3-2.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/test-g3-3.jade" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/t1.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/data-vis.js" afterPath="$PROJECT_DIR$/public/js/data-vis.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/recommender.js" afterPath="$PROJECT_DIR$/routes/recommender.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.jade" afterPath="$PROJECT_DIR$/views/index.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.jade" afterPath="$PROJECT_DIR$/views/layout.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/test-g1-1.jade" afterPath="$PROJECT_DIR$/views/test-g1-1.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/test-g1-2.jade" afterPath="$PROJECT_DIR$/views/test-g1-2.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/test-g1-3.jade" afterPath="$PROJECT_DIR$/views/test-g1-3.jade" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -29,12 +48,23 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="layout.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/layout.jade">
+      <file leaf-file-name="data-vis.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="187" lean-forward="false" selection-start-line="14" selection-start-column="187" selection-end-line="14" selection-end-column="187" />
-              <folding />
+            <state relative-caret-position="150">
+              <caret line="19" column="21" lean-forward="true" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+              <folding>
+                <element signature="e#2902#4618#0" expanded="false" />
+                <element signature="e#4930#5622#0" expanded="false" />
+                <element signature="e#5670#14636#0" expanded="false" />
+                <element signature="e#14710#15839#0" expanded="false" />
+                <element signature="e#15888#15990#0" expanded="false" />
+                <element signature="e#15999#67674#0" expanded="false" />
+                <marker date="1497507768000" expanded="true" signature="23453:23459" ph=" " />
+                <marker date="1497507768000" expanded="true" signature="64116:64122" ph=" " />
+                <marker date="1497507768000" expanded="true" signature="66138:66144" ph=" " />
+                <marker date="1497507768000" expanded="true" signature="66989:66995" ph=" " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -42,84 +72,88 @@
       <file leaf-file-name="test-g1-1.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/test-g1-1.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="42" lean-forward="false" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="t1.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/t1.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test-g1-3.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/test-g1-3.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="data-vis.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="1151" column="35" lean-forward="false" selection-start-line="1151" selection-start-column="35" selection-end-line="1151" selection-end-column="35" />
-              <folding>
-                <marker date="1496932186000" expanded="true" signature="16159:16441" ph="..." />
-                <marker date="1496932186000" expanded="true" signature="23218:23224" ph=" " />
-                <marker date="1496932186000" expanded="true" signature="60704:60710" ph=" " />
-                <marker date="1496932186000" expanded="true" signature="62726:62732" ph=" " />
-                <marker date="1496932186000" expanded="true" signature="63577:63583" ph=" " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/index.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="49" column="50" lean-forward="false" selection-start-line="49" selection-start-column="50" selection-end-line="49" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="26" column="9" lean-forward="true" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+              <caret line="14" column="75" lean-forward="true" selection-start-line="14" selection-start-column="75" selection-end-line="14" selection-end-column="75" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <file leaf-file-name="g1-1.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/g1-1.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1605">
-              <caret line="38" column="74" lean-forward="false" selection-start-line="38" selection-start-column="74" selection-end-line="38" selection-end-column="74" />
+            <state relative-caret-position="369">
+              <caret line="32" column="50" lean-forward="true" selection-start-line="32" selection-start-column="34" selection-end-line="32" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recommender.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/recommender.js">
+      <file leaf-file-name="g2-1.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/g2-1.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1365">
-              <caret line="7" column="10" lean-forward="false" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+            <state relative-caret-position="300">
+              <caret line="32" column="50" lean-forward="false" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="g3-1.jade" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/g3-1.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="353">
+              <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test-g2-2.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/test-g2-2.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="48" lean-forward="false" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test-g2-3.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/test-g2-3.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="46" lean-forward="false" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test-g3-1.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/test-g3-1.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="48" lean-forward="false" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test-g3-3.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/test-g3-3.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="46" lean-forward="false" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test-g3-2.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/test-g3-2.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="77" lean-forward="false" selection-start-line="15" selection-start-column="77" selection-end-line="15" selection-end-column="77" />
               <folding />
             </state>
           </provider>
@@ -138,36 +172,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.fa-times</find>
-      <find>max-width</find>
-      <find>drop-seed</find>
-      <find>88</find>
-      <find>sortable</find>
-      <find>#recom-seeds</find>
-      <find>highlightenResults</find>
-      <find>recom-followers</find>
-      <find>#similar-artists</find>
-      <find>narrow</find>
-      <find>evennode</find>
-      <find>sub</find>
-      <find>row</find>
-      <find>login</find>
-      <find>select</find>
-      <find>initiate</find>
-      <find>totalRecomsNum</find>
-      <find>ini</find>
-      <find>error</find>
-      <find>track-weight</find>
-      <find>account</find>
-      <find>50</find>
-      <find>tok</find>
-      <find>follow</find>
-      <find>scope</find>
       <find>defaul</find>
       <find>default.gif</find>
       <find>dragged_follow_img</find>
       <find>login-page</find>
       <find>tut</find>
+      <find>recom-followers</find>
+      <find>initial-loading</find>
+      <find>.loading</find>
+      <find>narrow</find>
+      <find>loading</find>
+      <find>result-load</find>
+      <find>index+1</find>
+      <find>follow</find>
+      <find>dragg</find>
+      <find>draggable</find>
+      <find>#artist-seed span</find>
+      <find>$(&quot;#artist-seed span&quot;)</find>
+      <find>sortable</find>
+      <find>g1-2</find>
+      <find>g1-1</find>
+      <find>artist-follow</find>
+      <find>intro</find>
+      <find>g2-1</find>
+      <find>g2-2</find>
+      <find>option</find>
+      <find>seed</find>
+      <find>3-1</find>
+      <find>2-1</find>
+      <find>radio</find>
+      <find>opacity</find>
     </findStrings>
     <replaceStrings>
       <replace>$(&quot;#recom-seed&quot;).empty()</replace>
@@ -196,15 +230,42 @@
         <option value="$PROJECT_DIR$/bin/www" />
         <option value="&lt;f46e3cd4-ed2c-44a7-9886-66be3e546bd6&gt;/localhost/home/doug/recommender/IntersectionExplorer/public/javascripts/userBehavior.js" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/public/js/t1.css" />
-        <option value="$PROJECT_DIR$/public/js/t1.js" />
         <option value="$PROJECT_DIR$/routes/recommender.js" />
-        <option value="$PROJECT_DIR$/routes/index.js" />
-        <option value="$PROJECT_DIR$/views/test-g1-1.jade" />
-        <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/views/layout.jade" />
+        <option value="$PROJECT_DIR$/public/js/t1.js" />
+        <option value="$PROJECT_DIR$/public/js/t2.js" />
+        <option value="$PROJECT_DIR$/public/js/g2-1.js" />
+        <option value="$PROJECT_DIR$/public/js/g2-2.js" />
+        <option value="$PROJECT_DIR$/public/js/g1-3.js" />
+        <option value="$PROJECT_DIR$/public/js/g2-3.js" />
+        <option value="$PROJECT_DIR$/public/js/g3-1.js" />
+        <option value="$PROJECT_DIR$/public/js/g3-2.js" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/public/js/data-vis-g1-1.js" />
+        <option value="$PROJECT_DIR$/public/js/g1-2.js" />
+        <option value="$PROJECT_DIR$/public/js/g1-1.js" />
+        <option value="$PROJECT_DIR$/views/test-g1-2.jade" />
+        <option value="$PROJECT_DIR$/views/test-g1-3.jade" />
+        <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/views/test-g1-1.jade" />
+        <option value="$PROJECT_DIR$/views/g3-3.jade" />
+        <option value="$PROJECT_DIR$/views/g1-2.jade" />
+        <option value="$PROJECT_DIR$/views/g1-1.jade" />
+        <option value="$PROJECT_DIR$/views/g3-2.jade" />
+        <option value="$PROJECT_DIR$/views/g2-3.jade" />
+        <option value="$PROJECT_DIR$/views/g2-2.jade" />
+        <option value="$PROJECT_DIR$/views/g1-3.jade" />
+        <option value="$PROJECT_DIR$/views/test-g2-1.jade" />
+        <option value="$PROJECT_DIR$/views/test-g2-2.jade" />
+        <option value="$PROJECT_DIR$/views/test-g2-3.jade" />
+        <option value="$PROJECT_DIR$/views/test-g3-1.jade" />
+        <option value="$PROJECT_DIR$/views/test-g3-2.jade" />
+        <option value="$PROJECT_DIR$/views/test-g3-3.jade" />
         <option value="$PROJECT_DIR$/public/js/data-vis.js" />
+        <option value="$PROJECT_DIR$/views/g2-1.jade" />
+        <option value="$PROJECT_DIR$/views/g3-1.jade" />
       </list>
     </option>
   </component>
@@ -220,10 +281,9 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-23" />
-    <option name="y" value="37" />
+    <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="817" />
+    <option name="height" value="825" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -241,7 +301,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -278,7 +337,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="routes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="music-vis" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="music-vis" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stylesheets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -320,6 +397,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -480,7 +558,11 @@
       <workItem from="1496802263156" duration="19000" />
       <workItem from="1496806639921" duration="2733000" />
       <workItem from="1496892349815" duration="7060000" />
-      <workItem from="1496912395045" duration="5794000" />
+      <workItem from="1496912395045" duration="12713000" />
+      <workItem from="1496986103130" duration="4007000" />
+      <workItem from="1497201415756" duration="966000" />
+      <workItem from="1497234789914" duration="15547000" />
+      <workItem from="1497425868346" duration="10055000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1486347241897</created>
@@ -720,11 +802,18 @@
       <option name="project" value="LOCAL" />
       <updated>1496929281819</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="update">
+      <created>1496932227661</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1496932227661</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="472462000" />
+    <option name="totallyTimeSpent" value="509956000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -736,17 +825,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-23" y="37" width="1440" height="817" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="825" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16842847" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16842847" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.059633028" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21925133" sideWeight="0.5286123" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292517" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33715597" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287858" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24892704" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25793102" sideWeight="0.47138768" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25648022" sideWeight="0.47138768" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -757,7 +847,6 @@
       <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32837838" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24451174" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -814,213 +903,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="9" />
+      <option name="time" value="11" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="18" lean-forward="false" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="14" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <marker date="1496932186000" expanded="true" signature="16159:16441" ph="..." />
-            <marker date="1496932186000" expanded="true" signature="23218:23224" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="60704:60710" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="62726:62732" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="63577:63583" ph=" " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/recommender.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="35" lean-forward="false" selection-start-line="39" selection-start-column="35" selection-end-line="39" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="16" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="38" lean-forward="false" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="1" lean-forward="false" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1395">
-          <caret line="93" column="58" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
-          <folding>
-            <marker date="1496932186000" expanded="true" signature="16159:16441" ph="..." />
-            <marker date="1496932186000" expanded="true" signature="23218:23224" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="60704:60710" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="62726:62732" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="63577:63583" ph=" " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/recommender.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1935">
-          <caret line="129" column="70" lean-forward="false" selection-start-line="129" selection-start-column="37" selection-end-line="129" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="23" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="17" lean-forward="false" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1335">
-          <caret line="89" column="89" lean-forward="false" selection-start-line="89" selection-start-column="89" selection-end-line="89" selection-end-column="89" />
-          <folding>
-            <marker date="1496932186000" expanded="true" signature="16159:16441" ph="..." />
-            <marker date="1496932186000" expanded="true" signature="23218:23224" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="60704:60710" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="62726:62732" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="63577:63583" ph=" " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/recommender.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2820">
-          <caret line="188" column="16" lean-forward="false" selection-start-line="188" selection-start-column="16" selection-end-line="188" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="18" lean-forward="false" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1590">
-          <caret line="106" column="24" lean-forward="false" selection-start-line="106" selection-start-column="24" selection-end-line="106" selection-end-column="24" />
-          <folding>
-            <marker date="1496932186000" expanded="true" signature="16159:16441" ph="..." />
-            <marker date="1496932186000" expanded="true" signature="23218:23224" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="60704:60710" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="62726:62732" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="63577:63583" ph=" " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bower_components/d3/d3.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bower_components/d3/d3.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="4254" column="7" lean-forward="false" selection-start-line="4254" selection-start-column="4" selection-end-line="4254" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bower_components/chart.js/dist/Chart.js" />
     <entry file="file://$PROJECT_DIR$/bower_components/chart.js/src/core/core.helpers.js" />
     <entry file="file://$PROJECT_DIR$/bower_components/chart.js/src/core/core.canvasHelpers.js" />
@@ -1090,27 +977,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/test-g1-2.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/recommender.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1365">
-          <caret line="7" column="10" lean-forward="false" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/t1.js">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
+          <caret line="7" column="10" lean-forward="false" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -1119,39 +989,90 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/g1-3.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="18" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/g3-2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="41" lean-forward="false" selection-start-line="1" selection-start-column="41" selection-end-line="1" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/g2-3.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="9" lean-forward="false" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/g2-2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/index.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="49" column="50" lean-forward="false" selection-start-line="49" selection-start-column="50" selection-end-line="49" selection-end-column="50" />
+        <state relative-caret-position="735">
+          <caret line="49" column="50" lean-forward="false" selection-start-line="49" selection-start-column="36" selection-end-line="49" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layout.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="195" lean-forward="false" selection-start-line="16" selection-start-column="195" selection-end-line="16" selection-end-column="195" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4290">
+          <caret line="286" column="38" lean-forward="true" selection-start-line="286" selection-start-column="38" selection-end-line="286" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/data-vis-g1-1.js" />
+    <entry file="file://$PROJECT_DIR$/public/js/g2-1.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="56" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="56" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="26" column="9" lean-forward="true" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+        <state relative-caret-position="156">
+          <caret line="24" column="1" lean-forward="false" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.jade">
+    <entry file="file://$PROJECT_DIR$/public/js/g3-1.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="187" lean-forward="false" selection-start-line="14" selection-start-column="187" selection-end-line="14" selection-end-column="187" />
+        <state relative-caret-position="60">
+          <caret line="4" column="51" lean-forward="false" selection-start-line="4" selection-start-column="51" selection-end-line="4" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/test-g1-1.jade">
+    <entry file="file://$PROJECT_DIR$/views/g3-3.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="42" lean-forward="false" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
+        <state relative-caret-position="384">
+          <caret line="96" column="0" lean-forward="true" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/test-g1-3.jade">
+    <entry file="file://$PROJECT_DIR$/public/js/g1-1.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1159,25 +1080,166 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
+    <entry file="file://$PROJECT_DIR$/public/js/g1-2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1605">
-          <caret line="38" column="74" lean-forward="false" selection-start-line="38" selection-start-column="74" selection-end-line="38" selection-end-column="74" />
+        <state relative-caret-position="30">
+          <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/g1-2.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="100" column="0" lean-forward="false" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/g3-2.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="96" column="0" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/g2-3.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="96" column="0" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/g2-2.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="96" column="0" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/g1-3.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="96" column="0" lean-forward="true" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/test-g1-2.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="14" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/test-g1-3.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="14" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/test-g2-1.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="77" lean-forward="false" selection-start-line="15" selection-start-column="77" selection-end-line="15" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/test-g2-2.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="48" lean-forward="false" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/test-g2-3.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="46" lean-forward="false" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/test-g3-1.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="48" lean-forward="false" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/test-g3-2.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="77" lean-forward="false" selection-start-line="15" selection-start-column="77" selection-end-line="15" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/test-g3-3.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="46" lean-forward="false" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/test-g1-1.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="75" lean-forward="true" selection-start-line="14" selection-start-column="75" selection-end-line="14" selection-end-column="75" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="1151" column="35" lean-forward="false" selection-start-line="1151" selection-start-column="35" selection-end-line="1151" selection-end-column="35" />
+        <state relative-caret-position="150">
+          <caret line="19" column="21" lean-forward="true" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
           <folding>
-            <marker date="1496932186000" expanded="true" signature="16159:16441" ph="..." />
-            <marker date="1496932186000" expanded="true" signature="23218:23224" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="60704:60710" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="62726:62732" ph=" " />
-            <marker date="1496932186000" expanded="true" signature="63577:63583" ph=" " />
+            <element signature="e#2902#4618#0" expanded="false" />
+            <element signature="e#4930#5622#0" expanded="false" />
+            <element signature="e#5670#14636#0" expanded="false" />
+            <element signature="e#14710#15839#0" expanded="false" />
+            <element signature="e#15888#15990#0" expanded="false" />
+            <element signature="e#15999#67674#0" expanded="false" />
+            <marker date="1497507768000" expanded="true" signature="23453:23459" ph=" " />
+            <marker date="1497507768000" expanded="true" signature="64116:64122" ph=" " />
+            <marker date="1497507768000" expanded="true" signature="66138:66144" ph=" " />
+            <marker date="1497507768000" expanded="true" signature="66989:66995" ph=" " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/g1-1.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="32" column="50" lean-forward="true" selection-start-line="32" selection-start-column="34" selection-end-line="32" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/g2-1.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="32" column="50" lean-forward="false" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/g3-1.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>

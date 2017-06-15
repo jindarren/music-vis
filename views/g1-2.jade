@@ -54,13 +54,13 @@ html
                         div#sim-artists-vis
                 div#seed-block
                     div.drop-block
-                        h6 Weight of selected artists
+                        h6 Selected artists
                         input.bootstrap-slider#artist-weight(type="text" value="0" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-id="artist-weight" data-slider-tooltip="hide" data-slider-handle="round")
                         div.drop-seeds#drop-artists
-                        h6 Weight of selected tracks
+                        h6 Selected tracks
                         input.bootstrap-slider#track-weight(type="text" value="0" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-id="track-weight" data-slider-tooltip="hide" data-slider-handle="round")
                         div.drop-seeds#drop-tracks
-                        h6 Weight of selected genres
+                        h6 Selected genres
                         input.bootstrap-slider#genre-weight(type="text" value="0" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-id="genre-weight" data-slider-tooltip="hide" data-slider-handle="round")
                         div.drop-seeds#drop-genres
                     div.details
@@ -88,13 +88,13 @@ html
                     div#recom-followers
                     div.loading#result-loading
 
+        link(rel="stylesheet" type = "text/css", href = "../jquery-ui/themes/base/jquery-ui.css")
+        link(rel="stylesheet" type = "text/css", href = "../seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css")
+        link(rel="stylesheet" type = "text/css", href = "../stylesheets/style.css")
+
         script(type = "text/javascript", src = "../jquery/dist/jquery.js", charset = 'utf-8')
         script(type = "text/javascript", src = "../jquery-ui/jquery-ui.js", charset = 'utf-8')
         script(type = "text/javascript", src = "../d3/d3.js", charset = 'utf-8')
         script(type = "text/javascript", src = "../jquery-bar-rating/dist/jquery.barrating.min.js", charset = 'utf-8')
-        script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')
         script(type = "text/javascript", src = "../seiyria-bootstrap-slider/dist/bootstrap-slider.js", charset = 'utf-8')
-
-        link(rel="stylesheet" type = "text/css", href = "../jquery-ui/themes/base/jquery-ui.css")
-        link(rel="stylesheet" type = "text/css", href = "../seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css")
-        link(rel="stylesheet" type = "text/css", href = "../stylesheets/style.css")
+        script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')

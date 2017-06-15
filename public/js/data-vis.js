@@ -5,6 +5,7 @@
 var token;
 var totalRecomsNum = 20;
 var artistWeightBar, trackWeightBar, genreWeightBar;
+var iniArtistXhr, iniTrackXhr, iniGenreXhr;
 var recom = {};
 recom.weights = [];
 recom.artistRankList = [];
@@ -20,6 +21,11 @@ recom.weights[1] = 0;
 recom.weights[2] = 0;
 recom.enableSeedWeight = true;
 
+
+if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
+    $("#source-block, #processor-block").css("opacity",0.2)
+}
+
 $(document).ready(function () {
     $('.sub-block').height(window.innerHeight * 0.85);
     $(window).resize(function () {
@@ -28,7 +34,7 @@ $(document).ready(function () {
 
 
     //hide the artist block at the beginning
-    $("#artist-block, #follow-div, #recom-followers, #result-loading").hide()
+    $("#artist-block, #follow-div, #recom-followers").hide()
 
     $("#radio input").each(function () {
         $(this).click(function () {
@@ -46,6 +52,8 @@ $(document).ready(function () {
             // }
         })
     })
+
+
 
 //apply weight for algorithm
 //weight slider
@@ -85,7 +93,6 @@ $(document).ready(function () {
 
 //Select the rank of recommendations
 $("#rank").change(function () {
-
     console.log($("#recom-seeds").css('display'))
     var rankby = $("select#rank option:selected").text();
     console.log(rankby)
@@ -359,8 +366,6 @@ var visPopularity = function (rate) {
         return "<span class='popularity-star'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>"
 }
 
-
-
 var searchEleInArray = function (array,key,id) {
     for(index in array){
         if(array[index][key] == id)
@@ -372,6 +377,8 @@ $.ajax({
         url: "/initiate",
 
         success: function (data) {
+            //loading the recommendations
+            //$("div#recom-seeds").hide();
 
             if(data.seed.followed_artist.length<6 || data.seed.track.length<6){
                 alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
@@ -477,7 +484,7 @@ $.ajax({
             var selected_seed_artist = data.seed.artist.slice(0, 5)
             var dragged_artist = data.seed.artist[0].id, dragged_artist_name = "";
 
-            $.ajax({
+            iniArtistXhr = $.ajax({
                 url: "/getRecomByArtist?limit=20&seed=" + dragged_artist,
                 headers: {
                     'Authorization': 'Bearer ' + token
@@ -486,8 +493,6 @@ $.ajax({
 
                     recom.weights[0] = 100;
 
-                    $("div#recom-seeds").show();
-                    $("div.loading").hide();
                     //$("div.recom").removeClass("loading")
 
                     console.log("The returned data", data);
@@ -508,7 +513,7 @@ $.ajax({
                 }
             });
 
-            for (var index in selected_seed_artist) {
+            for (var index =1 ; index < selected_seed_artist.length; index++) {
                 $('#artist-seed').append("<span class='label' id=" + selected_seed_artist[index].id + " >" + selected_seed_artist[index].name + "</span>&nbsp;")
             }
 
@@ -528,6 +533,25 @@ $.ajax({
                     cursor: "move",
                     stack: "#artist-seed span"
                 });
+
+                if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1"){
+                    $("#artist-seed span").draggable("disable");
+                    $("#radio, #artist-weight").hide();
+                    // $("#source-block, #processor-block").css("opacity",0.2)
+                }
+
+                if(window.location.pathname=="/g1-2" || window.location.pathname=="/g3-2"){
+                    $(".drop-seeds").sortable("disable");
+                    $("#artist-weight").hide();
+                }
+
+                if(window.location.pathname=="/g3-1"){
+                    $("#artist-seed span").draggable("disable");
+                    $("#artist-weight").hide();
+                    $("#artist-follow div").draggable("disable");
+                    $("#artist-block > div.drop-block-h > div.loading.narrow-loading").hide();
+                    //$("#source-block, #processor-block").css("opacity",0.2)
+                }
 
 
                 $("#drop-artists").droppable({
@@ -551,6 +575,8 @@ $.ajax({
                             $(".fa-arrows-v").hide();
                             $(".drop-seeds").sortable({disabled: true})
                         }
+
+
 
                         //delete a seed from the list of dropped seeds
                         $("span#" + dragged_artist + " > i.fa.fa-times").click(function () {
@@ -645,7 +671,7 @@ $.ajax({
             /******************************Followed artist recommendations*************************************************/
 
 
-            var selected_seed_followed_artist = data.seed.followed_artist.slice(0, 10)
+            var selected_seed_followed_artist = data.seed.followed_artist.slice(0, 11)
             var dragged_follow = data.seed.followed_artist[0].id, dragged_follow_name = "", dragged_follow_img;
 
             $.ajax({
@@ -654,10 +680,6 @@ $.ajax({
                     'Authorization': 'Bearer ' + token
                 },
                 success: function (data) {
-
-                    $("div#recom-followers").show();
-                    $("div#similar-artists").show()
-                    $("div.loading").hide();
 
                     console.log("The returned data", data);
 
@@ -668,7 +690,6 @@ $.ajax({
                         weights: []
                     })
 
-
                     //initialize the weight for the added similar artists
                     for(index in data.similar){
                         var weight = {
@@ -678,6 +699,7 @@ $.ajax({
                         recom.by_follow[recom.by_follow.length-1].weights.push(weight)
                     }
                     getRecomBySeed("recom-followers")
+                    recom.by_follow = [];
 
                 },
                 error: function (jqXHR, err) {
@@ -691,12 +713,18 @@ $.ajax({
 
 
 
-            for (var index in selected_seed_followed_artist) {
+            for (var index = 1; index< selected_seed_followed_artist.length; index++) {
                 var artistImages = selected_seed_followed_artist[index].images
                 if(artistImages.length>0)
                     $('#artist-follow').append("<div class='artist-img' id=" + selected_seed_followed_artist[index].id + " >" + "<img class='img-circle' src=" + artistImages[artistImages.length - 1].url + ">" + selected_seed_followed_artist[index].name + "</div>&nbsp")
                 else
                     $('#artist-follow').append("<div class='artist-img' id=" + selected_seed_followed_artist[index].id + " >" + "<img class='img-circle' src='../img/no-image.png' >" + selected_seed_followed_artist[index].name + "</div>&nbsp")
+            }
+
+
+            if(window.location.pathname=="/g2-2" || window.location.pathname=="/g2-3"){
+                $("#radio").hide();
+                $("#artist-block > div.drop-block-h > div.loading.narrow-loading").hide();
             }
 
             var regDragFollow = function () {
@@ -715,6 +743,12 @@ $.ajax({
                     cursor: "move",
                     stack: "#artist-follow div"
                 });
+
+                if(window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
+                    $("#artist-follow div").draggable("disable");
+                    $("#artist-block > div.drop-block-h > div.loading.narrow-loading").hide();
+                }
+
 
                 $("#drop-sim-artists").droppable({
                     accept: "#artist-follow div",
@@ -798,8 +832,15 @@ $.ajax({
                                 getRecomBySeed("recom-followers")
 
                                 for (index in data.similar) {
-                                    var slider = '<input type="text" class="bootstrap-slider follow-weight-slider" value="50" data-slider-min="0" ' +
-                                        'data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="follow-slider" id="' + data.similar[index].id + '" data-slider-tooltip="hide" data-slider-handle="round" />'
+                                    var slider
+
+                                    if(window.location.pathname!="/g2-2"&&window.location.pathname!="/g3-2"){
+                                        slider = '<input type="text" class="bootstrap-slider follow-weight-slider" value="50" data-slider-min="0" ' +
+                                            'data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="follow-slider" id="' + data.similar[index].id + '" data-slider-tooltip="hide" data-slider-handle="round" />'
+                                    }else {
+                                        slider = ''
+                                    }
+
 
                                     var artistImages = data.similar[index].images
 
@@ -833,7 +874,6 @@ $.ajax({
                                                     element.weight = $(this).bootstrapSlider("getValue")
                                                 }
                                             }
-
                                             getRecomBySeed("recom-followers")
                                         })
 
@@ -851,7 +891,8 @@ $.ajax({
                             beforeSend: function () {
                                 $("div#recom-followers").hide();
                                 $("div#similar-artists").hide()
-                                $("div.loading").show();
+                                $("div.narrow-loading").show();
+                                $("div#result-loading").show();
                             },
 
                             complete: function () {
@@ -969,20 +1010,17 @@ $.ajax({
             /******************************Seed track recommendations*************************************************/
 
 
-            var selected_seed_track = data.seed.track.slice(0, 5)
+            var selected_seed_track = data.seed.track.slice(0, 6)
             var dragged_track = data.seed.track[0].id, dragged_track_name = "";
 
 
-            $.ajax({
+            iniTrackXhr = $.ajax({
                 url: "/getRecomByTrack?limit=50&seed=" + dragged_track,
                 headers: {
                     'Authorization': 'Bearer ' + token
                 },
                 success: function (data) {
                     recom.weights[1] = 100;
-
-                    $("div#recom-seeds").show();
-                    $("div.loading").hide();
 
                     console.log("The returned data", data);
 
@@ -1003,7 +1041,7 @@ $.ajax({
             });
 
 
-            for (var index in selected_seed_track) {
+            for (index  in  selected_seed_track) {
                 $('#track-seed').append("<span class='label' id=" + selected_seed_track[index].id + " >" + selected_seed_track[index].name + "</span>&nbsp")
 
             }
@@ -1024,6 +1062,17 @@ $.ajax({
                     stack: "#track-seed span"
 
                 });
+
+                if(window.location.pathname=="/g1-1" || window.location.pathname=="/g3-1"){
+                    $("#track-seed span").draggable("disable");
+                    $("#track-weight").hide();
+                }
+
+                if(window.location.pathname=="/g1-2" || window.location.pathname=="/g3-2"){
+                    $(".drop-seeds").sortable("disable");
+                    $("#track-weight").hide();
+                }
+
                 $("#drop-tracks").droppable({
                     accept: "#track-seed span",
                     classes: {
@@ -1047,6 +1096,7 @@ $.ajax({
                             $(".fa-arrows-v").hide();
                             $(".drop-seeds").sortable({disabled: true})
                         }
+
 
                         $("span#" + dragged_track + " > i.fa.fa-times").click(function () {
                             var dragged_track_id = $(this).parent().attr('id')
@@ -1138,10 +1188,10 @@ $.ajax({
 
             /******************************Seed genre recommendations*************************************************/
 
-            var selected_seed_genre = data.seed.genre.slice(0, 5)
+            var selected_seed_genre = data.seed.genre.slice(0, 6)
             var dragged_genre = data.seed.genre[0];
 
-            $.ajax({
+            iniGenreXhr = $.ajax({
                 url: "/getRecomByGenre?limit=50&seed=" + dragged_genre,
                 headers: {
                     'Authorization': 'Bearer ' + token
@@ -1151,16 +1201,13 @@ $.ajax({
 
                     recom.weights[2] = 100;
 
-                    $("div#recom-seeds").show();
-                    $("div.loading").hide();
-
                     console.log("The returned data", data);
                     recom.by_genre.push({
                         seed: dragged_genre,
                         recoms: data.items
                     })
                     recom.genreRankList.push(dragged_genre);
-                    getRecomBySeed("recom-seeds");
+                    // getRecomBySeed("recom-seeds");
                 },
                 error: function (jqXHR, err) {
                     console.log(err);
@@ -1170,12 +1217,26 @@ $.ajax({
                 }
             });
 
-            for (var index in selected_seed_genre) {
+            //for initializing the recommendations for the users
+            Promise
+                .all([iniArtistXhr, iniTrackXhr, iniGenreXhr])
+                .then(function(){
+                    $("div#recom-seeds").show();
+                    $("div#result-loading").hide();
+
+                    getRecomBySeed("recom-seeds");
+                    if(window.location.pathname=="/g2-1" || window.location.pathname=="/g2-2" || window.location.pathname=="/g2-3"){
+                        $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").hide();
+                        $("#artist-block, #follow-div, #recom-followers").show()
+                    }
+
+                });
+
+            for (var index =1; index < selected_seed_genre.length; index++) {
                 //dropped_genres+= selected_seed_genre[index]+','
                 $('#genre-seed').append("<span class='label' id=" + selected_seed_genre[index] + " >" + selected_seed_genre[index] + "</span>&nbsp")
                 //$("#genre-bar").append("<li class='lift-top ui-state-default box-flex' id="+selected_seed_genre[index]+"bar"+" >"+selected_seed_genre[index]+"</li>")
             }
-
 
             var regDragGenre = function () {
                 $("#genre-seed span").draggable({
@@ -1193,6 +1254,17 @@ $.ajax({
                     cursor: "move",
                     stack: "#genre-seed span"
                 });
+
+                if(window.location.pathname=="/g1-1" || window.location.pathname=="/g3-1"){
+                    $("#genre-seed span").draggable("disable");
+                    $("#genre-weight").hide();
+                }
+
+                if(window.location.pathname=="/g1-2" || window.location.pathname=="/g3-2"){
+                    $(".drop-seeds").sortable("disable");
+                    $("#genre-weight").hide();
+                }
+
                 $("#drop-genres").droppable({
                     accept: "#genre-seed span",
                     classes: {
@@ -1386,14 +1458,13 @@ $.ajax({
         beforeSend: function () {
             //$("div.recom").addClass("loading")
             $("div.seed").hide();
-            $("div.loading").show();
+            // $("div.loading").show();
         },
 
         complete: function () {
             $("div.seed").show();
-            $("div.loading").hide();
-
+            $("div#initial-loading").hide();
+            $("div.narrow-loading").hide();
         }
 
     });
-
