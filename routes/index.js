@@ -1,4 +1,5 @@
 var express = require('express');
+var refresh = require('spotify-refresh')
 var router = express.Router();
 var recom = require('./recommender');
 var passport = require('passport');
@@ -11,7 +12,7 @@ var appSecret = 'b368bdb3003747ec861e62d3bf381ba0';
 
 var reqData = {};
 //var recommendations = {};
-var token;
+var token, refresh;
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -41,6 +42,7 @@ passport.use(new SpotifyStrategy({
     },
     function (accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
+        refresh = refreshToken
         token = accessToken;
         reqData.token = accessToken
         process.nextTick(function () {
@@ -50,7 +52,19 @@ passport.use(new SpotifyStrategy({
             // and return that user instead.
             return done(null, profile);
         });
+
+        setInterval(function () {
+            refresh(refresh, appKey, appSecret, function (err, res, body) {
+                if (err) return
+                body = json.parse(body);
+                token = body.access_token;
+                reqData.token = body.access_token;
+                refresh = body.refresh_token;
+            })
+        }, 1000*3600)
+
     }));
+
 
 /*
  route for web API
