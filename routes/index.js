@@ -53,15 +53,15 @@ passport.use(new SpotifyStrategy({
             return done(null, profile);
         });
 
-        setInterval(function () {
-            refresh(refresh, appKey, appSecret, function (err, res, body) {
-                if (err) return
-                body = json.parse(body);
-                token = body.access_token;
-                reqData.token = body.access_token;
-                refresh = body.refresh_token;
-            })
-        }, 1000*3600)
+        // setInterval(function () {
+        //     refresh(refresh, appKey, appSecret, function (err, res, body) {
+        //         if (err) return
+        //         body = json.parse(body);
+        //         token = body.access_token;
+        //         reqData.token = body.access_token;
+        //         refresh = body.refresh_token;
+        //     })
+        // }, 1000*3600)
 
     }));
 
