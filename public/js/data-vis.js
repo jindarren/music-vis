@@ -192,6 +192,8 @@ $("#rank").change(function () {
     $('select').remove('.rating');
 
     $('.recom-items').append(rating)
+    loggingSys.rating = [];
+
 
     $('.rating').barrating({
         theme: 'fontawesome-stars',
@@ -367,6 +369,7 @@ var getRecomBySeed = function (resultListID) {
                 $('select').remove('.rating');
 
                 $('.recom-items').append(rating)
+                loggingSys.rating = [];
 
                 $('.rating').barrating({
                     theme: 'fontawesome-stars',
