@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="daddi">
+  <component name="PublishConfigData" serverName="spotify">
     <serverData>
-      <paths name="daddi">
+      <paths name="spotify">
         <serverdata>
           <mappings>
             <mapping deploy="/localhost/home/doug/c2-project/spotify" local="$PROJECT_DIR$" web="/" />
