@@ -332,7 +332,7 @@ ul.none {
     padding-bottom: 3px;
 }
 
-#recom-followers a, #recom-seeds span a{
+#recom-followers span a, #recom-seeds span a{
     color: white;
 }
 

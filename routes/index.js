@@ -1,10 +1,11 @@
 var express = require('express');
-var refresh = require('spotify-refresh')
 var router = express.Router();
 var recom = require('./recommender');
 var passport = require('passport');
 var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index').Strategy;
 var path = require('path');
+var request = require('request')
+
 
 
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
@@ -54,15 +55,33 @@ passport.use(new SpotifyStrategy({
         });
 
         setInterval(function () {
-            refresh(refresh, appKey, appSecret, function (err, res, body) {
+
+            var refreshToken = function (refreshToken, clientID, clientSecret, next) {
+                var auth = 'Basic ' +  (new Buffer(clientID + ':' + clientSecret).toString('base64'))
+                    , opts = {
+                    uri: 'https://accounts.spotify.com/api/token',
+                    method: 'POST',
+                    form: {
+                        'grant_type': 'refresh_token',
+                        'refresh_token': refreshToken
+                    },
+                    headers: {
+                        'Authorization': auth
+                    },
+                    json:true
+                }
+                return request(opts, next)
+            }
+
+            refreshToken(refresh, appKey, appSecret, function (err, res, body) {
                 if (err) return
-                body = json.parse(body);
+                console.log(refresh, appKey, appSecret, body)
+                // var result = JSON.parse(body);
                 token = body.access_token;
                 reqData.token = body.access_token;
-                refresh = body.refresh_token;
+                //refresh = body.refresh_token;
             })
-        }, 1000*3600)
-
+        }, 1000 * 3500)
     }));
 
 
@@ -175,8 +194,22 @@ router.get('/initiate', function (req, res) {
     // }
 });
 
+//logging system
+router.post("/addRecord", function(req, res){
+    var fs = require('fs');
+    var stream = fs.createWriteStream(req.user.id+'-record.txt', {
+        flags: 'a',
+        encoding: 'utf8',
+    });
+    stream.once('open', function(fd) {
+        stream.write(JSON.stringify(req.body)+",");
+        stream.end();
+    });
+    res.json(204);
+});
 
 router.get('/',function (req,res) {
+    console.log(req.user)
     res.render('layout',{ data: req.user})
 })
 

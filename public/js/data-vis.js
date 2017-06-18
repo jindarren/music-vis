@@ -21,6 +21,20 @@ recom.weights[1] = 0;
 recom.weights[2] = 0;
 recom.enableSeedWeight = true;
 
+var rating = "<select class='rating'> <option value='1'>1</option> <option value='2'>2</option> <option value='3'>3</option> <option value='4'>4</option> <option value='5'>5</option></select>";
+
+var loggingSys = {}
+
+loggingSys.time = new Date();
+loggingSys.path = window.location.pathname;
+loggingSys.low_con = 0;
+loggingSys.mod_con = 0;
+loggingSys.high_con = 0;
+loggingSys.details = 0;
+loggingSys.highlight = 0;
+loggingSys.adding = 0;
+loggingSys.switch = 0;
+loggingSys.rating = [];
 
 $(document).ready(function () {
     $('.sub-block').height(window.innerHeight * 0.85);
@@ -49,6 +63,10 @@ $(document).ready(function () {
     else if(window.location.pathname=="/g3-2" || window.location.pathname=="/g3-3"){
         $("#radio input").each(function () {
             $(this).click(function () {
+                //LOGGING
+                loggingSys.switch += 1;
+
+
                 if ($(this).attr('value') == "artist") {
                     $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").hide()
                     $("#artist-block, #follow-div, #recom-followers").show()
@@ -72,6 +90,9 @@ $(document).ready(function () {
 
     artistWeightBar = $("#artist-weight").bootstrapSlider()
         .on("slideStop", function () {
+            //LOGGING
+            loggingSys.high_con += 1;
+
             var val = $(this).bootstrapSlider("getValue")
             recom.weights[0] = val;
             getRecomBySeed("recom-seeds");
@@ -79,6 +100,9 @@ $(document).ready(function () {
 
     trackWeightBar = $("#track-weight").bootstrapSlider()
         .on("slideStop", function () {
+            //LOGGING
+            loggingSys.high_con += 1;
+
             var val = $(this).bootstrapSlider("getValue")
             recom.weights[1] = val;
             getRecomBySeed("recom-seeds");
@@ -86,6 +110,9 @@ $(document).ready(function () {
 
     genreWeightBar = $("#genre-weight").bootstrapSlider()
         .on("slideStop", function () {
+            //LOGGING
+            loggingSys.high_con+= 1;
+
             var val = $(this).bootstrapSlider("getValue")
             recom.weights[2] = val;
             getRecomBySeed("recom-seeds");
@@ -105,6 +132,9 @@ $(document).ready(function () {
 
 //Select the rank of recommendations
 $("#rank").change(function () {
+    //LOGGING
+    loggingSys.low_con += 1;
+
     console.log($("#recom-seeds").css('display'))
     var rankby = $("select#rank option:selected").text();
     console.log(rankby)
@@ -125,9 +155,13 @@ $("#rank").change(function () {
             console.log(sortedRecoms)
             $(".recom-items").remove();
             for(index in sortedRecoms){
-                console.log(sortedRecoms[index].span[0].outerHTML)
                 $("#recom-followers").append((sortedRecoms[index].span[0].outerHTML))
             }
+            if(window.location.pathname=="/g3-1" || window.location.pathname=="/g3-2" || window.location.pathname=="/g3-3") {
+                $("#recom-seeds").empty()
+                $("#recom-seeds").append($("#recom-followers span").clone())
+            }
+
         }
         else if($("#recom-followers").css('display') =='none'){
             $("#recom-seeds > span.recom-items").each(function () {
@@ -142,22 +176,31 @@ $("#rank").change(function () {
             for(index in sortedRecoms){
                 $("#recom-seeds").append((sortedRecoms[index].span[0].outerHTML))
             }
-        }
-
-        $("div").remove(".br-widget");
-
-        $('.rating').barrating({
-            theme: 'fontawesome-stars',
-            onSelect: function(value, text, event) {
-                console.log(value, $(this)[0].$elem.parents('.recom-items').attr('id'))
+            if(window.location.pathname=="/g3-1" || window.location.pathname=="/g3-2" || window.location.pathname=="/g3-3") {
+                $("#recom-followers").empty()
+                $("#recom-followers").append($("#recom-seeds span").clone())
             }
-        });
+        }
 
     }
     else if(rankby == "default"){
         getRecomBySeed("recom-seeds")
         getRecomBySeed("recom-followers")
     }
+
+    $('div').remove('.br-wrapper');
+    $('select').remove('.rating');
+
+    $('.recom-items').append(rating)
+
+    $('.rating').barrating({
+        theme: 'fontawesome-stars',
+        onSelect: function(value, text, event) {
+            console.log(value, $(this)[0].$elem.parents('.recom-items').attr('id'))
+            //LOGGING
+            loggingSys.rating.push($(this)[0].$elem.parents('.recom-items').attr('id')+':'+value)
+        }
+    });
 });
 
 
@@ -169,6 +212,9 @@ $("#rank").change(function () {
 // }
 
 var highlightenResults = function (seedID, resultListID) {
+    //LOGGING
+    loggingSys.highlight += 1;
+
     $("#" + resultListID + " span").each(function () {
         if(resultListID == "recom-followers"){
             $("#similar-artists > div").each(function () {
@@ -198,7 +244,6 @@ var getRecomBySeed = function (resultListID) {
     console.log(recom)
 
     $("#"+resultListID+" span").remove();
-    var rating = "<select class='rating'> <option value='1'>1</option> <option value='2'>2</option> <option value='3'>3</option> <option value='4'>4</option> <option value='5'>5</option></select>"
 
     var totalAlgorithmWeight = recom.weights[0] + recom.weights[1] + recom.weights[2],
         numOfRecomByArtist = Math.ceil(recom.weights[0] / totalAlgorithmWeight * totalRecomsNum),
@@ -295,11 +340,52 @@ var getRecomBySeed = function (resultListID) {
 
         }
 
-
         console.log($("#" + resultListID +" span").length);
         if($("#" + resultListID +" span").length>20){
             $("#" + resultListID).find('span:gt(19)').remove();
         }
+
+        //show hybrid recommendations
+        if(window.location.pathname=="/g3-1" || window.location.pathname=="/g3-2" || window.location.pathname=="/g3-3"){
+
+
+            if($("#recom-seeds span").length>0 && $("#recom-followers span").length>0){
+
+                console.log("hybrid")
+                $("#recom-seeds").find('span:nth-child(odd)').remove();
+                $("#recom-followers").find('span:nth-child(odd)').remove();
+
+
+                var followerRecoms = $("#recom-followers span").clone()
+                var seedRecoms = $("#recom-seeds span").clone()
+
+                $("#recom-followers").prepend(seedRecoms)
+                $("#recom-seeds").append(followerRecoms)
+
+
+                $('div').remove('.br-wrapper');
+                $('select').remove('.rating');
+
+                $('.recom-items').append(rating)
+
+                $('.rating').barrating({
+                    theme: 'fontawesome-stars',
+                    onSelect: function(value, text, event) {
+                        console.log(value, $(this)[0].$elem.parents('.recom-items').attr('id'))
+                    }
+                });
+            }
+            else if($("#recom-seeds span").length>0 && $("#recom-followers span").length==0){
+                $("#recom-followers").append($("#recom-seeds span").clone())
+            }
+            else if($("#recom-seeds span").length==0 && $("#recom-followers span").length>0){
+                $("#recom-seeds").append($("#recom-followers span").clone())
+            }
+
+        }
+
+
+
 
     }
     else {
@@ -364,12 +450,19 @@ var getRecomBySeed = function (resultListID) {
         }
     }
 
-    $('.rating').barrating({
-        theme: 'fontawesome-stars',
-        onSelect: function(value, text, event) {
-            console.log(value, $(this)[0].$elem.parents('.recom-items').attr('id'))
+    $('.rating').each(function () {
+        if($(this).css('display')!='none'){
+            $(this).barrating({
+                theme: 'fontawesome-stars',
+                onSelect: function(value, text, event) {
+                    console.log(value, $(this)[0].$elem.parents('.recom-items').attr('id'))
+
+                    //LOGGING
+                    loggingSys.rating.push($(this)[0].$elem.parents('.recom-items').attr('id')+':'+value)
+                }
+            });
         }
-    });
+    })
 
     if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
         $(".recom-items").css({"background":"#464646", "border":"0.5px solid #404040"})
@@ -425,6 +518,9 @@ $.ajax({
             token = data.seed.token
 
             var showArtistDetails = function (id) {
+                //LOGGING
+                loggingSys.details += 1
+
                 $.each(data.seed.artist, function (i, v) {
                     if (v.id == id) {
                         var popularity = visPopularity(v.popularity)
@@ -435,6 +531,9 @@ $.ajax({
             }
 
             var showFollowDetails = function (id, collections) {
+                //LOGGING
+                loggingSys.details += 1
+
                 $.each(collections, function (i, v) {
                     if (v.id == id) {
                         var popularity = visPopularity(v.popularity)
@@ -446,6 +545,9 @@ $.ajax({
 
 
             var showTrackDetails = function (id) {
+                //LOGGING
+                loggingSys.details += 1
+
                 $.each(data.seed.track, function (i, v) {
                     if (v.id == id) {
                         var popularity = visPopularity(v.popularity)
@@ -458,6 +560,9 @@ $.ajax({
 
 
             var showGenreDetails = function (label) {
+                //LOGGING
+                loggingSys.details += 1
+
                 $.ajax({
                     url: "https://api.spotify.com/v1/search?q=" + label + "&type=artist,track",
                     headers: {
@@ -491,6 +596,9 @@ $.ajax({
             //update the rank list of seeds when sorting
             $(".drop-seeds").sortable({
                 update: function (event, ui) {
+                    //LOGGING
+                    loggingSys.high_con += 1
+
                     var sortedIDs = $(this).sortable("toArray");
                     if ($(this).attr("id") == "drop-artists")
                         recom.artistRankList = sortedIDs;
@@ -585,6 +693,10 @@ $.ajax({
                     tolerance: "touch",
 
                     drop: function () {
+
+                        //LOGGING
+                        loggingSys.mod_con += 1
+
                         $("#" + dragged_artist).css("border","solid 3px white")
                         $("#artist-seed > span#" + dragged_artist).draggable({disabled: true})
 
@@ -603,6 +715,9 @@ $.ajax({
 
                         //delete a seed from the list of dropped seeds
                         $("span#" + dragged_artist + " > i.fa.fa-times").click(function () {
+                            //LOGGING
+                            loggingSys.mod_con += 1
+
                             var dragged_artist_id = $(this).parent().attr('id')
                             console.log(dragged_artist_id)
 
@@ -783,11 +898,20 @@ $.ajax({
 
                     drop: function () {
                         // $("#" + dragged_follow).css("font-color", "#FFDB00")
+
+                        //LOGGING
+                        loggingSys.mod_con += 1
+
+
                         $("#artist-follow > #" + dragged_follow).draggable('disable')
 
                         $('#drop-sim-artists').append("<div class='artist-img-drop' id=" + dragged_follow + " >" + "<img class='img-circle' src=" + dragged_follow_img + ">" + dragged_follow_name + "<i class='fa fa-times'></i></div>")
 
                         $('#drop-sim-artists i').each(function () {
+
+                            //LOGGING
+                            loggingSys.mod_con += 1
+
                             $(this).click(function () {
                                 var dragged_follow_id = $(this).parent().attr('id')
                                 var deletedArtists = searchEleInArray(recom.by_follow, "seed", dragged_follow_id);
@@ -889,6 +1013,9 @@ $.ajax({
                                 $("input.follow-weight-slider").each(function () {
                                     $(this).bootstrapSlider()
                                         .on('slideStop', function () {
+                                            //LOGGING
+                                            loggingSys.high_con += 1
+
                                             console.log($(this).bootstrapSlider("getValue"), $(this).attr("id"));
 
                                             for(index in recom.by_follow) {
@@ -1102,6 +1229,9 @@ $.ajax({
                     tolerance: "touch",
 
                     drop: function () {
+                        //LOGGING
+                        loggingSys.mod_con += 1
+
                         $("#" + dragged_track).css("border", "solid 3px white")
                         $("#track-seed > span#" + dragged_track).draggable({disabled: true})
 
@@ -1120,6 +1250,10 @@ $.ajax({
 
 
                         $("span#" + dragged_track + " > i.fa.fa-times").click(function () {
+
+                            //LOGGING
+                            loggingSys.mod_con += 1
+
                             var dragged_track_id = $(this).parent().attr('id')
                             console.log(dragged_track_id)
 
@@ -1291,6 +1425,9 @@ $.ajax({
 
                     drop: function () {
 
+                        //LOGGING
+                        loggingSys.mod_con += 1
+
                         // $("#genre-seed").css("overflow", "auto");
                         $("#" + dragged_genre).css("border","solid 3px white")
                         $("#genre-seed > span#" + dragged_genre).draggable({disabled: true})
@@ -1308,6 +1445,9 @@ $.ajax({
                         }
 
                         $("span#" + dragged_genre + " > i.fa.fa-times").click(function () {
+
+                            //LOGGING
+                            loggingSys.mod_con += 1
 
                             var dragged_genre_id = $(this).parent().attr('id')
                             console.log(dragged_genre_id)
@@ -1401,6 +1541,10 @@ $.ajax({
 
             $('.seed .fa-plus-circle').each(function () {
                 $(this).click(function () {
+
+                    //LOGGING
+                    loggingSys.adding += 1
+
                     var seed_id = $(this).attr('id')
                     console.log(seed_id)
                     switch (seed_id) {
@@ -1491,4 +1635,23 @@ setTimeout(function () {
     $("#nasa-t2").show();
     $("#nasa-t3").show();
     $("#recsysque").show();
-}, 1000*300 )
+}, 1000*3 )
+
+
+// Sent Logs
+$('.questionnaire').click(function () {
+    $.ajax({
+        url: '/addRecord',
+        type: 'POST',
+        contentType:'application/json',
+        data: JSON.stringify(loggingSys),
+        dataType:'json',
+        success: function(res)
+        {
+        },
+        error: function()
+        {
+            console.log("writing error!");
+        }
+    });
+})
