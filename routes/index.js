@@ -364,7 +364,7 @@ router.get('/callback',
 
 router.get('/logout', function (req, res) {
     req.logout();
-    res.redirect('/layout');
+    res.redirect('/');
 });
 
 // Simple route middleware to ensure user is authenticated.
