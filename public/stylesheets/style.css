@@ -498,7 +498,7 @@ ul.none {
     width: 60%;
 }
 
-.questionnaire, .questionnaire2{
+.questionnaire{
     display: none;
     float: right;
 }
