@@ -195,7 +195,7 @@ router.get('/initiate', function (req, res) {
 //logging system
 router.post("/addRecord", function(req, res){
     var fs = require('fs');
-    var stream = fs.createWriteStream(req.user.id+'-record.txt', {
+    var stream = fs.createWriteStream("./logger/"+req.user.id+'-record.txt', {
         flags: 'a',
         encoding: 'utf8',
     });
