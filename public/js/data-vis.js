@@ -375,6 +375,7 @@ var getRecomBySeed = function (resultListID) {
                     theme: 'fontawesome-stars',
                     onSelect: function(value, text, event) {
                         console.log(value, $(this)[0].$elem.parents('.recom-items').attr('id'))
+                        loggingSys.rating.push($(this)[0].$elem.parents('.recom-items').attr('id')+':'+value)
                     }
                 });
             }
