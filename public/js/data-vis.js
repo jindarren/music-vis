@@ -24,7 +24,7 @@ recom.enableSeedWeight = true;
 var rating = "<select class='rating'> <option value='1'>1</option> <option value='2'>2</option> <option value='3'>3</option> <option value='4'>4</option> <option value='5'>5</option></select>";
 
 var loggingSys = {}
-
+loggingSys.testid = '';
 loggingSys.time = new Date();
 loggingSys.path = window.location.pathname;
 loggingSys.low_con = 0;
@@ -277,7 +277,7 @@ var getRecomBySeed = function (resultListID) {
                     //     numOfRecoms = 50
 
                     for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-artist " + seed + "' id=' "+ recom.by_artist[i].recoms[j].id +"'  data-popu=' "+recom.by_artist[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_artist[i].recoms[j].external_urls.spotify + ">" + recom.by_artist[i].recoms[j].name + "</a>" + rating + "</span>")
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-artist " + seed + "' id='"+ recom.by_artist[i].recoms[j].id +"'  data-popu=' "+recom.by_artist[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_artist[i].recoms[j].external_urls.spotify + ">" + recom.by_artist[i].recoms[j].name + "</a>" + rating + "</span>")
                     }
                 }
 
@@ -295,7 +295,7 @@ var getRecomBySeed = function (resultListID) {
                     //     numOfRecoms = 50
 
                     for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id=' "+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id='"+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
                     }
                 }
 
@@ -313,7 +313,7 @@ var getRecomBySeed = function (resultListID) {
 
 
                     for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-genre " + seed + "' id=' "+ recom.by_genre[i].recoms[j].id + "' data-popu=' "+recom.by_genre[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_genre[i].recoms[j].external_urls.spotify + ">" + recom.by_genre[i].recoms[j].name + "</a>" + rating + "</span>")
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-genre " + seed + "' id='"+ recom.by_genre[i].recoms[j].id + "' data-popu=' "+recom.by_genre[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_genre[i].recoms[j].external_urls.spotify + ">" + recom.by_genre[i].recoms[j].name + "</a>" + rating + "</span>")
                     }
                 }
 
@@ -334,7 +334,7 @@ var getRecomBySeed = function (resultListID) {
                     var recomNum = Math.ceil(totalRecomsNum*recom.by_follow[index].weights[indexweight].weight/total)
                     if(recomNum>0){
                         for(var i = 0; i<recomNum; i++) {
-                            $("#" + resultListID).prepend("<span class='recom-items lift-top recom-artist " + recom.by_follow[index].seed + "' id=' "+ recom.by_follow[index].recoms[i+indexweight*10].id +"' data-popu=' "+recom.by_follow[index].recoms[i+indexweight*10].popularity+"'><a target='_blank' href=" + recom.by_follow[index].recoms[i+indexweight*10].external_urls.spotify + ">" + recom.by_follow[index].recoms[i+indexweight*10].name + "</a>" + rating + "</span>")
+                            $("#" + resultListID).prepend("<span class='recom-items lift-top recom-artist " + recom.by_follow[index].seed + "' id='"+ recom.by_follow[index].recoms[i+indexweight*10].id +"' data-popu=' "+recom.by_follow[index].recoms[i+indexweight*10].popularity+"'><a target='_blank' href=" + recom.by_follow[index].recoms[i+indexweight*10].external_urls.spotify + ">" + recom.by_follow[index].recoms[i+indexweight*10].name + "</a>" + rating + "</span>")
                         }
                     }
                 }
@@ -401,7 +401,7 @@ var getRecomBySeed = function (resultListID) {
                     var numOfRecoms = Math.round(numOfRecomByArtist / numOfArtistSeeds);
 
                     for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-artist " + seed + "' id=' "+ recom.by_artist[i].recoms[j].id +"'  data-popu=' "+recom.by_artist[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_artist[i].recoms[j].external_urls.spotify + ">" + recom.by_artist[i].recoms[j].name + "</a>" + rating + "</span>")
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-artist " + seed + "' id='"+ recom.by_artist[i].recoms[j].id +"'  data-popu=' "+recom.by_artist[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_artist[i].recoms[j].external_urls.spotify + ">" + recom.by_artist[i].recoms[j].name + "</a>" + rating + "</span>")
                     }
                 }
 
@@ -411,7 +411,7 @@ var getRecomBySeed = function (resultListID) {
                 for (var i = 0; i < numOfTrackSeeds; i++) {
                     var numOfRecoms = Math.round(numOfRecomByTrack / numOfTrackSeeds);
                     for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id=' "+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id='"+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
                     }
                 }
 
@@ -422,7 +422,7 @@ var getRecomBySeed = function (resultListID) {
                 for (var i = 0; i < numOfGenreSeeds; i++) {
                     var numOfRecoms = Math.round(numOfRecomByGenre / numOfGenreSeeds);
                     for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-genre " + seed + "' id=' "+ recom.by_genre[i].recoms[j].id + "' data-popu=' "+recom.by_genre[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_genre[i].recoms[j].external_urls.spotify + ">" + recom.by_genre[i].recoms[j].name + "</a>" + rating + "</span>")
+                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-genre " + seed + "' id='"+ recom.by_genre[i].recoms[j].id + "' data-popu=' "+recom.by_genre[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_genre[i].recoms[j].external_urls.spotify + ">" + recom.by_genre[i].recoms[j].name + "</a>" + rating + "</span>")
                     }
                 }
 
@@ -444,7 +444,7 @@ var getRecomBySeed = function (resultListID) {
                     var recomNum = Math.round(totalRecomsNum/total)
                     if(recomNum>0){
                         for(var i = 0; i<recomNum; i++) {
-                            $("#" + resultListID).prepend("<span class='recom-items lift-top recom-artist " + recom.by_follow[index].seed + "' id=' "+ recom.by_follow[index].recoms[i+indexweight*10].id +"' data-popu=' "+recom.by_follow[index].recoms[i+indexweight*10].popularity+"'><a target='_blank' href=" + recom.by_follow[index].recoms[i+indexweight*10].external_urls.spotify + ">" + recom.by_follow[index].recoms[i+indexweight*10].name + "</a>" + rating + "</span>")
+                            $("#" + resultListID).prepend("<span class='recom-items lift-top recom-artist " + recom.by_follow[index].seed + "' id='"+ recom.by_follow[index].recoms[i+indexweight*10].id +"' data-popu=' "+recom.by_follow[index].recoms[i+indexweight*10].popularity+"'><a target='_blank' href=" + recom.by_follow[index].recoms[i+indexweight*10].external_urls.spotify + ">" + recom.by_follow[index].recoms[i+indexweight*10].name + "</a>" + rating + "</span>")
                         }
                     }
                 }
@@ -499,6 +499,8 @@ $.ajax({
         url: "/initiate",
 
         success: function (data) {
+
+            loggingSys.testid = data.seed.id;
             //loading the recommendations
             //$("div#recom-seeds").hide();
 
@@ -1640,21 +1642,14 @@ setTimeout(function () {
     $("#recsysque").show();
 }, 1000*3 )
 
-
 // Sent Logs
 $('.questionnaire').click(function () {
+    console.log("send")
     $.ajax({
         url: '/addRecord',
         type: 'POST',
         contentType:'application/json',
         data: JSON.stringify(loggingSys),
-        dataType:'json',
-        success: function(res)
-        {
-        },
-        error: function()
-        {
-            console.log("writing error!");
-        }
+        dataType:'json'
     });
 })

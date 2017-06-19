@@ -13,6 +13,32 @@ var reqData = {};
 //var recommendations = {};
 var token, refresh;
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://2869fffe50a7cc9c4a1b5204e57d1446:2010ljsby@mongodb://32-1a.mongo.evennode.com:27017,32-1b.mongo.evennode.com:27017/2869fffe50a7cc9c4a1b5204e57d1446?replicaSet=eusbg1');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+    console.log("connected")
+});
+
+
+var loggerSchema = mongoose.Schema({
+    testid : String,
+    time : Date,
+    path : String,
+    low : Number,
+    mod : Number,
+    high : Number,
+    details : Number,
+    highlight : Number,
+    adding : Number,
+    switch : Number,
+    rating : Array
+})
+
+var Logger = mongoose.model('Logger', loggerSchema)
+
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session. Typically,
@@ -44,6 +70,7 @@ passport.use(new SpotifyStrategy({
         refresh = refreshToken
         token = accessToken;
         reqData.token = accessToken
+        reqData.id = profile.id
         process.nextTick(function () {
             // To keep the example simple, the user's spotify profile is returned to
             // represent the logged-in user. In a typical application, you would want
@@ -194,16 +221,30 @@ router.get('/initiate', function (req, res) {
 
 //logging system
 router.post("/addRecord", function(req, res){
-    var fs = require('fs');
-    var stream = fs.createWriteStream("./logger/"+req.user.id+'-record.txt', {
-        flags: 'a',
-        encoding: 'utf8',
+
+    console.log(req.body)
+
+    var logger = new Logger({
+        testid : req.body.testid,
+        time : req.body.time,
+        path : req.body.path,
+        low : req.body.low_con,
+        mod : req.body.mod_con,
+        high : req.body.high_con,
+        details : req.body.details,
+        highlight : req.body.highlight,
+        adding : req.body.adding,
+        switch : req.body.switch,
+        rating : req.body.rating
+    })
+
+    logger.save(function (err) {
+        if (err) return console.error(err);
     });
-    stream.once('open', function(fd) {
-        stream.write(JSON.stringify(req.body)+",");
-        stream.end();
-    });
-    res.json(204);
+
+    res.send(200, "success");
+
+
 });
 
 router.get('/',function (req,res) {
