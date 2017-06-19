@@ -5,6 +5,7 @@ var passport = require('passport');
 var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index').Strategy;
 var path = require('path');
 var request = require('request')
+var loginbase = "/login-g1"
 
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
 var appSecret = 'b368bdb3003747ec861e62d3bf381ba0';
@@ -53,7 +54,6 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (obj, done) {
     done(null, obj);
 });
-
 
 // Use the SpotifyStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
@@ -247,9 +247,19 @@ router.post("/addRecord", function(req, res){
 
 });
 
-router.get('/',function (req,res) {
-    console.log(req.user)
-    res.render('layout',{ data: req.user})
+router.get('/login-g1',function (req,res) {
+    loginbase = '/login-g1'
+    res.render('login-g1',{ data: req.user})
+})
+
+router.get('/login-g2',function (req,res) {
+    loginbase = '/login-g2'
+    res.render('login-g2',{ data: req.user})
+})
+
+router.get('/login-g3',function (req,res) {
+    loginbase = '/login-g3'
+    res.render('login-g3',{ data: req.user})
 })
 
 router.get('/test-g1-1',function (req,res) {
@@ -358,13 +368,24 @@ router.get('/auth/spotify',
 //   which, in this example, will redirect the user to the home page.
 router.get('/callback',
     passport.authenticate('spotify', {failureRedirect: '/'}),
-    function (req, res) {
-        res.redirect('/test-g1-1');
-    });
+        function (req, res) {
+            if(loginbase=="/login-g1")
+                res.redirect('/test-g1-1');
+            else if(loginbase=="/login-g2")
+                res.redirect('/test-g2-1');
+            else if(loginbase=="/login-g3")
+                res.redirect('/test-g3-1');
+        }
+);
 
 router.get('/logout', function (req, res) {
     req.logout();
-    res.redirect('/');
+    if(loginbase=="/login-g1")
+        res.redirect('/login-g1');
+    else if(loginbase=="/login-g2")
+        res.redirect('/login-g2');
+    else if(loginbase=="/login-g3")
+        res.redirect('/login-g3');
 });
 
 // Simple route middleware to ensure user is authenticated.
@@ -376,7 +397,12 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/test-g1-1');
+    if(loginbase=="/login-g1")
+        res.redirect('/test-g1-1');
+    else if(loginbase=="/login-g2")
+        res.redirect('/test-g2-1');
+    else if(loginbase=="/login-g3")
+        res.redirect('/test-g3-1');
 }
 
 module.exports = router;
