@@ -4,15 +4,9 @@
     <bookmark url="file://$PROJECT_DIR$/public/stylesheets/style.css" description=".coloredSlider" line="336" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df3f8091-37ec-4e36-96dd-69e104b90157" name="Default" comment="update">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/login-g2.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/login-g3.jade" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/views/layout.jade" afterPath="$PROJECT_DIR$/views/login-g1.jade" />
+    <list default="true" id="df3f8091-37ec-4e36-96dd-69e104b90157" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/recommender.js" afterPath="$PROJECT_DIR$/routes/recommender.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/account.jade" afterPath="$PROJECT_DIR$/views/account.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/error.jade" afterPath="$PROJECT_DIR$/views/error.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/g1-3.jade" afterPath="$PROJECT_DIR$/views/g1-3.jade" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -77,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="g1-3.jade" pinned="false" current-in-tab="false">
+      <file leaf-file-name="g1-3.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/g1-3.jade">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="12" column="136" lean-forward="false" selection-start-line="12" selection-start-column="136" selection-end-line="12" selection-end-column="136" />
+              <caret line="12" column="109" lean-forward="false" selection-start-line="12" selection-start-column="109" selection-end-line="12" selection-end-column="109" />
               <folding />
             </state>
           </provider>
@@ -117,11 +111,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recommender.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="recommender.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/recommender.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+            <state relative-caret-position="75">
+              <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -233,7 +227,6 @@
         <option value="$PROJECT_DIR$/views/test-g3-1.jade" />
         <option value="$PROJECT_DIR$/views/test-g3-2.jade" />
         <option value="$PROJECT_DIR$/views/test-g3-3.jade" />
-        <option value="$PROJECT_DIR$/views/g1-3.jade" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/views/g2-1.jade" />
         <option value="$PROJECT_DIR$/views/g2-2.jade" />
@@ -244,6 +237,7 @@
         <option value="$PROJECT_DIR$/public/js/data-vis.js" />
         <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/routes/recommender.js" />
+        <option value="$PROJECT_DIR$/views/g1-3.jade" />
       </list>
     </option>
   </component>
@@ -545,14 +539,7 @@
       <workItem from="1497531938088" duration="3483000" />
       <workItem from="1497588184902" duration="12215000" />
       <workItem from="1497789629547" duration="24747000" />
-      <workItem from="1497839110019" duration="21156000" />
-    </task>
-    <task id="LOCAL-00004" summary="update">
-      <created>1490584119084</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1490584119084</updated>
+      <workItem from="1497839110019" duration="21561000" />
     </task>
     <task id="LOCAL-00005" summary="update">
       <created>1495610241963</created>
@@ -890,11 +877,18 @@
       <option name="project" value="LOCAL" />
       <updated>1497890287374</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="update">
+      <created>1497893626293</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1497893626294</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="579978000" />
+    <option name="totallyTimeSpent" value="580383000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1220,14 +1214,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/g1-3.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="136" lean-forward="false" selection-start-line="12" selection-start-column="136" selection-end-line="12" selection-end-column="136" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/login-g2.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1277,8 +1263,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/recommender.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+        <state relative-caret-position="75">
+          <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/g1-3.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="109" lean-forward="false" selection-start-line="12" selection-start-column="109" selection-end-line="12" selection-end-column="109" />
           <folding />
         </state>
       </provider>
