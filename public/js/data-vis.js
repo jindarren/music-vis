@@ -1641,7 +1641,7 @@ setTimeout(function () {
     $("#nasa-t2").show();
     $("#nasa-t3").show();
     $("#recsysque").show();
-}, 1000*3 )
+}, 1000*300 )
 
 // Sent Logs
 $('.questionnaire').click(function () {
