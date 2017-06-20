@@ -10,9 +10,8 @@ var loginbase = "/login-g1"
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
 var appSecret = 'b368bdb3003747ec861e62d3bf381ba0';
 
-var reqData = {};
 //var recommendations = {};
-var token, refresh;
+var token, refresh, userid;
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://2869fffe50a7cc9c4a1b5204e57d1446:2010ljsby@mongodb://32-1a.mongo.evennode.com:27017,32-1b.mongo.evennode.com:27017/2869fffe50a7cc9c4a1b5204e57d1446?replicaSet=eusbg1');
@@ -69,8 +68,8 @@ passport.use(new SpotifyStrategy({
         // asynchronous verification, for effect...
         refresh = refreshToken
         token = accessToken;
-        reqData.token = accessToken
-        reqData.id = profile.id
+        token = accessToken
+        userid = profile.id
         process.nextTick(function () {
             // To keep the example simple, the user's spotify profile is returned to
             // represent the logged-in user. In a typical application, you would want
@@ -103,7 +102,6 @@ passport.use(new SpotifyStrategy({
                 console.log(refresh, appKey, appSecret, body)
                 // var result = JSON.parse(body);
                 token = body.access_token;
-                reqData.token = body.access_token;
                 //refresh = body.refresh_token;
             })
         }, 1000 * 3500)
@@ -180,20 +178,24 @@ router.get('/getAccount',function (req,res) {
 router.get('/initiate', function (req, res) {
     //pass token to the webAPI used by recommender
     if (token) {
+        var reqData = {};
+        reqData.token = token;
+        reqData.id = userid;
+
         var getFollowedArtists =
-            recom(token).getFollowedArtists(50).then(function (data) {
+            recom(token).getFollowedArtists(20).then(function (data) {
                 reqData.followed_artist = data;
             });
 
 
         var getTopArtists =
-            recom(token).getTopArtists(50).then(function (data) {
+            recom(token).getTopArtists(20).then(function (data) {
                 reqData.artist = data;
             });
 
 
         var getTracks =
-            recom(token).getTopTracks(50).then(function (data) {
+            recom(token).getTopTracks(20).then(function (data) {
                 reqData.track = data
             });
 

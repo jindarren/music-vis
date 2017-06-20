@@ -505,7 +505,7 @@ $.ajax({
             //loading the recommendations
             //$("div#recom-seeds").hide();
 
-            if(data.seed.followed_artist.length<6 || data.seed.track.length<6){
+            if(data.seed.followed_artist.length<3 || data.seed.track.length<3){
                 alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
                 window.location.href = "/logout";
             }
