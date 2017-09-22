@@ -4,22 +4,35 @@
 
 var token;
 var totalRecomsNum = 20;
+var sortedRecoms=[], recomID=[];
 var artistWeightBar, trackWeightBar, genreWeightBar;
-var iniArtistXhr, iniTrackXhr, iniGenreXhr;
-var recom = {};
+var recom = {}, trackAttributes={};
+
+trackAttributes.min_danceability = 0
+trackAttributes.max_danceability = 1.0
+trackAttributes.min_energy = 0
+trackAttributes.max_energy = 1.0
+trackAttributes.min_instrumentalness = 0
+trackAttributes.max_instrumentalness = 1.0
+trackAttributes.min_liveness = 0
+trackAttributes.max_liveness = 1.0
+trackAttributes.min_speechiness = 0
+trackAttributes.max_speechiness = 1.0
+trackAttributes.min_valence = 0
+trackAttributes.max_valence = 1.0
+
 recom.weights = [];
 recom.artistRankList = [];
 recom.trackRankList = [];
 recom.genreRankList = [];
 recom.by_artist = [];
 recom.by_track = [];
-recom.by_follow = [];
 recom.by_genre = [];
+recom.general = [];
 
 recom.weights[0] = 0;
 recom.weights[1] = 0;
 recom.weights[2] = 0;
-recom.enableSeedWeight = true;
 
 var rating = "<select class='rating'> <option value='1'>1</option> <option value='2'>2</option> <option value='3'>3</option> <option value='4'>4</option> <option value='5'>5</option></select>";
 
@@ -42,54 +55,182 @@ $(document).ready(function () {
         $('.sub-block').height(window.innerHeight * 0.85);
     });
 
+    //show tooltip for tuneable audio features
+    $('[data-toggle="tooltip"]').tooltip();
 
     //hide the artist block at the beginning
-    $("#artist-block, #follow-div, #recom-followers, #result-loading").hide()
-
+    $("#result-loading").hide()
 
 
     //configure the showed content on different settings
-    if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
-        $("#source-block, #processor-block").hide();
-        $("#result-loading").show()
-    }
-    else if(window.location.pathname=="/g2-2" || window.location.pathname=="/g2-3"){
-        $("#seed-block, #recom-seeds").hide();
-        $("#artist-block, #follow-div, #recom-followers").show()
-    }
-    else if(window.location.pathname=="/g1-2" || window.location.pathname=="/g1-3"){
-        $("#radio").hide();
-    }
-    else if(window.location.pathname=="/g3-2" || window.location.pathname=="/g3-3"){
-        $("#radio input").each(function () {
-            $(this).click(function () {
-                //LOGGING
-                loggingSys.switch += 1;
+    // if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
+    //     $("#source-block, #processor-block").hide();
+    //     $("#result-loading").show()
+    // }
+    // else if(window.location.pathname=="/g2-2" || window.location.pathname=="/g2-3"){
+    //     $("#seed-block, #recom-seeds").hide();
+    //     $("#artist-block, #follow-div").show()
+    // }
+    // else if(window.location.pathname=="/g1-2" || window.location.pathname=="/g1-3"){
+    //     $("#radio").hide();
+    // }
+    // else if(window.location.pathname=="/g3-2" || window.location.pathname=="/g3-3"){
+    //     $("#radio input").each(function () {
+    //         $(this).click(function () {
+    //             //LOGGING
+    //             loggingSys.switch += 1;
+    //
+    //
+    //             if ($(this).attr('value') == "artist") {
+    //                 $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").hide()
+    //                 $("#artist-block, #follow-div").show()
+    //             }
+    //             else if ($(this).attr('value') == "seed") {
+    //                 $("#artist-block, #follow-div").hide()
+    //                 $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").show()
+    //             }
+    //             // else if ($(this).attr('value') == "hybrid") {
+    //             //     $("#artist-block, #seed-block, #track-div, #genre-div, #artist-div, #follow-div").hide()
+    //             //     $("#hybrid-weight").show();
+    //             // }
+    //         })
+    //     })
+    // }
 
+    $("#radio input").each(function () {
+        $(this).click(function () {
+            //LOGGING
+            loggingSys.switch += 1;
 
-                if ($(this).attr('value') == "artist") {
-                    $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").hide()
-                    $("#artist-block, #follow-div, #recom-followers").show()
-                }
-                else if ($(this).attr('value') == "seed") {
-                    $("#artist-block, #follow-div, #recom-followers").hide()
-                    $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").show()
-                }
-                // else if ($(this).attr('value') == "hybrid") {
-                //     $("#artist-block, #seed-block, #track-div, #genre-div, #artist-div, #follow-div").hide()
-                //     $("#hybrid-weight").show();
-                // }
-            })
+            if ($(this).attr('value') == "artist") {
+                $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").hide()
+                $("#artist-block, #follow-div").show()
+            }
+            else if ($(this).attr('value') == "seed") {
+                $("#artist-block, #follow-div").hide()
+                $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").show()
+            }
+
         })
-    }
-
-
+    })
 
 //apply weight for algorithm
 //weight slider
 
+    $("#btn-audio").click(function(){
+        $("#seed-block").hide()
+        $("#confirm-audio").show()
+        setTimeout(function () {
+            $("#confirm-audio").hide()
+            $("#seed-block").show()
+        }, 3000)
+    })
+
+    // acousticnessBar = $("#acousticness").bootstrapSlider()
+    //     .on("slideStop", function (data) {
+    //             $("span#acousticness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+    //             //LOGGING
+    //             //loggingSys.high_con += 1;
+    //             // var val = $(this).bootstrapSlider("getValue")
+    //             //recom.weights[0] = val;
+    //             //getRecomBySeed("recom-seeds");
+    //         });
+
+    danceabilityBar = $("#danceability").bootstrapSlider()
+        .on("slideStop", function (data) {
+            $("span#danceability-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+            trackAttributes.min_danceability=data.value[0]
+            trackAttributes.max_danceability=data.value[1]
+            //LOGGING
+            //loggingSys.high_con += 1;
+            // var val = $(this).bootstrapSlider("getValue")
+            //recom.weights[0] = val;
+            //getRecomBySeed("recom-seeds");
+        });
+
+    energyBar = $("#energy").bootstrapSlider()
+        .on("slideStop", function (data) {
+            $("span#energy-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+            trackAttributes.min_energy=data.value[0]
+            trackAttributes.max_energy=data.value[1]
+            //LOGGING
+            //loggingSys.high_con += 1;
+            // var val = $(this).bootstrapSlider("getValue")
+            //recom.weights[0] = val;
+            //getRecomBySeed("recom-seeds");
+        });
+
+    instrumentalnessBar = $("#instrumentalness").bootstrapSlider()
+        .on("slideStop", function (data) {
+            $("span#instrumentalness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+            trackAttributes.min_instrumentalness=data.value[0]
+            trackAttributes.max_instrumentalness=data.value[1]
+            //LOGGING
+            //loggingSys.high_con += 1;
+            // var val = $(this).bootstrapSlider("getValue")
+            //recom.weights[0] = val;
+            //getRecomBySeed("recom-seeds");
+        });
+
+    livenessBar = $("#liveness").bootstrapSlider()
+        .on("slideStop", function (data) {
+            $("span#liveness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+            trackAttributes.min_liveness=data.value[0]
+            trackAttributes.max_liveness=data.value[1]
+            //LOGGING
+            //loggingSys.high_con += 1;
+            // var val = $(this).bootstrapSlider("getValue")
+            //recom.weights[0] = val;
+            //getRecomBySeed("recom-seeds");
+        });
+
+    // loudnessBar = $("#loudness").bootstrapSlider()
+    //     .on("slideStop", function (data) {
+    //         $("span#loudness-weight-val").text("between "+data.value[0]+"db and "+data.value[1]+"db")
+    //         //LOGGING
+    //         //loggingSys.high_con += 1;
+    //         // var val = $(this).bootstrapSlider("getValue")
+    //         //recom.weights[0] = val;
+    //         //getRecomBySeed("recom-seeds");
+    //     });
+
+    speechinessBar = $("#speechiness").bootstrapSlider()
+        .on("slideStop", function (data) {
+            $("span#speechiness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+            trackAttributes.min_speechiness=data.value[0]
+            trackAttributes.max_speechiness=data.value[1]
+            //LOGGING
+            //loggingSys.high_con += 1;
+            // var val = $(this).bootstrapSlider("getValue")
+            //recom.weights[0] = val;
+            //getRecomBySeed("recom-seeds");
+        });
+
+    valenceBar = $("#valence").bootstrapSlider()
+        .on("slideStop", function (data) {
+            $("span#valence-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+            trackAttributes.min_valence=data.value[0]
+            trackAttributes.max_valence=data.value[1]
+            //LOGGING
+            //loggingSys.high_con += 1;
+            // var val = $(this).bootstrapSlider("getValue")
+            //recom.weights[0] = val;
+            //getRecomBySeed("recom-seeds");
+        });
+
+    // modeBar = $("#mode").bootstrapSlider()
+    //     .on("slideStop", function (data) {
+    //         $("span#mode-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+    //         //LOGGING
+    //         //loggingSys.high_con += 1;
+    //         // var val = $(this).bootstrapSlider("getValue")
+    //         //recom.weights[0] = val;
+    //         //getRecomBySeed("recom-seeds");
+    //     });
+
     artistWeightBar = $("#artist-weight").bootstrapSlider()
-        .on("slideStop", function () {
+        .on("slideStop", function (data) {
+            $("span#artist-weight-val").text(data.value)
             //LOGGING
             loggingSys.high_con += 1;
 
@@ -99,7 +240,8 @@ $(document).ready(function () {
         });
 
     trackWeightBar = $("#track-weight").bootstrapSlider()
-        .on("slideStop", function () {
+        .on("slideStop", function (data) {
+            $("span#track-weight-val").text(data.value)
             //LOGGING
             loggingSys.high_con += 1;
 
@@ -109,7 +251,8 @@ $(document).ready(function () {
         });
 
     genreWeightBar = $("#genre-weight").bootstrapSlider()
-        .on("slideStop", function () {
+        .on("slideStop", function (data) {
+            $("span#genre-weight-val").text(data.value)
             //LOGGING
             loggingSys.high_con+= 1;
 
@@ -118,118 +261,13 @@ $(document).ready(function () {
             getRecomBySeed("recom-seeds");
         });
 
-//Select the total number of recommendations
-
-    // $("#number").change(function () {
-    //     var num = parseInt($("select#number option:selected").text());
-    //     totalRecomsNum = num;
-    //     getRecomBySeed("recom-seeds")
-    //     getRecomBySeed("recom-followers")
-    // });
-
 })
-
-
-//Select the rank of recommendations
-$("#rank").change(function () {
-    //LOGGING
-    loggingSys.low_con += 1;
-
-    console.log($("#recom-seeds").css('display'))
-    var rankby = $("select#rank option:selected").text();
-    console.log(rankby)
-    if (rankby == "popularity"){
-        function Recoms(span, popularity){
-            this.span = span;
-            this.popularity = popularity;
-        }
-        var sortedRecoms = []
-        if($("#recom-seeds").css('display') =='none'){
-            $("#recom-followers > span.recom-items").each(function () {
-                sortedRecoms.push(new Recoms($(this), $(this).attr("data-popu")));
-            })
-
-            sortedRecoms.sort(function(a, b){
-                return b.popularity - a.popularity
-            })
-            console.log(sortedRecoms)
-            $(".recom-items").remove();
-            for(index in sortedRecoms){
-                $("#recom-followers").append((sortedRecoms[index].span[0].outerHTML))
-            }
-            if(window.location.pathname=="/g3-1" || window.location.pathname=="/g3-2" || window.location.pathname=="/g3-3") {
-                $("#recom-seeds").empty()
-                $("#recom-seeds").append($("#recom-followers span").clone())
-            }
-
-        }
-        else if($("#recom-followers").css('display') =='none'){
-            $("#recom-seeds > span.recom-items").each(function () {
-                sortedRecoms.push(new Recoms($(this), $(this).attr("data-popu")));
-            })
-
-            sortedRecoms.sort(function(a, b){
-                return b.popularity - a.popularity
-            })
-            console.log(sortedRecoms)
-            $(".recom-items").remove();
-            for(index in sortedRecoms){
-                $("#recom-seeds").append((sortedRecoms[index].span[0].outerHTML))
-            }
-            if(window.location.pathname=="/g3-1" || window.location.pathname=="/g3-2" || window.location.pathname=="/g3-3") {
-                $("#recom-followers").empty()
-                $("#recom-followers").append($("#recom-seeds span").clone())
-            }
-        }
-
-    }
-    else if(rankby == "default"){
-        getRecomBySeed("recom-seeds")
-        getRecomBySeed("recom-followers")
-    }
-
-    $('div').remove('.br-wrapper');
-    $('select').remove('.rating');
-
-    $('.recom-items').append(rating)
-    loggingSys.rating = [];
-
-
-    $('.rating').barrating({
-        theme: 'fontawesome-stars',
-        onSelect: function(value, text, event) {
-            console.log(value, $(this)[0].$elem.parents('.recom-items').attr('id'))
-            //LOGGING
-            loggingSys.rating.push($(this)[0].$elem.parents('.recom-items').attr('id')+':'+value)
-        }
-    });
-});
-
-
-
-//highlight the recommendations of selected seeds
-// var highlightenResults = function (seedID, resultListID) {
-//     $("#" + resultListID + " span").removeClass("highlight-results");
-//     $("span." + seedID).addClass("highlight-results");
-// }
 
 var highlightenResults = function (seedID, resultListID) {
     //LOGGING
     loggingSys.highlight += 1;
 
-    $("#" + resultListID + " span").each(function () {
-        if(resultListID == "recom-followers"){
-            $("#similar-artists > div").each(function () {
-                if(!$(this).hasClass(seedID)){
-                    $(this).css("opacity","0.3")
-                    var ele = $(this);
-                    setTimeout(function () {
-                        ele.css("opacity","1")
-                    }, 10000)
-
-                }
-            })
-        }
+    $("#" + resultListID + " div").each(function () {
 
         if(!$(this).hasClass(seedID)){
             $(this).css("opacity","0.3")
@@ -241,16 +279,33 @@ var highlightenResults = function (seedID, resultListID) {
     })
 }
 
+//add sorting function for recommendation results
+$("#recom-seeds").sortable({
+    // update: function (event, ui) {
+    //     //LOGGING
+    //     loggingSys.high_con += 1
+    //
+    //     var sortedIDs = $(this).sortable("toArray");
+    //     if ($(this).attr("id") == "drop-artists")
+    //         recom.artistRankList = sortedIDs;
+    //     else if ($(this).attr("id") == "drop-tracks")
+    //         recom.trackRankList = sortedIDs;
+    //     else if ($(this).attr("id") == "drop-genres")
+    //         recom.genreRankList = sortedIDs;
+    //     getRecomBySeed("recom-seeds")
+    // }
+});
 
 var getRecomBySeed = function (resultListID) {
     console.log(recom)
 
-    $("#"+resultListID+" span").remove();
+    $("div#recom-seeds").empty();
+    sortedRecoms = []
+    recomID = []
 
     var totalAlgorithmWeight = recom.weights[0] + recom.weights[1] + recom.weights[2],
         numOfRecomByArtist = Math.ceil(recom.weights[0] / totalAlgorithmWeight * totalRecomsNum),
         numOfRecomByTrack = Math.ceil(recom.weights[1] / totalAlgorithmWeight * totalRecomsNum),
-        //numOfRecomByGenre = Math.round(recom.weights[2] / totalAlgorithmWeight * totalRecomsNum);
         numOfRecomByGenre = totalRecomsNum - numOfRecomByArtist - numOfRecomByTrack;
 
     console.log(numOfRecomByArtist,numOfRecomByTrack,numOfRecomByGenre)
@@ -260,217 +315,162 @@ var getRecomBySeed = function (resultListID) {
         numOfGenreSeeds = recom.genreRankList.length;
 
     console.log(numOfArtistSeeds,numOfTrackSeeds,numOfGenreSeeds)
+        if(recom.by_artist.length>0){
+            for (var i = 0; i < numOfArtistSeeds; i++) {
+                var seed = recom.by_artist[i].seed,
+                    totalWeight = (numOfArtistSeeds+1)*numOfArtistSeeds/2,
+                    weight = (numOfArtistSeeds - recom.artistRankList.indexOf(seed)) / totalWeight,
+                    numOfRecoms = Math.ceil(numOfRecomByArtist * weight);
+                console.log("recoms of artist", numOfRecoms)
 
-    if (recom.enableSeedWeight) {
+                for (var j = 0; j < numOfRecoms; j++) {
+                    var item = {}
 
-        if(resultListID=="recom-seeds"){
-
-            if(recom.by_artist.length>0){
-                for (var i = 0; i < numOfArtistSeeds; i++) {
-                    console.log(i)
-                    var seed = recom.by_artist[i].seed,
-                        totalWeight = (numOfArtistSeeds+1)*numOfArtistSeeds/2,
-                        weight = (numOfArtistSeeds - recom.artistRankList.indexOf(seed)) / totalWeight,
-                        numOfRecoms = Math.ceil(numOfRecomByArtist * weight);
-                    console.log("recoms of artist", numOfRecoms)
-                    // if(numOfRecoms>50)
-                    //     numOfRecoms = 50
-
-                    for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-artist " + seed + "' id='"+ recom.by_artist[i].recoms[j].id +"'  data-popu=' "+recom.by_artist[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_artist[i].recoms[j].external_urls.spotify + ">" + recom.by_artist[i].recoms[j].name + "</a>" + rating + "</span>")
-                    }
-                }
-
-            }
-
-            if(recom.by_track.length>0){
-
-                for (var i = 0; i < numOfTrackSeeds; i++) {
-                    var seed = recom.by_track[i].seed,
-                        totalWeight = (numOfTrackSeeds+1)*numOfTrackSeeds/2,
-                        weight = (numOfTrackSeeds - recom.trackRankList.indexOf(seed)) / totalWeight,
-                        numOfRecoms = Math.ceil(numOfRecomByTrack * weight);
-
-                    // if(numOfRecoms>50)
-                    //     numOfRecoms = 50
-
-                    for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id='"+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
-                    }
-                }
-
-            }
-
-            if(recom.by_genre.length>0){
-                for (var i = 0; i < numOfGenreSeeds; i++) {
-                    var seed = recom.by_genre[i].seed,
-                        totalWeight = (numOfGenreSeeds+1)*numOfGenreSeeds/2,
-                        weight = (numOfGenreSeeds - recom.genreRankList.indexOf(seed)) / totalWeight,
-                        numOfRecoms = Math.ceil(numOfRecomByGenre * weight);
-                    console.log("recoms of genre", numOfRecoms)
-                    // if(numOfRecoms>50)
-                    //     numOfRecoms = 50
-
-
-                    for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-genre " + seed + "' id='"+ recom.by_genre[i].recoms[j].id + "' data-popu=' "+recom.by_genre[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_genre[i].recoms[j].external_urls.spotify + ">" + recom.by_genre[i].recoms[j].name + "</a>" + rating + "</span>")
-                    }
-                }
-
-            }
-
-
-        }
-        else if(resultListID=="recom-followers" && recom.by_follow.length > 0){
-            var total = 0
-            for(index in recom.by_follow){
-                for(indexweight in recom.by_follow[index].weights){
-                    total += recom.by_follow[index].weights[indexweight].weight
-                }
-            }
-
-            for(index in recom.by_follow){
-                for(indexweight in recom.by_follow[index].weights){
-                    var recomNum = Math.ceil(totalRecomsNum*recom.by_follow[index].weights[indexweight].weight/total)
-                    if(recomNum>0){
-                        for(var i = 0; i<recomNum; i++) {
-                            $("#" + resultListID).prepend("<span class='recom-items lift-top recom-artist " + recom.by_follow[index].seed + "' id='"+ recom.by_follow[index].recoms[i+indexweight*10].id +"' data-popu=' "+recom.by_follow[index].recoms[i+indexweight*10].popularity+"'><a target='_blank' href=" + recom.by_follow[index].recoms[i+indexweight*10].external_urls.spotify + ">" + recom.by_follow[index].recoms[i+indexweight*10].name + "</a>" + rating + "</span>")
+                    if(recom.by_artist[i].recoms[j]){
+                        item.type = "recom-artist"
+                        item.seed = seed
+                        item.id = recom.by_artist[i].recoms[j].id
+                        item.popu = recom.by_artist[i].recoms[j].popularity
+                        item.uri = encodeURI("https://open.spotify.com/embed?uri="+recom.by_artist[i].recoms[j].uri)
+                        if(recomID.indexOf(item.id)<0){
+                            recomID.push(item.id)
+                            sortedRecoms.push(item)
                         }
                     }
                 }
             }
-
         }
 
-        console.log($("#" + resultListID +" span").length);
-        if($("#" + resultListID +" span").length>20){
-            $("#" + resultListID).find('span:gt(19)').remove();
-        }
+        if(recom.by_track.length>0) {
 
-        //show hybrid recommendations
-        if(window.location.pathname=="/g3-1" || window.location.pathname=="/g3-2" || window.location.pathname=="/g3-3"){
+            for (var i = 0; i < numOfTrackSeeds; i++) {
+                var seed = recom.by_track[i].seed,
+                    totalWeight = (numOfTrackSeeds + 1) * numOfTrackSeeds / 2,
+                    weight = (numOfTrackSeeds - recom.trackRankList.indexOf(seed)) / totalWeight,
+                    numOfRecoms = Math.ceil(numOfRecomByTrack * weight);
+                console.log("recoms of track", numOfRecoms)
 
+                for (var j = 0; j < numOfRecoms; j++) {
+                    var item = {}
 
-            if($("#recom-seeds span").length>0 && $("#recom-followers span").length>0){
+                    if(recom.by_track[i].recoms[j]){
 
-                console.log("hybrid")
-                $("#recom-seeds").find('span:nth-child(odd)').remove();
-                $("#recom-followers").find('span:nth-child(odd)').remove();
+                        item.type = "recom-track"
+                        item.seed = seed
+                        item.id = recom.by_track[i].recoms[j].id
+                        item.popu = recom.by_track[i].recoms[j].popularity
+                        item.uri = encodeURI("https://open.spotify.com/embed?uri=" + recom.by_track[i].recoms[j].uri)
 
-
-                var followerRecoms = $("#recom-followers span").clone()
-                var seedRecoms = $("#recom-seeds span").clone()
-
-                $("#recom-followers").prepend(seedRecoms)
-                $("#recom-seeds").append(followerRecoms)
-
-
-                $('div').remove('.br-wrapper');
-                $('select').remove('.rating');
-
-                $('.recom-items').append(rating)
-                loggingSys.rating = [];
-
-                $('.rating').barrating({
-                    theme: 'fontawesome-stars',
-                    onSelect: function(value, text, event) {
-                        console.log(value, $(this)[0].$elem.parents('.recom-items').attr('id'))
-                        loggingSys.rating.push($(this)[0].$elem.parents('.recom-items').attr('id')+':'+value)
-                    }
-                });
-            }
-            else if($("#recom-seeds span").length>0 && $("#recom-followers span").length==0){
-                $("#recom-followers").append($("#recom-seeds span").clone())
-            }
-            else if($("#recom-seeds span").length==0 && $("#recom-followers span").length>0){
-                $("#recom-seeds").append($("#recom-followers span").clone())
-            }
-
-        }
-
-
-
-
-    }
-    else {
-
-        if(resultListID=="recom-seeds"){
-
-            if(recom.by_artist.length>0){
-                for (var i = 0; i < numOfArtistSeeds; i++) {
-
-                    var numOfRecoms = Math.round(numOfRecomByArtist / numOfArtistSeeds);
-
-                    for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-artist " + seed + "' id='"+ recom.by_artist[i].recoms[j].id +"'  data-popu=' "+recom.by_artist[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_artist[i].recoms[j].external_urls.spotify + ">" + recom.by_artist[i].recoms[j].name + "</a>" + rating + "</span>")
-                    }
-                }
-
-            }
-
-            if(recom.by_track.length>0){
-                for (var i = 0; i < numOfTrackSeeds; i++) {
-                    var numOfRecoms = Math.round(numOfRecomByTrack / numOfTrackSeeds);
-                    for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-track " + seed + "' id='"+ recom.by_track[i].recoms[j].id + "' data-popu=' "+recom.by_track[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_track[i].recoms[j].external_urls.spotify + ">" + recom.by_track[i].recoms[j].name + "</a>" + rating + "</span>")
-                    }
-                }
-
-            }
-
-
-            if(recom.by_genre.length>0){
-                for (var i = 0; i < numOfGenreSeeds; i++) {
-                    var numOfRecoms = Math.round(numOfRecomByGenre / numOfGenreSeeds);
-                    for (var j = 0; j < numOfRecoms; j++) {
-                        $("#"+resultListID).prepend("<span class='recom-items lift-top recom-genre " + seed + "' id='"+ recom.by_genre[i].recoms[j].id + "' data-popu=' "+recom.by_genre[i].recoms[j].popularity+"'><a target='_blank' href=" + recom.by_genre[i].recoms[j].external_urls.spotify + ">" + recom.by_genre[i].recoms[j].name + "</a>" + rating + "</span>")
-                    }
-                }
-
-            }
-
-
-
-        }
-        else if(resultListID=="recom-followers",recom.by_follow.length>0){
-            var total = 0
-            for(index in recom.by_follow){
-                for(indexweight in recom.by_follow[index].weights){
-                    total += 1
-                }
-            }
-
-            for(index in recom.by_follow){
-                for(indexweight in recom.by_follow[index].weights){
-                    var recomNum = Math.round(totalRecomsNum/total)
-                    if(recomNum>0){
-                        for(var i = 0; i<recomNum; i++) {
-                            $("#" + resultListID).prepend("<span class='recom-items lift-top recom-artist " + recom.by_follow[index].seed + "' id='"+ recom.by_follow[index].recoms[i+indexweight*10].id +"' data-popu=' "+recom.by_follow[index].recoms[i+indexweight*10].popularity+"'><a target='_blank' href=" + recom.by_follow[index].recoms[i+indexweight*10].external_urls.spotify + ">" + recom.by_follow[index].recoms[i+indexweight*10].name + "</a>" + rating + "</span>")
+                        if (recomID.indexOf(item.id) < 0) {
+                            recomID.push(item.id)
+                            sortedRecoms.push(item)
                         }
+
                     }
+
                 }
             }
 
         }
-    }
 
-    $('.rating').each(function () {
-        if($(this).css('display')!='none'){
-            $(this).barrating({
-                theme: 'fontawesome-stars',
-                onSelect: function(value, text, event) {
-                    console.log(value, $(this)[0].$elem.parents('.recom-items').attr('id'))
+        if(recom.by_genre.length>0){
+            for (var i = 0; i < numOfGenreSeeds; i++) {
+                var seed = recom.by_genre[i].seed,
+                    totalWeight = (numOfGenreSeeds+1)*numOfGenreSeeds/2,
+                    weight = (numOfGenreSeeds - recom.genreRankList.indexOf(seed)) / totalWeight,
+                    numOfRecoms = Math.ceil(numOfRecomByGenre * weight);
+                console.log("recoms of genre", numOfRecoms)
 
-                    //LOGGING
-                    loggingSys.rating.push($(this)[0].$elem.parents('.recom-items').attr('id')+':'+value)
+                for (var j = 0; j < numOfRecoms; j++) {
+                    var item = {}
+                    if(recom.by_genre[i].recoms[j]){
+
+                        item.type = "recom-genre"
+                        item.seed = seed
+                        item.id = recom.by_genre[i].recoms[j].id
+                        item.popu = recom.by_genre[i].recoms[j].popularity
+                        item.uri = encodeURI("https://open.spotify.com/embed?uri="+recom.by_genre[i].recoms[j].uri)
+
+                        if(recomID.indexOf(item.id)<0){
+                            recomID.push(item.id)
+                            sortedRecoms.push(item)
+                        }
+
+                    }
+
                 }
-            });
+            }
         }
-    })
 
-    if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
-        $(".recom-items").css({"background":"#464646", "border":"0.5px solid #404040"})
-    }
+        if(recom.general.length>0){
+            for (var i = 0; i < 20; i++) {
+                    var item = {}
+                    item.type = "general"
+                    item.seed = "null"
+                    item.id = recom.general[i].id
+                    item.popu = recom.general[i].popularity
+                    item.uri = encodeURI("https://open.spotify.com/embed?uri="+recom.general[i].uri)
+                    sortedRecoms.push(item)
+            }
+            recom.general=[]
+        }
+
+        sortedRecoms.sort(function (a,b) {
+            return a.popu - b.popu
+        })
+
+        console.log(sortedRecoms)
+
+        for(index in sortedRecoms){
+            $("#"+resultListID).prepend('<div class="recom-items lift-top ' + sortedRecoms[index].type + " " + sortedRecoms[index].seed + '"'+' id="' + sortedRecoms[index].id +'"'+ ' data-popu="'+sortedRecoms[index].popu+'">' + '<iframe src="'+sortedRecoms[index].uri+'"'+' width="80%" height="80" frameborder="0" allowtransparency="true"></iframe><div class="recom-icon"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i><i class="fa fa-thumbs-o-down" aria-hidden="true"></i><i class="fa fa-arrows-v fa-arrows-recom"></i></div></div>')
+
+
+            $("div.recom-items > div.recom-icon > i:eq(1)").click(function () {
+                //LOGGING
+                //loggingSys.mod_con += 1
+
+                var dislikedRecomId = $(this).parent().parent().attr('id')
+
+                if($(this).hasClass("fa-thumbs-o-down")){
+                    $(this).removeClass("fa-thumbs-o-down");
+                    $(this).addClass("fa-thumbs-down")
+
+                    if($(this).prev().hasClass("fa-thumbs-up")){
+                        $(this).prev().removeClass("fa-thumbs-up")
+                        $(this).prev().addClass("fa-thumbs-o-up")
+
+                    }
+                }
+                else if($(this).hasClass("fa-thumbs-down")){
+                    $(this).removeClass("fa-thumbs-down");
+                    $(this).addClass("fa-thumbs-o-down")
+                }
+
+            })
+
+            $("div.recom-items > div.recom-icon > i:eq(0)").click(function () {
+                //LOGGING
+                //loggingSys.mod_con += 1
+
+                var likedRecomId = $(this).parent().parent().attr('id')
+
+                if($(this).hasClass("fa-thumbs-o-up")){
+                    $(this).removeClass("fa-thumbs-o-up");
+                    $(this).addClass("fa-thumbs-up")
+
+                    if($(this).next().hasClass("fa-thumbs-down")){
+                        $(this).next().removeClass("fa-thumbs-down")
+                        $(this).next().addClass("fa-thumbs-o-down")
+
+                    }
+                }
+                else if($(this).hasClass("fa-thumbs-up")){
+                    $(this).removeClass("fa-thumbs-up");
+                    $(this).addClass("fa-thumbs-o-up")
+                }
+            })
+        }
+
 
 }
 
@@ -505,10 +505,10 @@ $.ajax({
             //loading the recommendations
             //$("div#recom-seeds").hide();
 
-            if(data.seed.followed_artist.length<3 || data.seed.track.length<3){
-                alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
-                window.location.href = "/logout";
-            }
+            // if(data.seed.followed_artist.length<3 || data.seed.track.length<3){
+            //     alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
+            //     window.location.href = "/logout";
+            // }
 
             if(data.seed.artist.length<4){
                 console.log("less")
@@ -536,19 +536,6 @@ $.ajax({
                 })
             }
 
-            var showFollowDetails = function (id, collections) {
-                //LOGGING
-                loggingSys.details += 1
-
-                $.each(collections, function (i, v) {
-                    if (v.id == id) {
-                        var popularity = visPopularity(v.popularity)
-                        $('.details-narrow').empty()
-                        $('.details-narrow').append("<div class='details-sub'><p><a target='_blank' href=" + v.external_urls.spotify + ">" + v.name + "</a></p><img src=" + v.images[0].url + "><p class='detail-title'><span class='details-sub-title'>Popularity: </span>" + popularity + "</p><p class='detail-title'><span class='details-sub-title'>Genres: </span><span>" + v.genres.slice(0, 3).toString().replace(',', ', ') + "</span></p><p class='detail-title number'><span class='details-sub-title'>#followers: </span><span>" + v.followers.total + "</span></p></div>")
-                    }
-                })
-            }
-
 
             var showTrackDetails = function (id) {
                 //LOGGING
@@ -556,10 +543,10 @@ $.ajax({
 
                 $.each(data.seed.track, function (i, v) {
                     if (v.id == id) {
-                        var popularity = visPopularity(v.popularity)
-
-                        $('.details').empty()
-                        $('.details').append("<div class='details-sub'><p><a target='_blank' href=" + v.external_urls.spotify + ">" + v.name + "</a></p><img src=" + v.album.images[0].url + "><p class='detail-title'><span class='details-sub-title'>Popularity: </span>" + popularity + "</p><p class='detail-title'><span class='details-sub-title'>Artist: </span>" + v.artists[0].name + "</p><p class='detail-title'><span class='details-sub-title'>Album: </span>" + v.album.name + "</p><audio src=" + v.preview_url + " controls='controls'></audio></div>")
+                        $('.details').empty();
+                        var encodedURI = encodeURI("https://open.spotify.com/embed?uri="+v.uri)
+                        console.log(encodedURI)
+                        $('.details').append("<p>"+v.name+"</p><iframe src="+encodedURI+' width="100%" height="100%" frameborder="0" allowtransparency="true"></iframe>')
                     }
                 })
             }
@@ -570,26 +557,16 @@ $.ajax({
                 loggingSys.details += 1
 
                 $.ajax({
-                    url: "https://api.spotify.com/v1/search?q=" + label + "&type=artist,track",
+                    url: "https://api.spotify.com/v1/search?q=" + label + "&type=playlist",
                     headers: {
                         'Authorization': 'Bearer ' + token
                     },
                     success: function (data) {
                         console.log(data);
                         $('.details').empty();
-                        $('.details').append("<div class='details-sub'><h5>The top artist of <span class='genre-tag'>"+label+"</span></h5></div><div class='details-sub'><h5>The top tracks of <span class='genre-tag'>"+label+"</span></h5></div>");
+                        var encodedURI = encodeURI("https://open.spotify.com/embed?uri="+data.playlists.items[0].uri)
+                        $('.details').append('<p>A playlist containing <span id="tag-value">'+label+"</span></p><iframe src="+encodedURI+' width="100%" height="100%" frameborder="0" allowtransparency="true"></iframe>');
 
-                        var numOfArtists = data.artists.items.length < 5 ? data.artists.items.length : 5;
-                        var numOfTracks = data.tracks.items.length < 5 ? data.tracks.items.length : 5;
-
-
-                        for (var i = 0; i < numOfArtists; i++) {
-                            $("#seed-block > div.details > div.details-sub:eq(0)").append("<p><a target='_blank' href=" + data.artists.items[i].external_urls.spotify + ">" + data.artists.items[i].name + "</a></p>" + visPopularity(data.artists.items[i].popularity))
-                        }
-
-                        for (var i = 0; i < numOfTracks; i++) {
-                            $("#seed-block > div.details > div.details-sub:eq(1)").append("<p><a target='_blank' href=" + data.tracks.items[i].external_urls.spotify + ">" + data.tracks.items[i].name + "</a></p>"+visPopularity(data.tracks.items[i].popularity))
-                        }
                     },
                     error: function (err) {
                         console.log(err)
@@ -617,44 +594,53 @@ $.ajax({
             });
 
 
+
+
+            //for initializing the recommendations for the users
+
+            $.ajax({
+                url: "/getRecom?limit=20&artistSeed=" + data.seed.artist[0].id+"&trackSeed="+data.seed.track[0].id+"&genreSeed="+data.seed.genre[0]+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
+                +trackAttributes.max_energy+ "&min_instrumentalness="+trackAttributes.min_instrumentalness+ "&max_instrumentalness="+trackAttributes.max_instrumentalness+ "&min_liveness="
+                +trackAttributes.min_liveness+ "&max_liveness="+trackAttributes.max_liveness+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
+                +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (data) {
+                    $("div.recom").removeClass("loading")
+
+                    console.log("The returned data", data);
+                    recom.general = data.items
+
+                    getRecomBySeed("recom-seeds");
+                },
+                error: function (jqXHR, err) {
+                    console.log(err);
+                    if(err === "timeout"){
+                        $.ajax(this)
+                    }
+                },
+                beforeSend: function () {
+                    //$("div.recom").addClass("loading")
+                    $("div#recom-seeds").hide();
+                    $("div.loading").show();
+                },
+
+                complete: function () {
+                    //$("div.recom").removeClass("loading")
+                    $("div#recom-seeds").show();
+                    $("div.loading").hide();
+                }
+            });
+
+
             /******************************Seed artist recommendations*************************************************/
                 // drag and drop
 
             var selected_seed_artist = data.seed.artist.slice(0, 5)
-            var dragged_artist = data.seed.artist[0].id, dragged_artist_name = "";
+            var dragged_artist, dragged_artist_name;
 
 
-            if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
-                iniArtistXhr = $.ajax({
-                    url: "/getRecomByArtist?limit=20&seed=" + dragged_artist,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function (data) {
-
-                        recom.weights[0] = 100;
-
-                        //$("div.recom").removeClass("loading")
-
-                        console.log("The returned data", data);
-                        recom.by_artist.push({
-                            seed: dragged_artist,
-                            recoms: data.items
-                        })
-                        recom.artistRankList.push(dragged_artist);
-
-                        //getRecomBySeed("recom-seeds");
-                        console.log(recom)
-                    },
-                    error: function (jqXHR, err) {
-                        console.log(err);
-                        if(err === "timeout"){
-                            $.ajax(this)
-                        }
-                    }
-                });
-
-            }
 
             for (var index =1 ; index < selected_seed_artist.length; index++) {
                 $('#artist-seed').append("<span class='label' id=" + selected_seed_artist[index].id + " >" + selected_seed_artist[index].name + "</span>&nbsp;")
@@ -717,8 +703,6 @@ $.ajax({
                             $(".drop-seeds").sortable({disabled: true})
                         }
 
-
-
                         //delete a seed from the list of dropped seeds
                         $("span#" + dragged_artist + " > i.fa.fa-times").click(function () {
                             //LOGGING
@@ -765,7 +749,10 @@ $.ajax({
                         })
 
                         var xhr = $.ajax({
-                            url: "/getRecomByArtist?limit=20&seed=" + dragged_artist,
+                            url: "/getRecomByArtist?limit=20&seed=" + dragged_artist+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
+                                +trackAttributes.max_energy+ "&min_instrumentalness="+trackAttributes.min_instrumentalness+ "&max_instrumentalness="+trackAttributes.max_instrumentalness+ "&min_liveness="
+                                +trackAttributes.min_liveness+ "&max_liveness="+trackAttributes.max_liveness+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
+                                +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
                             headers: {
                                 'Authorization': 'Bearer ' + token
                             },
@@ -802,7 +789,6 @@ $.ajax({
                                 //$("div.recom").removeClass("loading")
                                 $("div#recom-seeds").show();
                                 $("div.loading").hide();
-
                             }
 
                         });
@@ -812,391 +798,12 @@ $.ajax({
 
             regDragArtist()
 
-            /******************************Followed artist recommendations*************************************************/
-
-
-            var selected_seed_followed_artist = data.seed.followed_artist.slice(0, 11)
-            var dragged_follow = data.seed.followed_artist[0].id, dragged_follow_name = "", dragged_follow_img;
-
-            if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
-                $.ajax({
-                    url: "/getRecomByFollowSimilar?id=" + dragged_follow,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function (data) {
-
-                        console.log("The returned data", data);
-
-                        recom.by_follow.push({
-                            seed: dragged_follow,
-                            similars: data.similar,
-                            recoms: data.items,
-                            weights: []
-                        })
-
-                        //initialize the weight for the added similar artists
-                        for(index in data.similar){
-                            var weight = {
-                                id: data.similar[index].id,
-                                weight: 50
-                            }
-                            recom.by_follow[recom.by_follow.length-1].weights.push(weight)
-                        }
-                        getRecomBySeed("recom-followers")
-                        recom.by_follow = [];
-
-                    },
-                    error: function (jqXHR, err) {
-                        console.log(err);
-                        if(err === "timeout"){
-                            $.ajax(this)
-                        }
-                    }
-
-                });
-
-            }
-
-            for (var index = 1; index< selected_seed_followed_artist.length; index++) {
-                var artistImages = selected_seed_followed_artist[index].images
-                if(artistImages.length>0)
-                    $('#artist-follow').append("<div class='artist-img' id=" + selected_seed_followed_artist[index].id + " >" + "<img class='img-circle' src=" + artistImages[artistImages.length - 1].url + ">" + selected_seed_followed_artist[index].name + "</div>&nbsp")
-                else
-                    $('#artist-follow').append("<div class='artist-img' id=" + selected_seed_followed_artist[index].id + " >" + "<img class='img-circle' src='../img/no-image.png' >" + selected_seed_followed_artist[index].name + "</div>&nbsp")
-            }
-
-
-            if(window.location.pathname=="/g2-2" || window.location.pathname=="/g2-3"){
-                $("#radio").hide();
-                $("#artist-block > div.drop-block-h > div.loading.narrow-loading").hide();
-            }
-
-            var regDragFollow = function () {
-                $("#artist-follow div").draggable({
-                    start: function () {
-                        dragged_follow = $(this).attr("id");
-                        dragged_follow_name = $(this).text()
-                        dragged_follow_img = $(this).find('img').attr("src");
-                        $("#drop-sim-artists").css("border", "solid 1px #37BCF7")
-                    },
-                    stop: function () {
-                        $("#drop-sim-artists").css("border", "0")
-                    },
-                    revert: "invalid", // when not dropped, the item will revert back to its initial position
-                    helper: "clone",
-                    cursor: "move",
-                    stack: "#artist-follow div"
-                });
-
-                if(window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
-                    $("#artist-follow div").draggable("disable");
-                    $("#artist-block > div.drop-block-h > div.loading.narrow-loading").hide();
-                }
-
-
-                $("#drop-sim-artists").droppable({
-                    accept: "#artist-follow div",
-                    classes: {
-                        "ui-droppable-active": "ui-state-highlight"
-                    },
-                    tolerance: "touch",
-
-                    drop: function () {
-                        // $("#" + dragged_follow).css("font-color", "#FFDB00")
-
-                        //LOGGING
-                        loggingSys.mod_con += 1
-
-
-                        $("#artist-follow > #" + dragged_follow).draggable('disable')
-
-                        $('#drop-sim-artists').append("<div class='artist-img-drop' id=" + dragged_follow + " >" + "<img class='img-circle' src=" + dragged_follow_img + ">" + dragged_follow_name + "<i class='fa fa-times'></i></div>")
-
-                        $('#drop-sim-artists i').each(function () {
-
-                            //LOGGING
-                            loggingSys.mod_con += 1
-
-                            $(this).click(function () {
-                                var dragged_follow_id = $(this).parent().attr('id')
-                                var deletedArtists = searchEleInArray(recom.by_follow, "seed", dragged_follow_id);
-
-                                if(deletedArtists){
-                                    var index = recom.by_follow.indexOf(deletedArtists);
-                                    recom.by_follow.splice(index,1)
-                                    $("div."+dragged_follow_id).remove();
-                                    getRecomBySeed("recom-followers")
-                                    $("#follow-details").empty();
-                                }
-                                else
-                                    xhr.abort()
-
-                                console.log(recom)
-
-
-                                console.log(dragged_follow_id)
-                                $("#" + dragged_follow_id).css("border", "0")
-                                $("#artist-follow > #" + dragged_follow_id).draggable("enable");
-                                $(this).parent().remove()
-
-                            })
-                        })
-                        console.log(dragged_follow)
-                        showFollowDetails(dragged_follow, data.seed.followed_artist)
-                        //show detailed page
-                        $('#drop-sim-artists div').click(function () {
-                            var clicked_follow = $(this).attr('id')
-                            console.log(clicked_follow)
-                            showFollowDetails(clicked_follow, data.seed.followed_artist)
-                            highlightenResults(clicked_follow, "recom-followers");
-                        })
-
-                        var xhr = $.ajax({
-                            url: "/getRecomByFollowSimilar?id=" + dragged_follow,
-                            headers: {
-                                'Authorization': 'Bearer ' + token
-                            },
-                            success: function (data) {
-
-                                $("div#recom-followers").show();
-                                $("div#similar-artists").show()
-                                $("div.loading").hide();
-
-                                console.log("The returned data", data);
-
-                                recom.by_follow.push({
-                                    seed: dragged_follow,
-                                    similars: data.similar,
-                                    recoms: data.items,
-                                    weights: []
-                                })
-
-
-                                //initialize the weight for the added similar artists
-                                for(index in data.similar){
-                                    var weight = {
-                                        id: data.similar[index].id,
-                                        weight: 50
-                                    }
-                                    recom.by_follow[recom.by_follow.length-1].weights.push(weight)
-                                }
-
-
-                                getRecomBySeed("recom-followers")
-
-                                for (index in data.similar) {
-                                    var slider
-
-                                    if(window.location.pathname!="/g2-2"&&window.location.pathname!="/g3-2"){
-                                        slider = '<input type="text" class="bootstrap-slider follow-weight-slider" value="50" data-slider-min="0" ' +
-                                            'data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="follow-slider" id="' + data.similar[index].id + '" data-slider-tooltip="hide" data-slider-handle="round" />'
-                                    }else {
-                                        slider = ''
-                                    }
-
-
-                                    var artistImages = data.similar[index].images
-
-
-                                    if(artistImages.length>0){
-                                        $("#similar-artists").append("<div class="+dragged_follow+"><span id="+data.similar[index].id+"><img class='img-circle-sm' src=" + artistImages[artistImages.length-1].url + ">" + '&nbsp' + data.similar[index].name + "<span/>" + slider+"</div>")
-                                    }
-                                    else{
-                                        $("#similar-artists").append("<div class="+dragged_follow+"><span id="+data.similar[index].id+"><img class='img-circle-sm' src='../img/no-image.png'>" + '&nbsp' + data.similar[index].name + "<span/>" + slider+"</div>")
-
-                                    }
-
-                                    $('span#' + data.similar[index].id).click(function () {
-                                        var clicked_follow = $(this).attr('id');
-                                        console.log(clicked_follow);
-                                        showFollowDetails(clicked_follow, data.similar);
-                                    })
-
-                                }
-
-
-                                $("input.follow-weight-slider").each(function () {
-                                    $(this).bootstrapSlider()
-                                        .on('slideStop', function () {
-                                            //LOGGING
-                                            loggingSys.high_con += 1
-
-                                            console.log($(this).bootstrapSlider("getValue"), $(this).attr("id"));
-
-                                            for(index in recom.by_follow) {
-                                                var element = searchEleInArray(recom.by_follow[index].weights, "id",$(this).attr("id"))
-                                                console.log(element)
-                                                if (element) {
-                                                    element.weight = $(this).bootstrapSlider("getValue")
-                                                }
-                                            }
-                                            getRecomBySeed("recom-followers")
-                                        })
-
-                                })
-
-
-                            },
-                            error: function (jqXHR, err) {
-                                console.log(err);
-                                if(err === "timeout"){
-                                    $.ajax(this)
-                                }
-                            },
-
-                            beforeSend: function () {
-                                $("div#recom-followers").hide();
-                                $("div#similar-artists").hide()
-                                $("div.narrow-loading").show();
-                                $("div#result-loading").show();
-                            },
-
-                            complete: function () {
-                                $("div#recom-followers").show();
-                                $("div#similar-artists").show()
-                                $("div.loading").hide();
-                            }
-                        });
-                    }
-                });
-
-            };
-
-            regDragFollow()
-            console.log(recom)
-
-
-            /***********Followed artists visualization****************/
-
-            // var visSim = function (drag, sim) {
-            //     console.log(sim)
-            //     $("#sim-artists-vis").append('<div id="sortable" class="sim-artist-block"><h5>Similar artists of ' + drag + '</h5><span id=' + sim[0].id + '>' + sim[0].name + '</span><span id=' + sim[1].id + '>' + sim[1].name + '</span><span id=' + sim[2].id + '>' + sim[2].name + '</span><span id=' + sim[3].id + '>' + sim[3].name + '</span><span id=' + sim[4].id + '>' + sim[4].name + '</span></div>')
-            //     $("#sortable").sortable();
-            // }
-            //
-            //
-            // $(".sim-artist-block span").each(function () {
-            //     $(this).click(function () {
-            //         console.log($(this).id)
-            //         showArtistDetails($(this).id)
-            //     })
-            // })
-            // var svg_width = $('#seed-block')[0].clientWidth * 0.75;
-            // var svg = d3.select("svg")
-            //         .attr('width', svg_width)
-            //         .attr('height', svg_width),
-            //     radius = svg_width / 2 - 5;
-            //
-            // for (var i = 0; i < 5; i++) {
-            //     svg.append('circle')
-            //         .attr("r", (i + 1) / 5 * radius)
-            //         .attr("cx", svg_width / 2)
-            //         .attr("cy", svg_width / 2)
-            //         .attr("stroke", "gray")
-            //         .attr("stroke-width", "1")
-            //         .attr("fill", "none")
-            // }
-            //
-            // var clearSVG = function () {
-            //     d3.selectAll("g").remove();
-            //     d3.select('selected-artist').remove();
-            // }
-            //
-            // var visSim = function (artist, similar_artist) {
-            //     d3.selectAll("g").remove();
-            //     var node = svg.selectAll(".node")
-            //         .data(similar_artist)
-            //         .enter().append('g')
-            //         .attr('opacity', '0.5')
-            //         .call(d3.drag().on("drag", function (d) {
-            //             d3.select(this).select('circle').raise().attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-            //             d3.select(this).select('text').raise().attr("x", d.x = d3.event.x).attr("y", d.y = d3.event.y);
-            //             console.log(calWeight())
-            //         }))
-            //
-            //     node.append('circle')
-            //         .attr("class", 'node')
-            //         .attr("r", '40')
-            //         .attr("cx", function (d) {
-            //             return radius + radius / 2 * Math.sin(similar_artist.indexOf(d) * Math.PI * 2 / similar_artist.length)
-            //         })
-            //         .attr("cy", function (d) {
-            //             return radius - radius / 2 * Math.cos(similar_artist.indexOf(d) * Math.PI * 2 / similar_artist.length)
-            //         })
-            //         .style("fill", "#e6af52")
-            //
-            //     node.append('text')
-            //         .attr("x", function (d) {
-            //             return radius + radius / 2 * Math.sin(similar_artist.indexOf(d) * Math.PI * 2 / similar_artist.length-100)
-            //         })
-            //         .attr("y", function (d) {
-            //             return radius - radius / 2 * Math.cos(similar_artist.indexOf(d) * Math.PI * 2 / similar_artist.length)
-            //         })
-            //         .text(function (d) {
-            //             return d.name
-            //         })
-            //
-            //     svg.append('text')
-            //         .attr("id","selected-artist")
-            //         .attr("x", svg_width / 2 - 50)
-            //         .attr("y", svg_width / 2)
-            //         .attr("fill", 'yellow')
-            //         .text(artist)
-            //
-            //
-            //     var calWeight = function () {
-            //         var total_weight = 0
-            //         var weights = []
-            //         d3.selectAll(".node").each(function () {
-            //             var dist = radius - Math.sqrt(Math.pow(d3.select(this).attr("cx") - svg_width / 2, 2) + Math.pow(d3.select(this).attr("cy") - svg_width / 2, 2))
-            //             weights.push(dist)
-            //             total_weight += dist
-            //         })
-            //
-            //         for (index in weights) {
-            //             weights[index] = weights[index] / total_weight
-            //         }
-            //         return weights
-            //     }
-            //
-            // }
-
-            // visSim("Yucheng", similar_artist)
 
             /******************************Seed track recommendations*************************************************/
 
 
-            var selected_seed_track = data.seed.track.slice(0, 6)
-            var dragged_track = data.seed.track[0].id, dragged_track_name = "";
-
-            if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
-                iniTrackXhr = $.ajax({
-                    url: "/getRecomByTrack?limit=50&seed=" + dragged_track,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function (data) {
-                        recom.weights[1] = 100;
-
-                        console.log("The returned data", data);
-
-                        recom.by_track.push({
-                            seed: dragged_track,
-                            recoms: data.items
-                        })
-                        recom.trackRankList.push(dragged_track);
-                        //getRecomBySeed("recom-seeds");
-                        console.log(recom)
-                    },
-                    error: function (jqXHR, err) {
-                        console.log(err);
-                        if(err === "timeout"){
-                            $.ajax(this)
-                        }
-                    }
-                });
-            }
+            var selected_seed_track = data.seed.track.slice(0, 5)
+            var dragged_track, dragged_track_name;
 
 
             for (index  in  selected_seed_track) {
@@ -1303,7 +910,10 @@ $.ajax({
 
 
                         var xhr = $.ajax({
-                            url: "/getRecomByTrack?limit=50&seed=" + dragged_track,
+                            url: "/getRecomByTrack?limit=20&seed=" + dragged_track+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
+                                +trackAttributes.max_energy+ "&min_instrumentalness="+trackAttributes.min_instrumentalness+ "&max_instrumentalness="+trackAttributes.max_instrumentalness+ "&min_liveness="
+                                +trackAttributes.min_liveness+ "&max_liveness="+trackAttributes.max_liveness+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
+                                +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
                             headers: {
                                 'Authorization': 'Bearer ' + token
                             },
@@ -1350,47 +960,7 @@ $.ajax({
             /******************************Seed genre recommendations*************************************************/
 
             var selected_seed_genre = data.seed.genre.slice(0, 6)
-            var dragged_genre = data.seed.genre[0];
-
-            //for initializing the recommendations for the users
-
-            if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
-                iniGenreXhr = $.ajax({
-                    url: "/getRecomByGenre?limit=50&seed=" + dragged_genre,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function (data) {
-                        //$("div.recom").removeClass("loading")
-
-                        recom.weights[2] = 100;
-
-                        console.log("The returned data", data);
-                        recom.by_genre.push({
-                            seed: dragged_genre,
-                            recoms: data.items
-                        })
-                        recom.genreRankList.push(dragged_genre);
-                        // getRecomBySeed("recom-seeds");
-                    },
-                    error: function (jqXHR, err) {
-                        console.log(err);
-                        if(err === "timeout"){
-                            $.ajax(this)
-                        }
-                    }
-                });
-
-                Promise
-                    .all([iniArtistXhr, iniTrackXhr, iniGenreXhr])
-                    .then(function(){
-                        $("div#recom-seeds").show();
-                        $("div#result-loading").hide();
-
-                        getRecomBySeed("recom-seeds");
-
-                    });
-            }
+            var dragged_genre;
 
             for (var index =1; index < selected_seed_genre.length; index++) {
                 //dropped_genres+= selected_seed_genre[index]+','
@@ -1497,7 +1067,10 @@ $.ajax({
 
 
                         var xhr = $.ajax({
-                            url: "/getRecomByGenre?limit=50&seed=" + dragged_genre,
+                            url: "/getRecomByGenre?limit=20&seed=" + dragged_genre+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
+                            +trackAttributes.max_energy+ "&min_instrumentalness="+trackAttributes.min_instrumentalness+ "&max_instrumentalness="+trackAttributes.max_instrumentalness+ "&min_liveness="
+                            +trackAttributes.min_liveness+ "&max_liveness="+trackAttributes.max_liveness+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
+                            +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
                             headers: {
                                 'Authorization': 'Bearer ' + token
                             },
@@ -1542,7 +1115,6 @@ $.ajax({
             /***********Load more recommendation resources*********/
             var seed_artist_len = data.seed.artist.length, seed_artist_index = 0,
                 seed_track_len = data.seed.track.length, seed_track_index = 0,
-                seed_follow_len = data.seed.followed_artist.length, seed_follow_index = 0,
                 seed_genre_len = data.seed.genre.length, seed_genre_index = 0
 
             $('.seed .fa-plus-circle').each(function () {
@@ -1567,21 +1139,6 @@ $.ajax({
                                 $('#artist-seed').append("<span class='label' id=" + selected_seed_artist[index].id + " >" + selected_seed_artist[index].name + "</span>&nbsp;")
                             }
                             regDragArtist()
-                            break;
-                        case "follow-refresh":
-                            // if(5*(seed_follow_index+1)>=seed_follow_len)
-                            //     seed_follow_index=0
-                            // else
-                            seed_follow_index++
-                            var selected_follow = data.seed.followed_artist.slice(5 * seed_follow_index, 5 * (seed_follow_index + 1))
-                            if (5 * (seed_follow_index + 1) >= seed_follow_len)
-                                $(this).hide()
-                            for (var index in selected_follow) {
-                                var artistImages = selected_follow.images;
-                                //$('#artist-follow').append("<span class='label' id=" + selected_follow[index].id + " >" + selected_follow[index].name + "</span>&nbsp;")
-                                $('#artist-follow').append("<div class='artist-img' id=" + selected_follow[index].id + " >" + "<img class='img-circle' src=" + artistImages[artistImages.length - 1].url + "></div>&nbsp")
-                            }
-                            regDragFollow()
                             break;
                         case "track-refresh":
                             // if(5*(seed_track_index+1)>=seed_track_len)
@@ -1643,14 +1200,14 @@ setTimeout(function () {
     $("#recsysque").show();
 }, 1000*300 )
 
-// Sent Logs
-$('.questionnaire').click(function () {
-    console.log("send")
-    $.ajax({
-        url: '/addRecord',
-        type: 'POST',
-        contentType:'application/json',
-        data: JSON.stringify(loggingSys),
-        dataType:'json'
-    });
-})
+// // Sent Logs
+// $('.questionnaire').click(function () {
+//     console.log("send")
+//     $.ajax({
+//         url: '/addRecord',
+//         type: 'POST',
+//         contentType:'application/json',
+//         data: JSON.stringify(loggingSys),
+//         dataType:'json'
+//     });
+// })

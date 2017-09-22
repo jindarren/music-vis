@@ -7,7 +7,7 @@ html
         link(rel="stylesheet" type = "text/css", href = "../components-font-awesome/css/font-awesome.css")
         link(rel="stylesheet" type = "text/css", href = "../jquery-bar-rating/dist/themes/fontawesome-stars.css")
     body
-        p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp
+        p Welcome #{data.id} &nbsp&nbsp&nbsp&nbsp
             a.btn.btn-primary(href='/logout' role="button") Log Out
         div.row
             div.col-md-3.sub-block
@@ -30,11 +30,8 @@ html
                 h4 Recommendations Processor
                     span#track-attribute Track attributes&nbsp&nbsp
                     i.fa.fa-sliders(aria-hidden="true" data-toggle="modal" data-target="#myModal")
-
                 br
-                #confirm-audio
-                    h3 Setting the track attributes for new recommendations ...
-                #seed-block
+                div#seed-block
                     #myModal.modal.fade(role='dialog')
                         .modal-dialog
                             .modal-content
@@ -42,9 +39,9 @@ html
                                     button.close(type='button', data-dismiss='modal') ×
                                     h4.modal-title Tuneable Track attributes
                                 .modal-body
-                                    //a(href="#" data-toggle="tooltip" data-placement="right" title="A confidence measure from 0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.") Acousticness range:&nbsp
-                                    //span#acousticness-weight-val
-                                    //input.span2#acousticness(type="text" data-slider-id='acousticness' value="" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="[0,1]")
+                                    a(href="#" data-toggle="tooltip" data-placement="right" title="A confidence measure from 0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.") Acousticness range:&nbsp
+                                    span#acousticness-weight-val
+                                    input.span2#acousticness(type="text" data-slider-id='acousticness' value="" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="[0,1]")
 
                                     a(href="#" data-toggle="tooltip" data-placement="right" title="Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0 is least danceable and 1.0 is most danceable.") Danceability range:&nbsp
                                     span#danceability-weight-val
@@ -62,9 +59,9 @@ html
                                     span#liveness-weight-val
                                     input.span2#liveness(type="text" data-slider-id='liveness' value="" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="[0,1]")
 
-                                    //a(href="#" data-toggle="tooltip" data-placement="right" title="The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typical range between -60 and 0 db.") Loudness range:&nbsp
-                                    //span#loudness-weight-val
-                                    //input.span2#loudness(type="text" data-slider-id='loudness' value="" data-slider-min="-60" data-slider-max="0" data-slider-step="1" data-slider-value="[-60,0]")
+                                    a(href="#" data-toggle="tooltip" data-placement="right" title="The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typical range between -60 and 0 db.") Loudness range:&nbsp
+                                    span#loudness-weight-val
+                                    input.span2#loudness(type="text" data-slider-id='loudness' value="" data-slider-min="-60" data-slider-max="0" data-slider-step="1" data-slider-value="[-60,0]")
 
                                     a(href="#" data-toggle="tooltip" data-placement="right" title="Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.") Speechiness range:&nbsp
                                     span#speechiness-weight-val
@@ -74,24 +71,24 @@ html
                                     span#valence-weight-val
                                     input.span2#valence(type="text" data-slider-id='valence' value="" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="[0,1]")
 
-                                    //a(href="#" data-toggle="tooltip" data-placement="right" title="Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.") Mode range:&nbsp
-                                    //span#mode-weight-val
-                                    //input.span2#mode(type="text" data-slider-id='mode' value="" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="[0,1]")
+                                    a(href="#" data-toggle="tooltip" data-placement="right" title="Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.") Mode range:&nbsp
+                                    span#mode-weight-val
+                                    input.span2#mode(type="text" data-slider-id='mode' value="" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="[0,1]")
                                 .modal-footer
-                                    button.btn.btn-default#btn-audio(type='button', data-dismiss='modal') Confirm
+                                    button.btn.btn-default(type='button', data-dismiss='modal') Close
 
                     div.drop-block
                         h6 Weight of selected artists:&nbsp
                             span#artist-weight-val
-                        input.bootstrap-slider#artist-weight(type="text" value="50" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="artist-weight" data-slider-handle="round")
+                        input.bootstrap-slider#artist-weight(type="text" value="0" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0" data-slider-id="artist-weight" data-slider-handle="round")
                         div.drop-seeds#drop-artists
                         h6 Weight of selected tracks:&nbsp
                             span#track-weight-val
-                        input.bootstrap-slider#track-weight(type="text" value="50" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="track-weight" data-slider-handle="round")
+                        input.bootstrap-slider#track-weight(type="text" value="0" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0" data-slider-id="track-weight" data-slider-handle="round")
                         div.drop-seeds#drop-tracks
                         h6 Weight of selected genres:&nbsp
                             span#genre-weight-val
-                        input.bootstrap-slider#genre-weight(type="text" value="50" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="genre-weight" data-slider-handle="round")
+                        input.bootstrap-slider#genre-weight(type="text" value="0" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0" data-slider-id="genre-weight" data-slider-handle="round")
                         div.drop-seeds#drop-genres
                     div.details
             div.col-md-4.sub-block

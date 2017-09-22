@@ -5,7 +5,7 @@ var recommender = function (token) {
     var SpotifyWebApi = require('spotify-web-api-node'),
         appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c',
         appSecret = 'b368bdb3003747ec861e62d3bf381ba0',
-        redirectUrl = 'http://spotify-recsys.eu-3.evennode.com/callback';
+        redirectUrl = 'http://spotify-iui.eu-4.evennode.com/callback';
         //redirectUrl = 'http://localhost:3000/callback';
 
     var spotifyApi = new SpotifyWebApi({
@@ -50,7 +50,7 @@ var recommender = function (token) {
 
         getTopTracks: function (limitNum) {
             return spotifyApi.getMyTopTracks({
-                time_range: 'short_term',
+                time_range: 'long_term',
                 limit: limitNum,
             }).then(function (data) {
                 return data.body.items
@@ -90,10 +90,26 @@ var recommender = function (token) {
         },
 
 
-        getRecommendationByArtist: function (limitNum, seeds) {
+        getRecommendation: function (limitNum, artistSeeds, trackSeeds, genreSeeds, min_danceability, max_danceability,
+                                             min_energy, max_energy, min_instrumentalness, max_instrumentalness, min_liveness, max_liveness,
+                                             min_speechiness, max_speechiness, min_valence,max_valence) {
             return spotifyApi.getRecommendations({
                 limit: limitNum,
-                seed_artists: seeds
+                seed_artists: artistSeeds,
+                seed_tracks: trackSeeds,
+                seed_genres: genreSeeds,
+                min_danceability: min_danceability,
+                max_danceability: max_danceability,
+                min_energy: min_energy,
+                max_energy: max_energy,
+                min_instrumentalness: min_instrumentalness,
+                max_instrumentalness: max_instrumentalness,
+                min_liveness: min_liveness,
+                max_liveness: max_liveness,
+                min_speechiness: min_speechiness,
+                max_speechiness: max_speechiness,
+                min_valence: min_valence,
+                max_valence: max_valence
             }).then(function (data) {
                 return data.body.tracks
             }, function (err) {
@@ -101,10 +117,25 @@ var recommender = function (token) {
             })
         },
 
-        getRecommendationByTrack: function (limitNum, seeds) {
+
+        getRecommendationByArtist: function (limitNum, seeds, min_danceability, max_danceability,
+                                             min_energy, max_energy, min_instrumentalness, max_instrumentalness, min_liveness, max_liveness,
+                                             min_speechiness, max_speechiness, min_valence,max_valence) {
             return spotifyApi.getRecommendations({
                 limit: limitNum,
-                seed_tracks: seeds
+                seed_artists: seeds,
+                min_danceability: min_danceability,
+                max_danceability: max_danceability,
+                min_energy: min_energy,
+                max_energy: max_energy,
+                min_instrumentalness: min_instrumentalness,
+                max_instrumentalness: max_instrumentalness,
+                min_liveness: min_liveness,
+                max_liveness: max_liveness,
+                min_speechiness: min_speechiness,
+                max_speechiness: max_speechiness,
+                min_valence: min_valence,
+                max_valence: max_valence
             }).then(function (data) {
                 return data.body.tracks
             }, function (err) {
@@ -112,10 +143,49 @@ var recommender = function (token) {
             })
         },
 
-        getRecommendationByGenre: function (limitNum, seeds) {
+        getRecommendationByTrack: function (limitNum, seeds, min_danceability, max_danceability,
+                                            min_energy, max_energy, min_instrumentalness, max_instrumentalness, min_liveness, max_liveness,
+                                            min_speechiness, max_speechiness, min_valence,max_valence) {
             return spotifyApi.getRecommendations({
                 limit: limitNum,
-                seed_genres: seeds
+                seed_tracks: seeds,
+                min_danceability: min_danceability,
+                max_danceability: max_danceability,
+                min_energy: min_energy,
+                max_energy: max_energy,
+                min_instrumentalness: min_instrumentalness,
+                max_instrumentalness: max_instrumentalness,
+                min_liveness: min_liveness,
+                max_liveness: max_liveness,
+                min_speechiness: min_speechiness,
+                max_speechiness: max_speechiness,
+                min_valence: min_valence,
+                max_valence: max_valence
+            }).then(function (data) {
+                return data.body.tracks
+            }, function (err) {
+                return err;
+            })
+        },
+
+        getRecommendationByGenre: function (limitNum, seeds, min_danceability, max_danceability,
+                                            min_energy, max_energy, min_instrumentalness, max_instrumentalness, min_liveness, max_liveness,
+                                            min_speechiness, max_speechiness, min_valence,max_valence) {
+            return spotifyApi.getRecommendations({
+                limit: limitNum,
+                seed_genres: seeds,
+                min_danceability: min_danceability,
+                max_danceability: max_danceability,
+                min_energy: min_energy,
+                max_energy: max_energy,
+                min_instrumentalness: min_instrumentalness,
+                max_instrumentalness: max_instrumentalness,
+                min_liveness: min_liveness,
+                max_liveness: max_liveness,
+                min_speechiness: min_speechiness,
+                max_speechiness: max_speechiness,
+                min_valence: min_valence,
+                max_valence: max_valence
             }).then(function (data) {
                 return data.body.tracks
             }, function (err) {
