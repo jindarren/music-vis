@@ -4,6 +4,9 @@ var recom = require('./recommender');
 var passport = require('passport');
 var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index').Strategy;
 var path = require('path');
+var request = require('request');
+var loginbase = "login-s8";
+
 
 
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
@@ -36,13 +39,15 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new SpotifyStrategy({
         clientID: appKey,
         clientSecret: appSecret,
-        callbackURL: 'http://spotify-iui.eu-4.evennode.com/callback'
-        //callbackURL: 'http://localhost:3000/callback'
+        //callbackURL: 'http://spotify-iui.eu-4.evennode.com/callback'
+        callbackURL: 'http://localhost:3000/callback'
     },
-    function (accessToken, refreshToken, profile, done) {
+        function (accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
+        refresh = refreshToken
         token = accessToken;
-        reqData.token = accessToken
+        reqData.token = accessToken;
+        userid = profile.id
         process.nextTick(function () {
             // To keep the example simple, the user's spotify profile is returned to
             // represent the logged-in user. In a typical application, you would want
@@ -50,6 +55,35 @@ passport.use(new SpotifyStrategy({
             // and return that user instead.
             return done(null, profile);
         });
+
+        setInterval(function () {
+
+            var refreshToken = function (refreshToken, clientID, clientSecret, next) {
+                var auth = 'Basic ' +  (new Buffer(clientID + ':' + clientSecret).toString('base64'))
+                    , opts = {
+                    uri: 'https://accounts.spotify.com/api/token',
+                    method: 'POST',
+                    form: {
+                        'grant_type': 'refresh_token',
+                        'refresh_token': refreshToken
+                    },
+                    headers: {
+                        'Authorization': auth
+                    },
+                    json:true
+                }
+                return request(opts, next)
+            }
+
+            refreshToken(refresh, appKey, appSecret, function (err, res, body) {
+                if (err) return
+                console.log(refresh, appKey, appSecret, body)
+                // var result = JSON.parse(body);
+                token = body.access_token;
+                reqData.token = body.access_token;
+                //refresh = body.refresh_token;
+            })
+        }, 1000*3600)
     }));
 
 /*
@@ -173,9 +207,76 @@ router.get('/initiate', function (req, res) {
         })
     }
 });
+router.get('/s1',function (req,res) {
+    res.render('s1',{ data: req.user})
+})
 
-router.get('/',function (req,res) {
-    res.render('index',{ data: req.user})
+router.get('/s2',function (req,res) {
+    res.render('s2',{ data: req.user})
+})
+
+router.get('/s3',function (req,res) {
+    res.render('s3',{ data: req.user})
+})
+
+router.get('/s4',function (req,res) {
+    res.render('s4',{ data: req.user})
+})
+
+router.get('/s5',function (req,res) {
+    res.render('s5',{ data: req.user})
+})
+
+router.get('/s6',function (req,res) {
+    res.render('s6',{ data: req.user})
+})
+
+router.get('/s7',function (req,res) {
+    res.render('s7',{ data: req.user})
+})
+
+router.get('/s8',function (req,res) {
+    res.render('s8',{ data: req.user})
+})
+
+router.get('/login-s1',function (req,res) {
+    loginbase = 'login-s1'
+    res.render('login-s1')
+})
+
+router.get('/login-s2',function (req,res) {
+    loginbase = 'login-s2'
+    res.render('login-s2')
+})
+
+router.get('/login-s3',function (req,res) {
+    loginbase = 'login-s3'
+    res.render('login-s3')
+})
+
+router.get('/login-s4',function (req,res) {
+    loginbase = 'login-s4'
+    res.render('login-s4')
+})
+
+router.get('/login-s5',function (req,res) {
+    loginbase = 'login-s5'
+    res.render('login-s5')
+})
+
+router.get('/login-s6',function (req,res) {
+    loginbase = 'login-s6'
+    res.render('login-s6')
+})
+
+router.get('/login-s7',function (req,res) {
+    loginbase = 'login-s7'
+    res.render('login-s7')
+})
+
+router.get('/login-s8',function (req,res) {
+    loginbase = 'login-s8'
+    res.render('login-s8')
 })
 
 router.get('/account', ensureAuthenticated, function (req, res) {
@@ -194,8 +295,8 @@ router.get('/auth/spotify',
         showDialog: true
     }),
     function (req, res) {
-// The request will be redirected to spotify for authentication, so this
-// function will not be called.
+        // The request will be redirected to spotify for authentication, so this
+        // function will not be called.
     });
 
 // GET /auth/spotify/callback
@@ -206,12 +307,42 @@ router.get('/auth/spotify',
 router.get('/callback',
     passport.authenticate('spotify', {failureRedirect: '/'}),
     function (req, res) {
-        res.redirect('/');
+        if(loginbase=="login-s1")
+            res.redirect('/s1');
+        else if(loginbase=="login-s2")
+            res.redirect('/s2');
+        else if(loginbase=="login-s3")
+            res.redirect('/s3');
+        else if(loginbase=="login-s4")
+            res.redirect('/s4');
+        else if(loginbase=="login-s5")
+            res.redirect('/s5');
+        else if(loginbase=="login-s6")
+            res.redirect('/s6');
+        else if(loginbase=="login-s7")
+            res.redirect('/s7');
+        else if(loginbase=="login-s8")
+            res.redirect('/s8');
     });
 
 router.get('/logout', function (req, res) {
     req.logout();
-    res.redirect('/');
+    if(loginbase=="login-s1")
+        res.redirect('/login-s1');
+    else if(loginbase=="login-s2")
+        res.redirect('/login-s2');
+    else if(loginbase=="login-s3")
+        res.redirect('/login-s3');
+    else if(loginbase=="login-s4")
+        res.redirect('/login-s4');
+    else if(loginbase=="login-s5")
+        res.redirect('/login-s5');
+    else if(loginbase=="login-s6")
+        res.redirect('/login-s6');
+    else if(loginbase=="login-s7")
+        res.redirect('/login-s7');
+    else if(loginbase=="login-s8")
+        res.redirect('/login-s8');
 });
 
 // Simple route middleware to ensure user is authenticated.

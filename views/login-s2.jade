@@ -1,0 +1,112 @@
+doctype html
+html
+    head
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+        link(href='../stylesheets/base.css', rel='stylesheet')
+        link(href='../stylesheets/welcome.css', rel='stylesheet')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+        link(href='https://fonts.googleapis.com/css?family=Open+Sans|Roboto', rel='stylesheet')
+        script(type='text/javascript', src='../js/welcome.js')
+        script.
+            // 2. This code loads the IFrame Player API code asynchronously.
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            // 3. This function creates an <iframe> (and YouTube player)
+            //    after the API code downloads.
+            var player;
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('player', {
+                    height: '270',
+                    width: '480',
+                    videoId: 'ETehhMtS4BA',
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            }
+            // 4. The API will call this function when the video player is ready.
+            function onPlayerReady(event) {
+                //event.target.playVideo();
+            }
+            // 5. The API calls this function when the player's state changes.
+            //    The function indicates that when playing a video (state=1),
+            //    the player should play for six seconds and then stop.
+            var done = false;
+            function onPlayerStateChange(event) {
+                if (event.data == YT.PlayerState.ENDED) {
+                    $("a.btn.btn-geckoboard").show()
+                }
+            }
+        meta(charset='utf-8')
+        title Welcome
+    body
+        .container-fluid
+            header
+                h1
+                    | Evaluating a new music recommender based on Spotify
+            .row
+                .col-sm-6
+                    h4
+                        | Welcome to a user study about music recommender.
+                    p(style='color:#12ADFF')
+                        | Please note you need to be a frequent or heavy user of Spotify, otherwise the system cannot generate recommendations for you. Thank you.
+
+                    h4  Introduction
+                    p
+                        | We use the Spotify API to design this music recommender system that provides you with suggestions of songs based on your interests. The system allows you to interact with the recommender system to explore good songs.
+                    p
+                        | In this study, we aim to get your perceived quality of recommended songs and measure your cognitive load while interacting with our system.
+
+                    h4
+                        | Your Task
+                    p
+                        | First, select a topic for the playlist you want to create on the right side and click on "Start" to begin. Next, you will see a recommended playlist containing 20 songs based on your listening history.
+                    p
+                        | After playing with our system, you have to listen and rate all recommended songs and then answer a few questionnaires. Participating in this study will take about 15 - 20 minutes.
+
+                    p(style="color:red")
+                        | Please ensure you have listened and rated all songs, a questionnaire link only will be shown after 6 minutes at right top corner.
+                .col-sm-6
+
+                    h4
+                        | Tutorial
+                    p
+                        | Please watch the following tutorial before the task. A link of task will be shown after the video.
+                    div#player
+
+                    h4
+                        | Topic
+                    p
+                        | Please choose a  topic that you are more familiar with. You have 5 options.
+                    input#choose(type='hidden', value='Please choose a topic!')
+                    div
+                        select#selectTopic.form-control(name='topicName', style='width: 250px;')
+                            option(value='bitte')
+                                | Please choose ...
+                            option(value='Rock-Night') Rock-Night
+                            option(value='Dance-Party') Dance-Party
+                            option(value='Joyful') Joyful
+                            option(value='HipHop-Club') HipHop-Club
+                        .descriptions
+                            #chooseDiv.topicDivs
+                                p
+                                    | Please choose a topic!
+                            #chilloutDiv.topicDivs(hidden='')
+                                p
+                                    | I feel happy after passing all my exams in this semester. These songs fit my current feeling.
+                            #rockDiv.topicDivs(hidden='')
+                                p
+                                    | It may also be faster and louder tonight.
+                            #partyDiv.topicDivs(hidden='')
+                                p
+                                    | There is no good party without dancing. With these songs the dance floor surely wont stay empty!
+                            #hiphopDiv.topicDivs(hidden='')
+                                p
+                                    | Beats to nod along and cool/intelligent lyrics are all I need.
+                    div
+                        a.btn.btn-geckoboard(href="/auth/spotify", style='margin-top: 10px; display:none')
+                            | Start

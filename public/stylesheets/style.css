@@ -585,11 +585,11 @@ p.detail-title.number > span:nth-child(2), #tag-value{
 }
 
 .fa-sliders{
-    color: #43a8d0;
+    color: #00b3ee;
 }
 
 #track-attribute{
-    color: #43a8d0;
+    color: #00b3ee;
     padding-left: 30%;
     font-size: 0.8vw;
 }

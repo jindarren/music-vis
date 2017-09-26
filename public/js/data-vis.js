@@ -7,19 +7,10 @@ var totalRecomsNum = 20;
 var sortedRecoms=[], recomID=[];
 var artistWeightBar, trackWeightBar, genreWeightBar;
 var recom = {}, trackAttributes={};
+var storage = window.localStorage;
+var xhrList = [];
+var isInitialized = true;
 
-trackAttributes.min_danceability = 0
-trackAttributes.max_danceability = 1.0
-trackAttributes.min_energy = 0
-trackAttributes.max_energy = 1.0
-trackAttributes.min_instrumentalness = 0
-trackAttributes.max_instrumentalness = 1.0
-trackAttributes.min_liveness = 0
-trackAttributes.max_liveness = 1.0
-trackAttributes.min_speechiness = 0
-trackAttributes.max_speechiness = 1.0
-trackAttributes.min_valence = 0
-trackAttributes.max_valence = 1.0
 
 recom.weights = [];
 recom.artistRankList = [];
@@ -29,12 +20,11 @@ recom.by_artist = [];
 recom.by_track = [];
 recom.by_genre = [];
 recom.general = [];
+recom.enableSeedWeight=true;
 
 recom.weights[0] = 0;
 recom.weights[1] = 0;
 recom.weights[2] = 0;
-
-var rating = "<select class='rating'> <option value='1'>1</option> <option value='2'>2</option> <option value='3'>3</option> <option value='4'>4</option> <option value='5'>5</option></select>";
 
 var loggingSys = {}
 loggingSys.testid = '';
@@ -50,6 +40,37 @@ loggingSys.switch = 0;
 loggingSys.rating = [];
 
 $(document).ready(function () {
+
+    if(storage.topic == "dance")
+        trackAttributes.min_danceability = 0.66;
+    else
+        trackAttributes.min_danceability = 0;
+
+    trackAttributes.max_danceability = 1.0;
+
+    if(storage.topic == "rock")
+        trackAttributes.min_energy = 0.66;
+    else
+        trackAttributes.min_energy = 0;
+
+    trackAttributes.max_energy = 1.0;
+
+    if(storage.topic == "hiphop") {
+        trackAttributes.min_speechiness = 0.33;
+        trackAttributes.max_speechiness = 0.66;
+    }
+    else{
+        trackAttributes.min_speechiness = 0;
+        trackAttributes.max_speechiness = 1.0;
+    }
+
+    if(storage.topic == "joyful")
+        trackAttributes.min_valence = 0.66
+    else
+        trackAttributes.min_valence = 0
+
+    trackAttributes.max_valence = 1.0
+
     $('.sub-block').height(window.innerHeight * 0.85);
     $(window).resize(function () {
         $('.sub-block').height(window.innerHeight * 0.85);
@@ -59,60 +80,9 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
     //hide the artist block at the beginning
-    $("#result-loading").hide()
+    $("#result-loading, #process-loading").hide()
 
 
-    //configure the showed content on different settings
-    // if(window.location.pathname=="/g1-1" || window.location.pathname=="/g2-1" || window.location.pathname=="/g3-1"){
-    //     $("#source-block, #processor-block").hide();
-    //     $("#result-loading").show()
-    // }
-    // else if(window.location.pathname=="/g2-2" || window.location.pathname=="/g2-3"){
-    //     $("#seed-block, #recom-seeds").hide();
-    //     $("#artist-block, #follow-div").show()
-    // }
-    // else if(window.location.pathname=="/g1-2" || window.location.pathname=="/g1-3"){
-    //     $("#radio").hide();
-    // }
-    // else if(window.location.pathname=="/g3-2" || window.location.pathname=="/g3-3"){
-    //     $("#radio input").each(function () {
-    //         $(this).click(function () {
-    //             //LOGGING
-    //             loggingSys.switch += 1;
-    //
-    //
-    //             if ($(this).attr('value') == "artist") {
-    //                 $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").hide()
-    //                 $("#artist-block, #follow-div").show()
-    //             }
-    //             else if ($(this).attr('value') == "seed") {
-    //                 $("#artist-block, #follow-div").hide()
-    //                 $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").show()
-    //             }
-    //             // else if ($(this).attr('value') == "hybrid") {
-    //             //     $("#artist-block, #seed-block, #track-div, #genre-div, #artist-div, #follow-div").hide()
-    //             //     $("#hybrid-weight").show();
-    //             // }
-    //         })
-    //     })
-    // }
-
-    $("#radio input").each(function () {
-        $(this).click(function () {
-            //LOGGING
-            loggingSys.switch += 1;
-
-            if ($(this).attr('value') == "artist") {
-                $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").hide()
-                $("#artist-block, #follow-div").show()
-            }
-            else if ($(this).attr('value') == "seed") {
-                $("#artist-block, #follow-div").hide()
-                $("#seed-block, #track-div, #genre-div, #artist-div, #recom-seeds").show()
-            }
-
-        })
-    })
 
 //apply weight for algorithm
 //weight slider
@@ -135,7 +105,8 @@ $(document).ready(function () {
     //             //recom.weights[0] = val;
     //             //getRecomBySeed("recom-seeds");
     //         });
-
+    $("span#danceability-weight-val").text("between "+trackAttributes.min_danceability+" and "+trackAttributes.max_danceability)
+    $("input#danceability").attr("data-slider-value","["+trackAttributes.min_danceability+","+trackAttributes.max_danceability+"]")
     danceabilityBar = $("#danceability").bootstrapSlider()
         .on("slideStop", function (data) {
             $("span#danceability-weight-val").text("between "+data.value[0]+" and "+data.value[1])
@@ -148,6 +119,8 @@ $(document).ready(function () {
             //getRecomBySeed("recom-seeds");
         });
 
+    $("span#energy-weight-val").text("between "+trackAttributes.min_energy+" and "+trackAttributes.max_energy)
+    $("input#energy").attr("data-slider-value","["+trackAttributes.min_energy+","+trackAttributes.max_energy+"]")
     energyBar = $("#energy").bootstrapSlider()
         .on("slideStop", function (data) {
             $("span#energy-weight-val").text("between "+data.value[0]+" and "+data.value[1])
@@ -160,29 +133,29 @@ $(document).ready(function () {
             //getRecomBySeed("recom-seeds");
         });
 
-    instrumentalnessBar = $("#instrumentalness").bootstrapSlider()
-        .on("slideStop", function (data) {
-            $("span#instrumentalness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
-            trackAttributes.min_instrumentalness=data.value[0]
-            trackAttributes.max_instrumentalness=data.value[1]
-            //LOGGING
-            //loggingSys.high_con += 1;
-            // var val = $(this).bootstrapSlider("getValue")
-            //recom.weights[0] = val;
-            //getRecomBySeed("recom-seeds");
-        });
-
-    livenessBar = $("#liveness").bootstrapSlider()
-        .on("slideStop", function (data) {
-            $("span#liveness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
-            trackAttributes.min_liveness=data.value[0]
-            trackAttributes.max_liveness=data.value[1]
-            //LOGGING
-            //loggingSys.high_con += 1;
-            // var val = $(this).bootstrapSlider("getValue")
-            //recom.weights[0] = val;
-            //getRecomBySeed("recom-seeds");
-        });
+    // instrumentalnessBar = $("#instrumentalness").bootstrapSlider()
+    //     .on("slideStop", function (data) {
+    //         $("span#instrumentalness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+    //         trackAttributes.min_instrumentalness=data.value[0]
+    //         trackAttributes.max_instrumentalness=data.value[1]
+    //         //LOGGING
+    //         //loggingSys.high_con += 1;
+    //         // var val = $(this).bootstrapSlider("getValue")
+    //         //recom.weights[0] = val;
+    //         //getRecomBySeed("recom-seeds");
+    //     });
+    //
+    // livenessBar = $("#liveness").bootstrapSlider()
+    //     .on("slideStop", function (data) {
+    //         $("span#liveness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+    //         trackAttributes.min_liveness=data.value[0]
+    //         trackAttributes.max_liveness=data.value[1]
+    //         //LOGGING
+    //         //loggingSys.high_con += 1;
+    //         // var val = $(this).bootstrapSlider("getValue")
+    //         //recom.weights[0] = val;
+    //         //getRecomBySeed("recom-seeds");
+    //     });
 
     // loudnessBar = $("#loudness").bootstrapSlider()
     //     .on("slideStop", function (data) {
@@ -194,6 +167,8 @@ $(document).ready(function () {
     //         //getRecomBySeed("recom-seeds");
     //     });
 
+    $("span#speechiness-weight-val").text("between "+trackAttributes.min_speechiness+" and "+trackAttributes.max_speechiness)
+    $("input#speechiness").attr("data-slider-value","["+trackAttributes.min_speechiness+","+trackAttributes.max_speechiness+"]")
     speechinessBar = $("#speechiness").bootstrapSlider()
         .on("slideStop", function (data) {
             $("span#speechiness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
@@ -206,6 +181,9 @@ $(document).ready(function () {
             //getRecomBySeed("recom-seeds");
         });
 
+
+    $("span#valence-weight-val").text("between "+trackAttributes.min_valence+" and "+trackAttributes.max_valence)
+    $("input#valence").attr("data-slider-value","["+trackAttributes.min_valence+","+trackAttributes.max_valence+"]")
     valenceBar = $("#valence").bootstrapSlider()
         .on("slideStop", function (data) {
             $("span#valence-weight-val").text("between "+data.value[0]+" and "+data.value[1])
@@ -274,12 +252,13 @@ var highlightenResults = function (seedID, resultListID) {
             var ele = $(this);
             setTimeout(function () {
                 ele.css("opacity","1")
-            }, 10000)
+            }, 5000)
         }
     })
 }
 
 //add sorting function for recommendation results
+
 $("#recom-seeds").sortable({
     // update: function (event, ui) {
     //     //LOGGING
@@ -295,6 +274,9 @@ $("#recom-seeds").sortable({
     //     getRecomBySeed("recom-seeds")
     // }
 });
+
+
+
 
 var getRecomBySeed = function (resultListID) {
     console.log(recom)
@@ -384,7 +366,6 @@ var getRecomBySeed = function (resultListID) {
                 for (var j = 0; j < numOfRecoms; j++) {
                     var item = {}
                     if(recom.by_genre[i].recoms[j]){
-
                         item.type = "recom-genre"
                         item.seed = seed
                         item.id = recom.by_genre[i].recoms[j].id
@@ -395,7 +376,6 @@ var getRecomBySeed = function (resultListID) {
                             recomID.push(item.id)
                             sortedRecoms.push(item)
                         }
-
                     }
 
                 }
@@ -419,6 +399,7 @@ var getRecomBySeed = function (resultListID) {
             return a.popu - b.popu
         })
 
+        sortedRecoms = sortedRecoms.slice(0,20)
         console.log(sortedRecoms)
 
         for(index in sortedRecoms){
@@ -471,7 +452,16 @@ var getRecomBySeed = function (resultListID) {
             })
         }
 
+    // $("div#recom-seeds").show();
+    // $("div.loading").hide();
 
+    if(window.location.pathname=="/s1" || window.location.pathname=="/s3" || window.location.pathname=="/s4" || window.location.pathname=="/s7"){
+        $("i.fa-arrows-recom").hide()
+    }
+
+    if(window.location.pathname=="/s1" || window.location.pathname=="/s2" || window.location.pathname=="/s3" || window.location.pathname=="/s5"){
+        $("i.fa.fa-arrows-v").hide()
+    }
 }
 
 
@@ -503,19 +493,10 @@ $.ajax({
 
             loggingSys.testid = data.seed.id;
             //loading the recommendations
-            //$("div#recom-seeds").hide();
 
-            // if(data.seed.followed_artist.length<3 || data.seed.track.length<3){
-            //     alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
-            //     window.location.href = "/logout";
-            // }
-
-            if(data.seed.artist.length<4){
-                console.log("less")
-                for(index in data.seed.followed_artist){
-                    console.log("add")
-                    data.seed.artist.push(data.seed.followed_artist[index])
-                }
+            if(data.seed.artist.length<3 || data.seed.track.length<3){
+                alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
+                window.location.href = "/logout";
             }
 
             $("div#initial-loading").hide();
@@ -598,41 +579,39 @@ $.ajax({
 
             //for initializing the recommendations for the users
 
-            $.ajax({
-                url: "/getRecom?limit=20&artistSeed=" + data.seed.artist[0].id+"&trackSeed="+data.seed.track[0].id+"&genreSeed="+data.seed.genre[0]+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
-                +trackAttributes.max_energy+ "&min_instrumentalness="+trackAttributes.min_instrumentalness+ "&max_instrumentalness="+trackAttributes.max_instrumentalness+ "&min_liveness="
-                +trackAttributes.min_liveness+ "&max_liveness="+trackAttributes.max_liveness+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
-                +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-                success: function (data) {
-                    $("div.recom").removeClass("loading")
-
-                    console.log("The returned data", data);
-                    recom.general = data.items
-
-                    getRecomBySeed("recom-seeds");
-                },
-                error: function (jqXHR, err) {
-                    console.log(err);
-                    if(err === "timeout"){
-                        $.ajax(this)
-                    }
-                },
-                beforeSend: function () {
-                    //$("div.recom").addClass("loading")
-                    $("div#recom-seeds").hide();
-                    $("div.loading").show();
-                },
-
-                complete: function () {
-                    //$("div.recom").removeClass("loading")
-                    $("div#recom-seeds").show();
-                    $("div.loading").hide();
-                }
-            });
-
+            // $.ajax({
+            //     url: "/getRecom?limit=20&artistSeed=" + data.seed.artist[0].id+"&trackSeed="+data.seed.track[0].id+"&genreSeed="+data.seed.genre[0]+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
+            //     +trackAttributes.max_energy+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
+            //     +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
+            //     headers: {
+            //         'Authorization': 'Bearer ' + token
+            //     },
+            //     success: function (data) {
+            //         $("div.recom").removeClass("loading")
+            //
+            //         console.log("The returned data", data);
+            //         recom.general = data.items
+            //
+            //         getRecomBySeed("recom-seeds");
+            //     },
+            //     error: function (jqXHR, err) {
+            //         console.log(err);
+            //         if(err === "timeout"){
+            //             $.ajax(this)
+            //         }
+            //     },
+            //     beforeSend: function () {
+            //         //$("div.recom").addClass("loading")
+            //         $("div#recom-seeds").hide();
+            //         $("div.loading").show();
+            //     },
+            //
+            //     complete: function () {
+            //         //$("div.recom").removeClass("loading")
+            //         $("div#recom-seeds").show();
+            //         $("div.loading").hide();
+            //     }
+            // });
 
             /******************************Seed artist recommendations*************************************************/
                 // drag and drop
@@ -641,18 +620,144 @@ $.ajax({
             var dragged_artist, dragged_artist_name;
 
 
-
             for (var index =1 ; index < selected_seed_artist.length; index++) {
                 $('#artist-seed').append("<span class='label' id=" + selected_seed_artist[index].id + " >" + selected_seed_artist[index].name + "</span>&nbsp;")
+            }
+
+            var regDropArtist = function () {
+                //LOGGING
+
+                var xhr
+                loggingSys.mod_con += 1
+
+                $("#" + dragged_artist).css("border","solid 3px white")
+                $("#artist-seed > span#" + dragged_artist).draggable({disabled: true})
+
+                $("#drop-artists").append("<span class='label' id=" + dragged_artist + ">" + "<i class='fa fa-arrows-v'></i>" + " " + dragged_artist_name + "  " + "<i class='fa fa-times'></i></span>")
+                if($("#drop-artists span").length == 1) {
+                    recom.weights[0] = 50;
+                    artistWeightBar.bootstrapSlider('setValue', 50)
+                }
+
+                if(!recom.enableSeedWeight){
+                    $(".fa-arrows-v").hide();
+                    $(".drop-seeds").sortable({disabled: true})
+                }
+
+                //delete a seed from the list of dropped seeds
+                $("span#" + dragged_artist + " > i.fa.fa-times").click(function () {
+                    //LOGGING
+                    loggingSys.mod_con += 1
+
+                    var dragged_artist_id = $(this).parent().attr('id')
+                    console.log(dragged_artist_id)
+
+                    var deletedArtists = searchEleInArray(recom.by_artist, "seed", dragged_artist_id);
+
+                    if(deletedArtists){
+                        var index = recom.by_artist.indexOf(deletedArtists);
+                        var rankIndex = recom.artistRankList.indexOf(dragged_artist_id)
+                        recom.by_artist.splice(index,1);
+                        recom.artistRankList.splice(rankIndex,1);
+                        getRecomBySeed("recom-seeds");
+                        $(".details").empty();
+                    }
+                    else
+                        xhr.abort()
+
+                    $("#" + dragged_artist_id).css("border", "solid 0.5px rgba(240, 184, 25, 0.8)")
+                    $("#artist-seed > span#" + dragged_artist_id).draggable("enable")
+                    $(this).parent().remove();
+                    console.log($("#drop-artists span"))
+
+                    if($("#drop-artists span").length==0) {
+                        recom.weights[0] = 0;
+                        artistWeightBar.bootstrapSlider('setValue', 0)
+                        artistWeightBar.bootstrapSlider('disable')
+                        getRecomBySeed("recom-seeds");
+
+                    }
+
+                })
+
+                //show detailed page
+                showArtistDetails(dragged_artist)
+
+                $("span#" + dragged_artist + ".label").click(function () {
+                    var clicked_artist = $(this).attr('id')
+                    console.log(clicked_artist);
+                    showArtistDetails(clicked_artist);
+                    highlightenResults(clicked_artist, "recom-seeds");
+                })
+
+                xhr = $.ajax({
+                    url: "/getRecomByArtist?limit=20&seed=" + dragged_artist+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
+                    +trackAttributes.max_energy+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
+                    +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function (data) {
+                        //$("div.recom").removeClass("loading")
+
+                        if($.isArray(data.items)){
+                            // $("div#recom-seeds").show();
+                            // $("div.loading").hide();
+
+                            console.log("The returned data", data);
+                            recom.by_artist.push({
+                                seed: dragged_artist,
+                                recoms: data.items
+                            })
+                            recom.artistRankList.push(dragged_artist);
+                            if(!isInitialized)
+                                getRecomBySeed("recom-seeds");
+                            console.log(recom)
+                        }else
+                            $.ajax(this)
+
+                    },
+                    error: function (jqXHR, err) {
+                        console.log(err);
+                        if(err === "timeout"){
+                            $.ajax(this)
+                        }
+                    },
+
+                    beforeSend: function () {
+                        //$("div.recom").addClass("loading")
+                        $("div#recom-seeds, div.drop-block, div.details").hide();
+                        $("div.loading").show();
+                    },
+
+                    complete: function () {
+                        //$("div.recom").removeClass("loading")
+                        if(!isInitialized){
+                            $("div#recom-seeds, div.drop-block, div.details").show();
+                            $("div.loading").hide();
+                        }
+                    }
+
+                });
+
+                xhrList.push(xhr)
             }
 
             var regDragArtist = function () {
                 $("#artist-seed span").draggable({
                     start: function () {
-                        dragged_artist = $(this).attr("id")
+                        dragged_artist = $(this).attr("id");
                         dragged_artist_name = $(this).text();
                         $("#drop-artists").css("border", "solid 2px #F0B819");
                         //$( "#artist-seed").css("overflow","auto");
+                        var numOfItem = $("#drop-artists > span.label").length
+                        console.log(numOfItem)
+                        if(numOfItem>4)
+                            $("#drop-artists").droppable("disable")
+                        else
+                            $("#drop-artists").droppable("enable")
+
+
                     },
                     stop: function () {
                         $("#drop-artists").css("border", "0")
@@ -664,19 +769,6 @@ $.ajax({
                 });
 
 
-                if(window.location.pathname=="/g1-2" || window.location.pathname=="/g3-2"){
-                    $(".drop-seeds").sortable("disable");
-                    $("#artist-weight").hide();
-                }
-                else if(window.location.pathname=="/g3-1"){
-                    $("#artist-seed span").draggable("disable");
-                    $("#artist-weight").hide();
-                    $("#artist-follow div").draggable("disable");
-                    $("#artist-block > div.drop-block-h > div.loading.narrow-loading").hide();
-                    //$("#source-block, #processor-block").css("opacity",0.2)
-                }
-
-
                 $("#drop-artists").droppable({
                     accept: "#artist-seed span",
                     classes: {
@@ -684,119 +776,10 @@ $.ajax({
                     },
                     tolerance: "touch",
 
-                    drop: function () {
-
-                        //LOGGING
-                        loggingSys.mod_con += 1
-
-                        $("#" + dragged_artist).css("border","solid 3px white")
-                        $("#artist-seed > span#" + dragged_artist).draggable({disabled: true})
-
-                        $("#drop-artists").append("<span class='label' id=" + dragged_artist + ">" + "<i class='fa fa-arrows-v'></i>" + " " + dragged_artist_name + "  " + "<i class='fa fa-times'></i></span>")
-                        if($("#drop-artists span").length == 1) {
-                            recom.weights[0] = 100;
-                            artistWeightBar.bootstrapSlider('setValue', 100)
-                        }
-
-                        if(!recom.enableSeedWeight){
-                            $(".fa-arrows-v").hide();
-                            $(".drop-seeds").sortable({disabled: true})
-                        }
-
-                        //delete a seed from the list of dropped seeds
-                        $("span#" + dragged_artist + " > i.fa.fa-times").click(function () {
-                            //LOGGING
-                            loggingSys.mod_con += 1
-
-                            var dragged_artist_id = $(this).parent().attr('id')
-                            console.log(dragged_artist_id)
-
-                            var deletedArtists = searchEleInArray(recom.by_artist, "seed", dragged_artist_id);
-
-                            if(deletedArtists){
-                                var index = recom.by_artist.indexOf(deletedArtists);
-                                var rankIndex = recom.artistRankList.indexOf(dragged_artist_id)
-                                recom.by_artist.splice(index,1);
-                                recom.artistRankList.splice(rankIndex,1);
-                                getRecomBySeed("recom-seeds");
-                                $(".details").empty();
-                            }
-                            else
-                                xhr.abort()
-
-                            $("#" + dragged_artist_id).css("border", "solid 0.5px rgba(240, 184, 25, 0.8)")
-                            $("#artist-seed > span#" + dragged_artist_id).draggable("enable")
-                            $(this).parent().remove();
-                            console.log($("#drop-artists span"))
-
-                            if($("#drop-artists span").length==0) {
-                                recom.weights[0] = 0;
-                                artistWeightBar.bootstrapSlider('setValue', 0)
-                                getRecomBySeed("recom-seeds");
-
-                            }
-
-                        })
-
-                        //show detailed page
-                        showArtistDetails(dragged_artist)
-
-                        $("span#" + dragged_artist + ".label").click(function () {
-                            var clicked_artist = $(this).attr('id')
-                            console.log(clicked_artist);
-                            showArtistDetails(clicked_artist);
-                            highlightenResults(clicked_artist, "recom-seeds");
-                        })
-
-                        var xhr = $.ajax({
-                            url: "/getRecomByArtist?limit=20&seed=" + dragged_artist+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
-                                +trackAttributes.max_energy+ "&min_instrumentalness="+trackAttributes.min_instrumentalness+ "&max_instrumentalness="+trackAttributes.max_instrumentalness+ "&min_liveness="
-                                +trackAttributes.min_liveness+ "&max_liveness="+trackAttributes.max_liveness+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
-                                +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
-                            headers: {
-                                'Authorization': 'Bearer ' + token
-                            },
-                            success: function (data) {
-                                //$("div.recom").removeClass("loading")
-
-                                $("div#recom-seeds").show();
-                                $("div.loading").hide();
-
-                                console.log("The returned data", data);
-                                recom.by_artist.push({
-                                    seed: dragged_artist,
-                                    recoms: data.items
-                                })
-                                recom.artistRankList.push(dragged_artist);
-
-                                getRecomBySeed("recom-seeds");
-                                console.log(recom)
-                            },
-                            error: function (jqXHR, err) {
-                                console.log(err);
-                                if(err === "timeout"){
-                                    $.ajax(this)
-                                }
-                            },
-
-                            beforeSend: function () {
-                                //$("div.recom").addClass("loading")
-                                $("div#recom-seeds").hide();
-                                $("div.loading").show();
-                            },
-
-                            complete: function () {
-                                //$("div.recom").removeClass("loading")
-                                $("div#recom-seeds").show();
-                                $("div.loading").hide();
-                            }
-
-                        });
-                    }
+                    drop: regDropArtist
                 });
-            }
 
-            regDragArtist()
+            }
 
 
             /******************************Seed track recommendations*************************************************/
@@ -810,13 +793,138 @@ $.ajax({
                 $('#track-seed').append("<span class='label' id=" + selected_seed_track[index].id + " >" + selected_seed_track[index].name + "</span>&nbsp")
             }
 
+            var regDropTrack = function () {
+                //LOGGING
+                var xhr
+                loggingSys.mod_con += 1
 
+                $("#" + dragged_track).css("border", "solid 3px white")
+                $("#track-seed > span#" + dragged_track).draggable({disabled: true})
+
+                $('#drop-tracks').append("<span class='label' id=" + dragged_track + ">" + "<i class='fa fa-arrows-v'></i>" + " "+dragged_track_name + "  " + "<i class='fa fa-times'></i></span>")
+
+                if($("#drop-tracks span").length == 1) {
+                    recom.weights[1] = 50;
+                    trackWeightBar.bootstrapSlider('setValue', 50)
+                }
+
+
+                if(!recom.enableSeedWeight){
+                    $(".fa-arrows-v").hide();
+                    $(".drop-seeds").sortable({disabled: true})
+                }
+
+
+                $("span#" + dragged_track + " > i.fa.fa-times").click(function () {
+
+                    //LOGGING
+                    loggingSys.mod_con += 1
+
+                    var dragged_track_id = $(this).parent().attr('id')
+                    console.log(dragged_track_id)
+
+
+                    var deletedTracks = searchEleInArray(recom.by_track, "seed", dragged_track_id);
+
+                    if(deletedTracks){
+                        var index = recom.by_track.indexOf(deletedTracks);
+                        var rankIndex = recom.trackRankList.indexOf(dragged_track_id)
+                        recom.by_track.splice(index,1)
+                        recom.trackRankList.splice(rankIndex,1)
+                        getRecomBySeed("recom-seeds")
+                        $(".details").empty();
+                    }
+                    else
+                        xhr.abort()
+
+                    $("#" + dragged_track_id).css("border", "solid 0.5px rgba(0, 196, 255, 0.8)")
+                    $("#track-seed > span#" + dragged_track_id).draggable("enable")
+                    $(this).parent().remove();
+
+                    if($("#drop-tracks span").length==0) {
+                        recom.weights[1] = 0;
+                        trackWeightBar.bootstrapSlider('setValue', 0)
+                        trackWeightBar.bootstrapSlider('disable')
+                        getRecomBySeed("recom-seeds");
+
+                    }
+
+                })
+
+                showTrackDetails(dragged_track)
+
+                $("span#" + dragged_track + ".label").click(function () {
+                    var clicked_track_id = $(this).attr('id')
+                    console.log(clicked_track_id)
+
+                    showTrackDetails(clicked_track_id);
+                    highlightenResults(clicked_track_id, "recom-seeds");
+
+                })
+
+
+                xhr = $.ajax({
+                    url: "/getRecomByTrack?limit=20&seed=" + dragged_track+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
+                    +trackAttributes.max_energy+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
+                    +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function (data) {
+
+                        if($.isArray(data.items)){
+                            // $("div#recom-seeds").show();
+                            // $("div.loading").hide();
+
+                            console.log("The returned data", data);
+
+                            recom.by_track.push({
+                                seed: dragged_track,
+                                recoms: data.items
+                            })
+                            recom.trackRankList.push(dragged_track);
+                            if(!isInitialized)
+                                getRecomBySeed("recom-seeds");
+                        }else
+                            $.ajax(this)
+
+                    },
+                    error: function (jqXHR, err) {
+                        console.log(err);
+                        if(err === "timeout"){
+                            $.ajax(this)
+                        }
+                    },
+
+                    beforeSend: function () {
+                        $("div#recom-seeds, div.drop-block, div.details").hide();
+                        $("div.loading").show();
+                    },
+
+                    complete: function () {
+                        if(!isInitialized){
+                            $("div#recom-seeds, div.drop-block, div.details").show();
+                            $("div.loading").hide();
+                        }
+                    }
+                });
+
+                xhrList.push(xhr)
+            }
             var regDragTrack = function () {
+
                 $("#track-seed span").draggable({
                     start: function () {
                         dragged_track = $(this).attr("id")
                         dragged_track_name = $(this).text()
                         $("#drop-tracks").css("border", "solid 2px #00C4FF")
+                        var numOfItem = $("#drop-tracks > span.label").length
+                        if(numOfItem>4)
+                            $("#drop-tracks").droppable("disable")
+                        else
+                            $("#drop-tracks").droppable("enable")
+
+
                     },
                     stop: function () {
                         $("#drop-tracks").css("border", "0")
@@ -828,12 +936,6 @@ $.ajax({
 
                 });
 
-
-                if(window.location.pathname=="/g1-2" || window.location.pathname=="/g3-2"){
-                    $(".drop-seeds").sortable("disable");
-                    $("#track-weight").hide();
-                }
-
                 $("#drop-tracks").droppable({
                     accept: "#track-seed span",
                     classes: {
@@ -841,140 +943,152 @@ $.ajax({
                     },
                     tolerance: "touch",
 
-                    drop: function () {
-                        //LOGGING
-                        loggingSys.mod_con += 1
-
-                        $("#" + dragged_track).css("border", "solid 3px white")
-                        $("#track-seed > span#" + dragged_track).draggable({disabled: true})
-
-                        $('#drop-tracks').append("<span class='label' id=" + dragged_track + ">" + "<i class='fa fa-arrows-v'></i>" + " "+dragged_track_name + "  " + "<i class='fa fa-times'></i></span>")
-
-                        if($("#drop-tracks span").length == 1) {
-                            recom.weights[1] = 100;
-                            trackWeightBar.bootstrapSlider('setValue', 100)
-                        }
-
-
-                        if(!recom.enableSeedWeight){
-                            $(".fa-arrows-v").hide();
-                            $(".drop-seeds").sortable({disabled: true})
-                        }
-
-
-                        $("span#" + dragged_track + " > i.fa.fa-times").click(function () {
-
-                            //LOGGING
-                            loggingSys.mod_con += 1
-
-                            var dragged_track_id = $(this).parent().attr('id')
-                            console.log(dragged_track_id)
-
-
-                            var deletedTracks = searchEleInArray(recom.by_track, "seed", dragged_track_id);
-
-                            if(deletedTracks){
-                                var index = recom.by_track.indexOf(deletedTracks);
-                                var rankIndex = recom.trackRankList.indexOf(dragged_track_id)
-                                recom.by_track.splice(index,1)
-                                recom.trackRankList.splice(rankIndex,1)
-                                getRecomBySeed("recom-seeds")
-                                $(".details").empty();
-                            }
-                            else
-                                xhr.abort()
-
-                            $("#" + dragged_track_id).css("border", "solid 0.5px rgba(0, 196, 255, 0.8)")
-                            $("#track-seed > span#" + dragged_track_id).draggable("enable")
-                            $(this).parent().remove();
-
-                            if($("#drop-tracks span").length==0) {
-                                recom.weights[1] = 0;
-                                trackWeightBar.bootstrapSlider('setValue', 0)
-                                getRecomBySeed("recom-seeds");
-
-                            }
-
-                        })
-
-                        showTrackDetails(dragged_track)
-
-                        $("span#" + dragged_track + ".label").click(function () {
-                            var clicked_track_id = $(this).attr('id')
-                            console.log(clicked_track_id)
-
-                            showTrackDetails(clicked_track_id);
-                            highlightenResults(clicked_track_id, "recom-seeds");
-
-                        })
-
-
-                        var xhr = $.ajax({
-                            url: "/getRecomByTrack?limit=20&seed=" + dragged_track+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
-                                +trackAttributes.max_energy+ "&min_instrumentalness="+trackAttributes.min_instrumentalness+ "&max_instrumentalness="+trackAttributes.max_instrumentalness+ "&min_liveness="
-                                +trackAttributes.min_liveness+ "&max_liveness="+trackAttributes.max_liveness+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
-                                +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
-                            headers: {
-                                'Authorization': 'Bearer ' + token
-                            },
-                            success: function (data) {
-
-                                $("div#recom-seeds").show();
-                                $("div.loading").hide();
-
-                                console.log("The returned data", data);
-
-                                recom.by_track.push({
-                                    seed: dragged_track,
-                                    recoms: data.items
-                                })
-                                recom.trackRankList.push(dragged_track);
-                                getRecomBySeed("recom-seeds");
-                                console.log(recom)
-                            },
-                            error: function (jqXHR, err) {
-                                console.log(err);
-                                if(err === "timeout"){
-                                    $.ajax(this)
-                                }
-                            },
-
-                            beforeSend: function () {
-                                $("div#recom-seeds").hide();
-                                $("div.loading").show();
-                            },
-
-                            complete: function () {
-                                $("div#recom-seeds").show();
-                                $("div.loading").hide();
-                            }
-                        });
-                    }
+                    drop: regDropTrack
                 });
-
             };
-
-            regDragTrack()
 
 
             /******************************Seed genre recommendations*************************************************/
 
-            var selected_seed_genre = data.seed.genre.slice(0, 6)
+            var selected_seed_genre = data.seed.genre.slice(0, 5)
             var dragged_genre;
 
-            for (var index =1; index < selected_seed_genre.length; index++) {
+
+            for (var index =0; index < selected_seed_genre.length; index++) {
                 //dropped_genres+= selected_seed_genre[index]+','
                 $('#genre-seed').append("<span class='label' id=" + selected_seed_genre[index] + " >" + selected_seed_genre[index] + "</span>&nbsp")
                 //$("#genre-bar").append("<li class='lift-top ui-state-default box-flex' id="+selected_seed_genre[index]+"bar"+" >"+selected_seed_genre[index]+"</li>")
             }
 
+            var regDropGenre = function () {
+                var xhr
 
+                //LOGGING
+                loggingSys.mod_con += 1
+
+                // $("#genre-seed").css("overflow", "auto");
+                $("#" + dragged_genre).css("border","solid 3px white")
+                $("#genre-seed > span#" + dragged_genre).draggable({disabled: true})
+
+                $('#drop-genres').append("<span class='label' id=" + dragged_genre + ">" + "<i class='fa fa-arrows-v'></i>" + " " +dragged_genre + "  " + "<i class='fa fa-times'></i></span>")
+
+                if($("#drop-genres span").length == 1) {
+                    recom.weights[2] = 50;
+                    genreWeightBar.bootstrapSlider('setValue', 50)
+                }
+
+                if(!recom.enableSeedWeight){
+                    $(".fa-arrows-v").hide();
+                    $(".drop-seeds").sortable({disabled: true})
+                }
+
+                $("span#" + dragged_genre + " > i.fa.fa-times").click(function () {
+
+                    //LOGGING
+                    loggingSys.mod_con += 1
+
+                    var dragged_genre_id = $(this).parent().attr('id')
+                    console.log(dragged_genre_id)
+
+                    var deletedGenres = searchEleInArray(recom.by_genre, "seed", dragged_genre_id);
+
+                    if(deletedGenres){
+                        var index = recom.by_genre.indexOf(deletedGenres);
+                        var rankIndex = recom.genreRankList.indexOf(dragged_genre_id)
+                        recom.by_genre.splice(index,1)
+                        recom.genreRankList.splice(rankIndex,1)
+                        getRecomBySeed("recom-seeds")
+                        $(".details").empty();
+                    }
+                    else
+                        xhr.abort()
+
+
+                    $("#" + dragged_genre_id).css("border", "solid 0.5px rgba(95, 234, 64, 0.8)");
+                    $("#genre-seed > span#" + dragged_genre_id).draggable("enable")
+                    $(this).parent().remove()
+
+                    if($("#drop-genres span").length==0) {
+                        recom.weights[2] = 0;
+                        genreWeightBar.bootstrapSlider('setValue', 0)
+                        genreWeightBar.bootstrapSlider('disable')
+                        getRecomBySeed("recom-seeds");
+
+                    }
+
+                })
+
+
+                showGenreDetails(dragged_genre)
+
+                $("span#" + dragged_genre).click(function () {
+                    var clicked_genre_id = $(this).attr("id")
+                    console.log(clicked_genre_id)
+                    showGenreDetails(clicked_genre_id)
+                    highlightenResults(clicked_genre_id, "recom-seeds")
+                })
+
+
+                xhr = $.ajax({
+                    url: "/getRecomByGenre?limit=20&seed=" + dragged_genre+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
+                    +trackAttributes.max_energy+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
+                    +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function (data) {
+                        //$("div.recom").removeClass("loading")
+                        if($.isArray(data.items)){
+                            // $("div#recom-seeds").show();
+                            // $("div.loading").hide();
+
+                            console.log("The returned data", data);
+                            recom.by_genre.push({
+                                seed: dragged_genre,
+                                recoms: data.items
+                            })
+                            recom.genreRankList.push(dragged_genre);
+                            if(!isInitialized)
+                                getRecomBySeed("recom-seeds");
+                        }else
+                            $.ajax(this)
+                    },
+
+                    error: function (jqXHR, err) {
+                        console.log(err);
+                        if(err === "timeout"){
+                            $.ajax(this)
+                        }
+                    },
+
+                    beforeSend: function () {
+                        $("div#recom-seeds, div.drop-block, div.details").hide();
+                        $("div.loading").show();
+                    },
+
+                    complete: function () {
+                        if(!isInitialized){
+                            $("div#recom-seeds, div.drop-block, div.details").show();
+                            $("div.loading").hide();
+                        }
+                    }
+                });
+
+                xhrList.push(xhr)
+            }
             var regDragGenre = function () {
                 $("#genre-seed span").draggable({
                     start: function () {
                         dragged_genre = $(this).attr("id")
                         $("#drop-genres").css("border", "solid 2px #5FEA40")
                         // $("#genre-seed").css("overflow", "visible");
+                        var numOfItem = $("#drop-genres > span.label").length
+                        if(numOfItem>4)
+                            $("#drop-genres").droppable("disable")
+                        else
+                            $("#drop-genres").droppable("enable")
+
+
                     },
 
                     stop: function () {
@@ -986,12 +1100,6 @@ $.ajax({
                     stack: "#genre-seed span"
                 });
 
-
-                if(window.location.pathname=="/g1-2" || window.location.pathname=="/g3-2"){
-                    $(".drop-seeds").sortable("disable");
-                    $("#genre-weight").hide();
-                }
-
                 $("#drop-genres").droppable({
                     accept: "#genre-seed span",
                     classes: {
@@ -999,118 +1107,81 @@ $.ajax({
                     },
                     tolerance: "touch",
 
-                    drop: function () {
-
-                        //LOGGING
-                        loggingSys.mod_con += 1
-
-                        // $("#genre-seed").css("overflow", "auto");
-                        $("#" + dragged_genre).css("border","solid 3px white")
-                        $("#genre-seed > span#" + dragged_genre).draggable({disabled: true})
-
-                        $('#drop-genres').append("<span class='label' id=" + dragged_genre + ">" + "<i class='fa fa-arrows-v'></i>" + " " +dragged_genre + "  " + "<i class='fa fa-times'></i></span>")
-
-                        if($("#drop-genres span").length == 1) {
-                            recom.weights[2] = 100;
-                            genreWeightBar.bootstrapSlider('setValue', 100)
-                        }
-
-                        if(!recom.enableSeedWeight){
-                            $(".fa-arrows-v").hide();
-                            $(".drop-seeds").sortable({disabled: true})
-                        }
-
-                        $("span#" + dragged_genre + " > i.fa.fa-times").click(function () {
-
-                            //LOGGING
-                            loggingSys.mod_con += 1
-
-                            var dragged_genre_id = $(this).parent().attr('id')
-                            console.log(dragged_genre_id)
-
-                            var deletedGenres = searchEleInArray(recom.by_genre, "seed", dragged_genre_id);
-
-                            if(deletedGenres){
-                                var index = recom.by_genre.indexOf(deletedGenres);
-                                var rankIndex = recom.genreRankList.indexOf(dragged_genre_id)
-                                recom.by_genre.splice(index,1)
-                                recom.genreRankList.splice(rankIndex,1)
-                                getRecomBySeed("recom-seeds")
-                                $(".details").empty();
-                            }
-                            else
-                                xhr.abort()
-
-
-                            $("#" + dragged_genre_id).css("border", "solid 0.5px rgba(95, 234, 64, 0.8)");
-                            $("#genre-seed > span#" + dragged_genre_id).draggable("enable")
-                            $(this).parent().remove()
-
-                            if($("#drop-genres span").length==0) {
-                                recom.weights[2] = 0;
-                                genreWeightBar.bootstrapSlider('setValue', 0)
-                                getRecomBySeed("recom-seeds");
-
-                            }
-
-                        })
-
-
-                        showGenreDetails(dragged_genre)
-
-                        $("span#" + dragged_genre).click(function () {
-                            var clicked_genre_id = $(this).attr("id")
-                            console.log(clicked_genre_id)
-                            showGenreDetails(clicked_genre_id)
-                            highlightenResults(clicked_genre_id, "recom-seeds")
-                        })
-
-
-                        var xhr = $.ajax({
-                            url: "/getRecomByGenre?limit=20&seed=" + dragged_genre+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
-                            +trackAttributes.max_energy+ "&min_instrumentalness="+trackAttributes.min_instrumentalness+ "&max_instrumentalness="+trackAttributes.max_instrumentalness+ "&min_liveness="
-                            +trackAttributes.min_liveness+ "&max_liveness="+trackAttributes.max_liveness+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
-                            +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
-                            headers: {
-                                'Authorization': 'Bearer ' + token
-                            },
-                            success: function (data) {
-                                //$("div.recom").removeClass("loading")
-
-                                $("div#recom-seeds").show();
-                                $("div.loading").hide();
-
-                                console.log("The returned data", data);
-                                recom.by_genre.push({
-                                    seed: dragged_genre,
-                                    recoms: data.items
-                                })
-                                recom.genreRankList.push(dragged_genre);
-                                getRecomBySeed("recom-seeds");
-                            },
-                            error: function (jqXHR, err) {
-                                console.log(err);
-                                if(err === "timeout"){
-                                    $.ajax(this)
-                                }
-                            },
-
-                            beforeSend: function () {
-                                $("div#recom-seeds").hide();
-                                $("div.loading").show();
-                            },
-
-                            complete: function () {
-                                $("div#recom-seeds").show();
-                                $("div.loading").hide();
-                            }
-                        });
-                    }
+                    drop: regDropGenre
                 });
 
             };
 
+            regDragArtist();
+            regDragTrack();
             regDragGenre();
+
+            dragged_artist = data.seed.artist[0].id
+            dragged_artist_name = data.seed.artist[0].name
+            regDropArtist();
+
+            dragged_track = data.seed.track[0].id
+            dragged_track_name = data.seed.track[0].name
+            regDropTrack();
+
+            dragged_genre = data.seed.genre[0]
+            regDropGenre();
+
+            Promise
+                .all(xhrList)
+                .then(function(){
+                    xhrList=[];
+
+                    dragged_artist = data.seed.artist[1].id
+                    dragged_artist_name = data.seed.artist[1].name
+                    regDropArtist();
+
+                    dragged_track = data.seed.track[1].id
+                    dragged_track_name = data.seed.track[1].name
+                    regDropTrack();
+                        Promise
+                            .all(xhrList)
+                            .then(function () {
+                                xhrList=[]
+
+                                dragged_artist = data.seed.artist[2].id
+                                dragged_artist_name = data.seed.artist[2].name
+                                regDropArtist();
+
+                                Promise
+                                    .all(xhrList)
+                                    .then(function () {
+                                        $("div#recom-seeds, div.drop-block, div.details").show();
+                                        $("div#result-loading, div#process-loading").hide();
+                                        getRecomBySeed("recom-seeds");
+                                        xhrList=[]
+                                        isInitialized = false;
+
+                                        // Settings for different experimental conditions
+                                        if(window.location.pathname=="/s1" || window.location.pathname=="/s3" || window.location.pathname=="/s4" || window.location.pathname=="/s7"){
+                                            $("#recom-seeds").sortable("disable")
+                                        }
+                                        if(window.location.pathname=="/s1" || window.location.pathname=="/s2" || window.location.pathname=="/s4" || window.location.pathname=="/s6"){
+                                            $("div.seed span").draggable("disable")
+                                            $("i.fa.fa-plus-circle").hide()
+                                            $("i.fa.fa-times").hide()
+                                            if($("div.drop-seeds").is(':data(ui-droppable)'))
+                                                $("div.drop-seeds").droppable("disable")
+                                        }
+
+                                        if(window.location.pathname=="/s1" || window.location.pathname=="/s2" || window.location.pathname=="/s3" || window.location.pathname=="/s5"){
+                                            artistWeightBar.bootstrapSlider("disable")
+                                            trackWeightBar.bootstrapSlider("disable")
+                                            genreWeightBar.bootstrapSlider("disable")
+                                            $("div.ui-sortable").sortable("disable")
+                                            $("i.fa.fa-arrows-v").hide()
+                                        }
+                                    })
+                            })
+
+                });
+
+
 
             /***********Load more recommendation resources*********/
             var seed_artist_len = data.seed.artist.length, seed_artist_index = 0,
@@ -1181,7 +1252,8 @@ $.ajax({
 
         beforeSend: function () {
             //$("div.recom").addClass("loading")
-            $("div.seed").hide();
+            $("div.seed, div.drop-block, div.details").hide();
+
             // $("div.loading").show();
         },
 
@@ -1194,13 +1266,10 @@ $.ajax({
     });
 
 setTimeout(function () {
-    $("#nasa-t1").show();
-    $("#nasa-t2").show();
-    $("#nasa-t3").show();
-    $("#recsysque").show();
-}, 1000*300 )
+    $(".questionnaire").show();
+}, 1000*60*10 )
 
-// // Sent Logs
+// Sent Logs
 // $('.questionnaire').click(function () {
 //     console.log("send")
 //     $.ajax({
