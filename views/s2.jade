@@ -9,7 +9,8 @@ html
     body
         p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp
             a.btn.btn-primary(href='/logout' role="button") Log Out
-            a(class="questionnaire" target="_blank" href="https://goo.gl/forms/mSjM8oYndfxBFn2I3") Questionnaire
+            a.btn.btn-info(class="questionnaire" target="_blank" href="https://goo.gl/forms/mSjM8oYndfxBFn2I3") Tell us your feeling
+        p#task-to-do(style="color:yellow")
         div.row
             div.col-md-3.sub-block
                 h4 Recommendations source

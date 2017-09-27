@@ -54,21 +54,21 @@ header {
 
 
 h1{
-    color: white;
+    color: #cdcdcd;
     font-size: 40px;
     font-family: 'Open Sans', sans-serif;
 }
 
 
 h4{
-    color: #f1f1f1;
+    color: #cdcdcd;
     font-size:1.5vw;
     font-weight: bold;
     font-family: 'Roboto', sans-serif;
 }
 
 p{
-    color: #eaeaea;
+    color: #cdcdcd;
     line-height: 1.5;
 }
 

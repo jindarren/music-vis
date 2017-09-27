@@ -1,14 +1,15 @@
-login-s2.jadedoctype html
+doctype html
 html
     head
-        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+        link(rel="stylesheet" type = "text/css", href = "../bootstrap/dist/css/bootstrap.css")
         link(href='../stylesheets/base.css', rel='stylesheet')
         link(href='../stylesheets/welcome.css', rel='stylesheet')
-        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+        script(type = "text/javascript", src = "../jquery/dist/jquery.js", charset = 'utf-8')
+        script(type = "text/javascript", src = "../bootstrap/dist/js/bootstrap.js", charset = 'utf-8')
         link(href='https://fonts.googleapis.com/css?family=Open+Sans|Roboto', rel='stylesheet')
         script(type='text/javascript', src='../js/welcome.js')
         script.
+            var isPlayed = false;
             // 2. This code loads the IFrame Player API code asynchronously.
             var tag = document.createElement('script');
             tag.src = "https://www.youtube.com/iframe_api";
@@ -21,7 +22,7 @@ html
                 player = new YT.Player('player', {
                     height: '270',
                     width: '480',
-                    videoId: 'ETehhMtS4BA',
+                    videoId: 'lgVJOMbxpMI',
                     events: {
                         'onReady': onPlayerReady,
                         'onStateChange': onPlayerStateChange
@@ -38,7 +39,9 @@ html
             var done = false;
             function onPlayerStateChange(event) {
                 if (event.data == YT.PlayerState.ENDED) {
-                    $("a.btn.btn-geckoboard").show()
+                    isPlayed=true
+                    if($("#selectTopic option:selected").attr("value") != "bitte")
+                        $("a.btn.btn-geckoboard").removeClass("disabled")
                 }
             }
         meta(charset='utf-8')
@@ -52,7 +55,7 @@ html
                 .col-sm-6
                     h4
                         | Welcome to a user study about music recommender.
-                    p(style='color:#12ADFF')
+                    p(style='color:#12ADFF; font-weight:1000')
                         | Please note you need to be a frequent or heavy user of Spotify, otherwise the system cannot generate recommendations for you. Thank you.
 
                     h4  Introduction
@@ -68,7 +71,7 @@ html
                     p
                         | After playing with our system, you have to listen and rate all recommended songs and then answer a few questionnaires. Participating in this study will take about 15 - 20 minutes.
 
-                    p(style="color:red")
+                    p(style="color:white")
                         | Please ensure you have listened and rated all songs, a questionnaire link only will be shown after 6 minutes at right top corner.
                 .col-sm-6
 
@@ -77,24 +80,23 @@ html
                     p
                         | Please watch the following tutorial before the task. A link of task will be shown after the video.
                     div#player
-
                     h4
-                        | Topic
+                        | Working scenario
                     p
-                        | Please choose a  topic that you are more familiar with. You have 5 options.
-                    input#choose(type='hidden', value='Please choose a topic!')
+                        | Please select a scenario where you may want to create a playlist. There are four scenarios.
+                    input#choose(type='hidden', value='Please choose a scenario!')
                     div
-                        select#selectTopic.form-control(name='topicName', style='width: 250px;')
-                            option(value='bitte')
+                        select#selectTopic.form-control(name='topicName', style='width: 300px;')
+                            option(selected="" value='bitte')
                                 | Please choose ...
-                            option(value='Rock-Night') Rock-Night
-                            option(value='Dance-Party') Dance-Party
-                            option(value='Joyful') Joyful
-                            option(value='HipHop-Club') HipHop-Club
+                            option(value='Rock night') Rock night
+                            option(value='Dance party') Dance party
+                            option(value='Joyful day') Joyful day
+                            option(value='HipHop-club') HipHop club
                         .descriptions
                             #chooseDiv.topicDivs
-                                p
-                                    | Please choose a topic!
+                                p(style="color:#FFFFFF")
+                                    | Please select a scenario where you may want to create a playlist!
                             #chilloutDiv.topicDivs(hidden='')
                                 p
                                     | I feel happy after passing all my exams in this semester. These songs fit my current feeling.
@@ -103,10 +105,10 @@ html
                                     | It may also be faster and louder tonight.
                             #partyDiv.topicDivs(hidden='')
                                 p
-                                    | There is no good party without dancing. With these songs the dance floor surely wont stay empty!
+                                    | A dance party cannot be good without rhythmic songs. With these songs the dance floor surely will not be empty!
                             #hiphopDiv.topicDivs(hidden='')
                                 p
                                     | Beats to nod along and cool/intelligent lyrics are all I need.
                     div
-                        a.btn.btn-geckoboard(href='/auth/spotify', style='margin-top: 10px; display:none')
+                        a.btn.btn-lg.btn-block.disabled.btn-geckoboard(href='/auth/spotify', style='margin-top: 10px')
                             | Start

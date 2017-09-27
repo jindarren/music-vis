@@ -11,7 +11,6 @@ var storage = window.localStorage;
 var xhrList = [];
 var isInitialized = true;
 
-
 recom.weights = [];
 recom.artistRankList = [];
 recom.trackRankList = [];
@@ -40,6 +39,15 @@ loggingSys.switch = 0;
 loggingSys.rating = [];
 
 $(document).ready(function () {
+
+    if(storage.topic=="joy")
+        $("#task-to-do").text("Reminder: I want to find a good playlist to celebrate the day when you finish all your exams.")
+    else if(storage.topic=="rock")
+        $("#task-to-do").text("Reminder: I want to find a good playlist which contains faster and louder music for a sleepless night.")
+    else if(storage.topic=="dance")
+        $("#task-to-do").text("Reminder: I want to find a good playlist of rhythmic music for a dance party.")
+    else if(storage.topic=="hiphop")
+        $("#task-to-do").text("Reminder: I want to find a good playlist which gives me beats to nod along and cool lyrics.")
 
     if(storage.topic == "dance")
         trackAttributes.min_danceability = 0.66;
@@ -460,7 +468,7 @@ var getRecomBySeed = function (resultListID) {
     }
 
     if(window.location.pathname=="/s1" || window.location.pathname=="/s2" || window.location.pathname=="/s3" || window.location.pathname=="/s5"){
-        $("i.fa.fa-arrows-v").hide()
+        $("i.fa.fa-arrows-seed").hide()
     }
 }
 
@@ -633,15 +641,10 @@ $.ajax({
                 $("#" + dragged_artist).css("border","solid 3px white")
                 $("#artist-seed > span#" + dragged_artist).draggable({disabled: true})
 
-                $("#drop-artists").append("<span class='label' id=" + dragged_artist + ">" + "<i class='fa fa-arrows-v'></i>" + " " + dragged_artist_name + "  " + "<i class='fa fa-times'></i></span>")
+                $("#drop-artists").append("<span class='label' id=" + dragged_artist + ">" + "<i class='fa fa-arrows-v fa-arrows-seed'></i>" + " " + dragged_artist_name + "  " + "<i class='fa fa-times'></i></span>")
                 if($("#drop-artists span").length == 1) {
                     recom.weights[0] = 50;
                     artistWeightBar.bootstrapSlider('setValue', 50)
-                }
-
-                if(!recom.enableSeedWeight){
-                    $(".fa-arrows-v").hide();
-                    $(".drop-seeds").sortable({disabled: true})
                 }
 
                 //delete a seed from the list of dropped seeds
@@ -801,17 +804,11 @@ $.ajax({
                 $("#" + dragged_track).css("border", "solid 3px white")
                 $("#track-seed > span#" + dragged_track).draggable({disabled: true})
 
-                $('#drop-tracks').append("<span class='label' id=" + dragged_track + ">" + "<i class='fa fa-arrows-v'></i>" + " "+dragged_track_name + "  " + "<i class='fa fa-times'></i></span>")
+                $('#drop-tracks').append("<span class='label' id=" + dragged_track + ">" + "<i class='fa fa-arrows-v fa-arrows-seed'></i>" + " "+dragged_track_name + "  " + "<i class='fa fa-times'></i></span>")
 
                 if($("#drop-tracks span").length == 1) {
                     recom.weights[1] = 50;
                     trackWeightBar.bootstrapSlider('setValue', 50)
-                }
-
-
-                if(!recom.enableSeedWeight){
-                    $(".fa-arrows-v").hide();
-                    $(".drop-seeds").sortable({disabled: true})
                 }
 
 
@@ -970,17 +967,13 @@ $.ajax({
                 $("#" + dragged_genre).css("border","solid 3px white")
                 $("#genre-seed > span#" + dragged_genre).draggable({disabled: true})
 
-                $('#drop-genres').append("<span class='label' id=" + dragged_genre + ">" + "<i class='fa fa-arrows-v'></i>" + " " +dragged_genre + "  " + "<i class='fa fa-times'></i></span>")
+                $('#drop-genres').append("<span class='label' id=" + dragged_genre + ">" + "<i class='fa fa-arrows-v fa-arrows-seed'></i>" + " " +dragged_genre + "  " + "<i class='fa fa-times'></i></span>")
 
                 if($("#drop-genres span").length == 1) {
                     recom.weights[2] = 50;
                     genreWeightBar.bootstrapSlider('setValue', 50)
                 }
 
-                if(!recom.enableSeedWeight){
-                    $(".fa-arrows-v").hide();
-                    $(".drop-seeds").sortable({disabled: true})
-                }
 
                 $("span#" + dragged_genre + " > i.fa.fa-times").click(function () {
 
@@ -1147,7 +1140,6 @@ $.ajax({
                                 dragged_artist = data.seed.artist[2].id
                                 dragged_artist_name = data.seed.artist[2].name
                                 regDropArtist();
-
                                 Promise
                                     .all(xhrList)
                                     .then(function () {
@@ -1156,7 +1148,6 @@ $.ajax({
                                         getRecomBySeed("recom-seeds");
                                         xhrList=[]
                                         isInitialized = false;
-
                                         // Settings for different experimental conditions
                                         if(window.location.pathname=="/s1" || window.location.pathname=="/s3" || window.location.pathname=="/s4" || window.location.pathname=="/s7"){
                                             $("#recom-seeds").sortable("disable")
@@ -1168,13 +1159,12 @@ $.ajax({
                                             if($("div.drop-seeds").is(':data(ui-droppable)'))
                                                 $("div.drop-seeds").droppable("disable")
                                         }
-
                                         if(window.location.pathname=="/s1" || window.location.pathname=="/s2" || window.location.pathname=="/s3" || window.location.pathname=="/s5"){
                                             artistWeightBar.bootstrapSlider("disable")
                                             trackWeightBar.bootstrapSlider("disable")
                                             genreWeightBar.bootstrapSlider("disable")
-                                            $("div.ui-sortable").sortable("disable")
-                                            $("i.fa.fa-arrows-v").hide()
+                                            $("div.drop-seeds").sortable("disable")
+                                            $("i.fa.fa-arrows-seed").hide()
                                         }
                                     })
                             })

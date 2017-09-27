@@ -22,24 +22,29 @@ $( document ).ready(function() {
                 $("#chooseDiv").show();
             }
 
-            if(str.trim() === "Joyful"){
+            if(str.trim() === "Joyful day"){
                 $("#chilloutDiv").show();
                 storage.topic = "joy"
             }
 
-            if(str.trim() === "Rock-Night"){
+            if(str.trim() === "Rock night"){
                 $("#rockDiv").show();
                 storage.topic = "rock"
 
             }
-            if(str.trim() === "Dance-Party"){
+            if(str.trim() === "Dance party"){
                 $("#partyDiv").show();
                 storage.topic = "dance"
             }
 
-            if(str.trim() === "HipHop-Club"){
+            if(str.trim() === "HipHop club"){
                 $("#hiphopDiv").show();
                 storage.topic = "hiphop"
+            }
+
+            console.log(isPlayed)
+            if (isPlayed && $("#selectTopic option:selected").attr("value")!="bitte") {
+                $("a.btn.btn-geckoboard").removeClass("disabled")
             }
         })
         .change();

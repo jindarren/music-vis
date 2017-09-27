@@ -9,8 +9,8 @@ html
     body
         p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp
             a.btn.btn-primary(href='/logout' role="button") Log Out
-            a(class="questionnaire" target="_blank" href="https://goo.gl/forms/nDmDwrU3YXiAyckz2") Questionnaire
-
+            a.btn.btn-info(class="questionnaire" target="_blank" href="https://goo.gl/forms/nDmDwrU3YXiAyckz2") Tell us your feeling
+        p#task-to-do(style="color:yellow")
         div.row
             div.col-md-3.sub-block
                 h4 Recommendations source
@@ -62,16 +62,19 @@ html
                                 .modal-footer
                                     button.btn.btn-default#btn-audio(type='button', data-dismiss='modal') Confirm
                     div.drop-block
-                        h6 Weight of selected artists:&nbsp50
+                        h6 Weight of selected artists:&nbsp
                             span#artist-weight-val
+                                | 50
                         input.bootstrap-slider#artist-weight(type="text" value="50" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="artist-weight" data-slider-handle="round")
                         div.drop-seeds#drop-artists
-                        h6 Weight of selected tracks:&nbsp50
+                        h6 Weight of selected tracks:&nbsp
                             span#track-weight-val
+                                | 50
                         input.bootstrap-slider#track-weight(type="text" value="50" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="track-weight" data-slider-handle="round")
                         div.drop-seeds#drop-tracks
-                        h6 Weight of selected genres:&nbsp50
+                        h6 Weight of selected genres:&nbsp
                             span#genre-weight-val
+                                | 50
                         input.bootstrap-slider#genre-weight(type="text" value="50" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-id="genre-weight" data-slider-handle="round")
                         div.drop-seeds#drop-genres
                     div.details
