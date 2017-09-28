@@ -5,7 +5,7 @@ var passport = require('passport');
 var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index').Strategy;
 var path = require('path');
 var request = require('request');
-var loginbase = "login-s8";
+var loginbase;
 
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
 var appSecret = 'b368bdb3003747ec861e62d3bf381ba0';
