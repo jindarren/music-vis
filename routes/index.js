@@ -7,14 +7,8 @@ var path = require('path');
 var request = require('request');
 var loginbase = "login-s8";
 
-
-
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
 var appSecret = 'b368bdb3003747ec861e62d3bf381ba0';
-
-var reqData = {};
-//var recommendations = {};
-var token;
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -43,6 +37,10 @@ passport.use(new SpotifyStrategy({
         //callbackURL: 'http://localhost:3000/callback'
     },
         function (accessToken, refreshToken, profile, done) {
+
+        var reqData = {};
+        var token;
+
         // asynchronous verification, for effect...
         refresh = refreshToken
         token = accessToken;
@@ -56,8 +54,123 @@ passport.use(new SpotifyStrategy({
             return done(null, profile);
         });
 
-        setInterval(function () {
+        /*
+         route for web API
+         */
 
+        router.get('/getArtist',function (req,res) {
+            var result = {}
+            recom(token).getTopArtists().then(function (data) {
+                result.items = data;
+                res.json(result)})
+        })
+
+        router.get('/getTrack',function (req,res) {
+            var result = {}
+            recom(token).getTopTracks().then(function (data) {
+                result.items = data;
+                res.json(result)})
+        })
+
+        router.get('/getGenre',function (req,res) {
+            var result = {}
+            recom(token).getTopGenres().then(function (data) {
+                result.items = data;
+                res.json(result)})
+        })
+
+
+        router.get('/getRecom',function (req,res) {
+            var result = {}
+            recom(token).getRecommendation(req.query.limit,req.query.artistSeed,req.query.trackSeed,req.query.genreSeed,req.query.min_danceability, req.query.max_danceability,
+                req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
+                req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
+                result.items = data;
+                res.json(result)})
+        })
+
+        router.get('/getRecomByArtist',function (req,res) {
+            var result = {}
+            recom(token).getRecommendationByArtist(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
+                req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
+                req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
+                result.items = data;
+                res.json(result)})
+        })
+
+        router.get('/getRecomByTrack',function (req,res) {
+            var result = {}
+            recom(token).getRecommendationByTrack(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
+                req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
+                req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
+                result.items = data;
+                res.json(result)})
+        })
+
+        router.get('/getRecomByGenre',function (req,res) {
+            var result = {}
+            recom(token).getRecommendationByGenre(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
+                req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
+                req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
+                result.items = data;
+                res.json(result)})
+        })
+
+        router.get('/getRecomByFollowSimilar',function (req,res) {
+            var result = {}
+            recom(token).getArtistRelatedArtists(req.query.id).then(function (data) {
+                var selectedRelated = data.slice(0,5);
+                result.similar = selectedRelated
+                return selectedRelated
+            }).then(function (data) {
+                recom(token).getRecommendationByFollowedArtist(data,'US').then(function (data) {
+                    result.items = data
+                    res.json(result)
+                })
+            })
+        })
+
+        router.get('/getAccount',function (req,res) {
+            recom(token).getRecommendationByGenre().then(function (data) {
+                res.json(data)})
+        })
+
+        router.get('/initiate', function (req, res) {
+            //pass token to the webAPI used by recommender
+            if (token) {
+
+                var getTopArtists =
+                    recom(token).getTopArtists(50).then(function (data) {
+                        reqData.artist = data;
+                    });
+
+
+                var getTracks =
+                    recom(token).getTopTracks(50).then(function (data) {
+                        reqData.track = data
+                    });
+
+
+                var getGenres =
+                    recom(token).getTopGenres().then(function (data) {
+                        reqData.genre = data
+                    });
+
+                Promise.all([getTopArtists, getTracks, getGenres]).then(function () {
+                    res.json({
+                        seed: reqData
+                    })
+                })
+            }
+            else {
+                reqData.user = req.user;
+                res.json({
+                    seed: reqData
+                })
+            }
+        });
+
+        setInterval(function () {
             var refreshToken = function (refreshToken, clientID, clientSecret, next) {
                 var auth = 'Basic ' +  (new Buffer(clientID + ':' + clientSecret).toString('base64'))
                     , opts = {
@@ -83,130 +196,11 @@ passport.use(new SpotifyStrategy({
                 reqData.token = body.access_token;
                 //refresh = body.refresh_token;
             })
-        }, 1000*3600)
+        }, 1000*3500)
     }));
 
-/*
- route for web API
- */
-
-router.get('/getArtist',function (req,res) {
-    var result = {}
-    recom(token).getTopArtists().then(function (data) {
-        result.items = data;
-        res.json(result)})
-})
-
-router.get('/getTrack',function (req,res) {
-    var result = {}
-    recom(token).getTopTracks().then(function (data) {
-        result.items = data;
-        res.json(result)})
-})
-
-router.get('/getGenre',function (req,res) {
-    var result = {}
-    recom(token).getTopGenres().then(function (data) {
-        result.items = data;
-        res.json(result)})
-})
 
 
-router.get('/getRecom',function (req,res) {
-    var result = {}
-    recom(token).getRecommendation(req.query.limit,req.query.artistSeed,req.query.trackSeed,req.query.genreSeed,req.query.min_danceability, req.query.max_danceability,
-        req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
-        req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
-        result.items = data;
-        res.json(result)})
-})
-
-router.get('/getRecomByArtist',function (req,res) {
-    var result = {}
-    recom(token).getRecommendationByArtist(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
-        req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
-        req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
-        result.items = data;
-        res.json(result)})
-})
-
-router.get('/getRecomByTrack',function (req,res) {
-    var result = {}
-    recom(token).getRecommendationByTrack(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
-        req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
-        req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
-        result.items = data;
-        res.json(result)})
-})
-
-router.get('/getRecomByGenre',function (req,res) {
-    var result = {}
-    recom(token).getRecommendationByGenre(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
-        req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
-        req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
-        result.items = data;
-        res.json(result)})
-})
-
-router.get('/getRecomByFollowSimilar',function (req,res) {
-    var result = {}
-    recom(token).getArtistRelatedArtists(req.query.id).then(function (data) {
-        var selectedRelated = data.slice(0,5);
-        result.similar = selectedRelated
-        return selectedRelated
-    }).then(function (data) {
-        recom(token).getRecommendationByFollowedArtist(data,'US').then(function (data) {
-            result.items = data
-            res.json(result)
-        })
-    })
-})
-
-router.get('/getAccount',function (req,res) {
-    recom(token).getRecommendationByGenre().then(function (data) {
-        res.json(data)})
-})
-
-
-router.get('/initiate', function (req, res) {
-    //pass token to the webAPI used by recommender
-    if (token) {
-        // var getFollowedArtists =
-        //     recom(token).getFollowedArtists(50).then(function (data) {
-        //         reqData.followed_artist = data;
-        //     });
-
-
-        var getTopArtists =
-            recom(token).getTopArtists(50).then(function (data) {
-                reqData.artist = data;
-            });
-
-
-        var getTracks =
-            recom(token).getTopTracks(50).then(function (data) {
-                reqData.track = data
-            });
-
-
-        var getGenres =
-            recom(token).getTopGenres().then(function (data) {
-                reqData.genre = data
-            });
-
-        Promise.all([getTopArtists, getTracks, getGenres]).then(function () {
-            res.json({
-                seed: reqData
-            })
-        })
-    }
-    else {
-        reqData.user = req.user;
-        res.json({
-            seed: reqData
-        })
-    }
-});
 router.get('/s1',function (req,res) {
     res.render('s1',{ data: req.user})
 })

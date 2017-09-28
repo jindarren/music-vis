@@ -41,13 +41,13 @@ loggingSys.rating = [];
 $(document).ready(function () {
 
     if(storage.topic=="joy")
-        $("#task-to-do").text("Reminder: I want to find a good playlist to celebrate the day when you finish all your exams.")
+        $("#task-to-do").text("Reminder: I want to find a good playlist to celebrate the day when I finish all my exams.")
     else if(storage.topic=="rock")
         $("#task-to-do").text("Reminder: I want to find a good playlist which contains faster and louder music for a sleepless night.")
     else if(storage.topic=="dance")
-        $("#task-to-do").text("Reminder: I want to find a good playlist of rhythmic music for a dance party.")
+        $("#task-to-do").text("Reminder: I want to find a good playlist of rhythmic music for a dance party to celebrate my birthday.")
     else if(storage.topic=="hiphop")
-        $("#task-to-do").text("Reminder: I want to find a good playlist which gives me beats to nod along and cool lyrics.")
+        $("#task-to-do").text("Reminder: I want to find a good playlist of hip-hop music which gives me strong beats and cool lyrics.")
 
     if(storage.topic == "dance")
         trackAttributes.min_danceability = 0.66;
@@ -88,21 +88,22 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
     //hide the artist block at the beginning
-    $("#result-loading, #process-loading").hide()
+
+    $("#result-loading, #process-loading, #seed-block").hide()
 
 
 
 //apply weight for algorithm
 //weight slider
 
-    $("#btn-audio").click(function(){
-        $("#seed-block").hide()
-        $("#confirm-audio").show()
-        setTimeout(function () {
-            $("#confirm-audio").hide()
-            $("#seed-block").show()
-        }, 3000)
-    })
+    // $("#btn-audio").click(function(){
+    //     $("#seed-block").hide()
+    //     $("#confirm-audio").show()
+    //     setTimeout(function () {
+    //         $("#confirm-audio").hide()
+    //         $("#seed-block").show()
+    //     }, 3000)
+    // })
 
     // acousticnessBar = $("#acousticness").bootstrapSlider()
     //     .on("slideStop", function (data) {
@@ -113,33 +114,34 @@ $(document).ready(function () {
     //             //recom.weights[0] = val;
     //             //getRecomBySeed("recom-seeds");
     //         });
-    $("span#danceability-weight-val").text("between "+trackAttributes.min_danceability+" and "+trackAttributes.max_danceability)
-    $("input#danceability").attr("data-slider-value","["+trackAttributes.min_danceability+","+trackAttributes.max_danceability+"]")
-    danceabilityBar = $("#danceability").bootstrapSlider()
-        .on("slideStop", function (data) {
-            $("span#danceability-weight-val").text("between "+data.value[0]+" and "+data.value[1])
-            trackAttributes.min_danceability=data.value[0]
-            trackAttributes.max_danceability=data.value[1]
-            //LOGGING
-            //loggingSys.high_con += 1;
-            // var val = $(this).bootstrapSlider("getValue")
-            //recom.weights[0] = val;
-            //getRecomBySeed("recom-seeds");
-        });
 
-    $("span#energy-weight-val").text("between "+trackAttributes.min_energy+" and "+trackAttributes.max_energy)
-    $("input#energy").attr("data-slider-value","["+trackAttributes.min_energy+","+trackAttributes.max_energy+"]")
-    energyBar = $("#energy").bootstrapSlider()
-        .on("slideStop", function (data) {
-            $("span#energy-weight-val").text("between "+data.value[0]+" and "+data.value[1])
-            trackAttributes.min_energy=data.value[0]
-            trackAttributes.max_energy=data.value[1]
-            //LOGGING
-            //loggingSys.high_con += 1;
-            // var val = $(this).bootstrapSlider("getValue")
-            //recom.weights[0] = val;
-            //getRecomBySeed("recom-seeds");
-        });
+    // $("span#danceability-weight-val").text("between "+trackAttributes.min_danceability+" and "+trackAttributes.max_danceability)
+    // $("input#danceability").attr("data-slider-value","["+trackAttributes.min_danceability+","+trackAttributes.max_danceability+"]")
+    // danceabilityBar = $("#danceability").bootstrapSlider()
+    //     .on("slideStop", function (data) {
+    //         $("span#danceability-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+    //         trackAttributes.min_danceability=data.value[0]
+    //         trackAttributes.max_danceability=data.value[1]
+    //         //LOGGING
+    //         //loggingSys.high_con += 1;
+    //         // var val = $(this).bootstrapSlider("getValue")
+    //         //recom.weights[0] = val;
+    //         //getRecomBySeed("recom-seeds");
+    //     });
+
+    // $("span#energy-weight-val").text("between "+trackAttributes.min_energy+" and "+trackAttributes.max_energy)
+    // $("input#energy").attr("data-slider-value","["+trackAttributes.min_energy+","+trackAttributes.max_energy+"]")
+    // energyBar = $("#energy").bootstrapSlider()
+    //     .on("slideStop", function (data) {
+    //         $("span#energy-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+    //         trackAttributes.min_energy=data.value[0]
+    //         trackAttributes.max_energy=data.value[1]
+    //         //LOGGING
+    //         //loggingSys.high_con += 1;
+    //         // var val = $(this).bootstrapSlider("getValue")
+    //         //recom.weights[0] = val;
+    //         //getRecomBySeed("recom-seeds");
+    //     });
 
     // instrumentalnessBar = $("#instrumentalness").bootstrapSlider()
     //     .on("slideStop", function (data) {
@@ -175,34 +177,34 @@ $(document).ready(function () {
     //         //getRecomBySeed("recom-seeds");
     //     });
 
-    $("span#speechiness-weight-val").text("between "+trackAttributes.min_speechiness+" and "+trackAttributes.max_speechiness)
-    $("input#speechiness").attr("data-slider-value","["+trackAttributes.min_speechiness+","+trackAttributes.max_speechiness+"]")
-    speechinessBar = $("#speechiness").bootstrapSlider()
-        .on("slideStop", function (data) {
-            $("span#speechiness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
-            trackAttributes.min_speechiness=data.value[0]
-            trackAttributes.max_speechiness=data.value[1]
-            //LOGGING
-            //loggingSys.high_con += 1;
-            // var val = $(this).bootstrapSlider("getValue")
-            //recom.weights[0] = val;
-            //getRecomBySeed("recom-seeds");
-        });
+    // $("span#speechiness-weight-val").text("between "+trackAttributes.min_speechiness+" and "+trackAttributes.max_speechiness)
+    // $("input#speechiness").attr("data-slider-value","["+trackAttributes.min_speechiness+","+trackAttributes.max_speechiness+"]")
+    // speechinessBar = $("#speechiness").bootstrapSlider()
+    //     .on("slideStop", function (data) {
+    //         $("span#speechiness-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+    //         trackAttributes.min_speechiness=data.value[0]
+    //         trackAttributes.max_speechiness=data.value[1]
+    //         //LOGGING
+    //         //loggingSys.high_con += 1;
+    //         // var val = $(this).bootstrapSlider("getValue")
+    //         //recom.weights[0] = val;
+    //         //getRecomBySeed("recom-seeds");
+    //     });
 
 
-    $("span#valence-weight-val").text("between "+trackAttributes.min_valence+" and "+trackAttributes.max_valence)
-    $("input#valence").attr("data-slider-value","["+trackAttributes.min_valence+","+trackAttributes.max_valence+"]")
-    valenceBar = $("#valence").bootstrapSlider()
-        .on("slideStop", function (data) {
-            $("span#valence-weight-val").text("between "+data.value[0]+" and "+data.value[1])
-            trackAttributes.min_valence=data.value[0]
-            trackAttributes.max_valence=data.value[1]
-            //LOGGING
-            //loggingSys.high_con += 1;
-            // var val = $(this).bootstrapSlider("getValue")
-            //recom.weights[0] = val;
-            //getRecomBySeed("recom-seeds");
-        });
+    // $("span#valence-weight-val").text("between "+trackAttributes.min_valence+" and "+trackAttributes.max_valence)
+    // $("input#valence").attr("data-slider-value","["+trackAttributes.min_valence+","+trackAttributes.max_valence+"]")
+    // valenceBar = $("#valence").bootstrapSlider()
+    //     .on("slideStop", function (data) {
+    //         $("span#valence-weight-val").text("between "+data.value[0]+" and "+data.value[1])
+    //         trackAttributes.min_valence=data.value[0]
+    //         trackAttributes.max_valence=data.value[1]
+    //         //LOGGING
+    //         //loggingSys.high_con += 1;
+    //         // var val = $(this).bootstrapSlider("getValue")
+    //         //recom.weights[0] = val;
+    //         //getRecomBySeed("recom-seeds");
+    //     });
 
     // modeBar = $("#mode").bootstrapSlider()
     //     .on("slideStop", function (data) {
@@ -289,7 +291,6 @@ $("#recom-seeds").sortable({
 var getRecomBySeed = function (resultListID) {
     console.log(recom)
 
-    $("div#recom-seeds").empty();
     sortedRecoms = []
     recomID = []
 
@@ -318,6 +319,7 @@ var getRecomBySeed = function (resultListID) {
 
                     if(recom.by_artist[i].recoms[j]){
                         item.type = "recom-artist"
+                        item.source = "by_artist"
                         item.seed = seed
                         item.id = recom.by_artist[i].recoms[j].id
                         item.popu = recom.by_artist[i].recoms[j].popularity
@@ -346,6 +348,7 @@ var getRecomBySeed = function (resultListID) {
                     if(recom.by_track[i].recoms[j]){
 
                         item.type = "recom-track"
+                        item.source = "by_track"
                         item.seed = seed
                         item.id = recom.by_track[i].recoms[j].id
                         item.popu = recom.by_track[i].recoms[j].popularity
@@ -375,6 +378,7 @@ var getRecomBySeed = function (resultListID) {
                     var item = {}
                     if(recom.by_genre[i].recoms[j]){
                         item.type = "recom-genre"
+                        item.source = "by_genre"
                         item.seed = seed
                         item.id = recom.by_genre[i].recoms[j].id
                         item.popu = recom.by_genre[i].recoms[j].popularity
@@ -394,6 +398,7 @@ var getRecomBySeed = function (resultListID) {
             for (var i = 0; i < 20; i++) {
                     var item = {}
                     item.type = "general"
+                    item.source = "by_general"
                     item.seed = "null"
                     item.id = recom.general[i].id
                     item.popu = recom.general[i].popularity
@@ -410,65 +415,132 @@ var getRecomBySeed = function (resultListID) {
         sortedRecoms = sortedRecoms.slice(0,20)
         console.log(sortedRecoms)
 
-        for(index in sortedRecoms){
-            $("#"+resultListID).prepend('<div class="recom-items lift-top ' + sortedRecoms[index].type + " " + sortedRecoms[index].seed + '"'+' id="' + sortedRecoms[index].id +'"'+ ' data-popu="'+sortedRecoms[index].popu+'">' + '<iframe src="'+sortedRecoms[index].uri+'"'+' width="80%" height="80" frameborder="0" allowtransparency="true"></iframe><div class="recom-icon"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i><i class="fa fa-thumbs-o-down" aria-hidden="true"></i><i class="fa fa-arrows-v fa-arrows-recom"></i></div></div>')
+        var deletedArray=[]
+
+        var renderSortedRecoms =  function() {
+
+            $("div#recom-seeds").empty();
+
+            for(index in sortedRecoms){
+                $("#"+resultListID).prepend('<div class="recom-items lift-top ' + sortedRecoms[index].type + " " + sortedRecoms[index].seed + '"'+' id="' + sortedRecoms[index].id +'"'+' data-seed="' + sortedRecoms[index].seed +'"'+' data-seed-type="' + sortedRecoms[index].source +'"'+' data-type="' + sortedRecoms[index].type +'"'+ ' data-popu="'+sortedRecoms[index].popu+'">' + '<iframe src="'+sortedRecoms[index].uri+'"'+' width="80%" height="80" frameborder="0" allowtransparency="true"></iframe><div class="recom-icon"><div class="recom-deletion"><i class="fa fa-times recom-fa-times" aria-hidden="true"></i></div><div class="recom-rating"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i><i class="fa fa-thumbs-o-down" aria-hidden="true"></i><i class="fa fa-arrows-v fa-arrows-recom"></i></div></div></div>')
+
+                $("div.recom-items > div.recom-icon >  div.recom-deletion > i:eq(0)").click(function () {
+                    //LOGGING
+                    //loggingSys.mod_con += 1
 
 
-            $("div.recom-items > div.recom-icon > i:eq(1)").click(function () {
-                //LOGGING
-                //loggingSys.mod_con += 1
+                    var deletedRecomId = $(this).parent().parent().parent().attr('id')
 
-                var dislikedRecomId = $(this).parent().parent().attr('id')
+                    var seedType = $(this).parent().parent().parent().attr("data-seed-type"),
+                        seedId = $(this).parent().parent().parent().attr("data-seed"),
+                        seedType1 = $(this).parent().parent().parent().attr("data-type");
 
-                if($(this).hasClass("fa-thumbs-o-down")){
-                    $(this).removeClass("fa-thumbs-o-down");
-                    $(this).addClass("fa-thumbs-down")
 
-                    if($(this).prev().hasClass("fa-thumbs-up")){
-                        $(this).prev().removeClass("fa-thumbs-up")
-                        $(this).prev().addClass("fa-thumbs-o-up")
+                    console.log(seedType, seedId)
+                    var newSong
+                    console.log(recom[seedType])
+
+                    for (index in recom[seedType]){
+                        if(recom[seedType][index].seed == seedId){
+                            console.log("findID")
+                            for(index2 in recom[seedType][index].recoms){
+                                var recomId = recom[seedType][index].recoms[index2].id
+                                console.log("recomID", $("#"+recomId)[0])
+
+                                if(!$("#"+recomId)[0]&&deletedArray.indexOf(recomId)<0) {
+                                    newSong = recom[seedType][index].recoms[index2]
+                                    console.log(newSong)
+                                    var item = {}
+                                    item.type = seedType1
+                                    item.source = seedType
+                                    item.seed = seedId
+                                    item.id = newSong.id
+                                    item.popu = newSong.popularity
+                                    item.uri = encodeURI("https://open.spotify.com/embed?uri="+newSong.uri)
+                                    for(index in sortedRecoms){
+                                        if(sortedRecoms[index].id==deletedRecomId){
+                                            console.log(sortedRecoms[index])
+                                            if(deletedArray.indexOf(deletedRecomId)<0)
+                                                deletedArray.push(deletedRecomId)
+
+                                            sortedRecoms.splice(index,1,item)
+                                        }
+                                    }
+                                    console.log(sortedRecoms, deletedArray)
+                                    renderSortedRecoms()
+                                    return
+                                }
+                            }
+
+                        }
 
                     }
-                }
-                else if($(this).hasClass("fa-thumbs-down")){
-                    $(this).removeClass("fa-thumbs-down");
-                    $(this).addClass("fa-thumbs-o-down")
-                }
 
-            })
 
-            $("div.recom-items > div.recom-icon > i:eq(0)").click(function () {
-                //LOGGING
-                //loggingSys.mod_con += 1
+                })
 
-                var likedRecomId = $(this).parent().parent().attr('id')
+                $("div.recom-items > div.recom-icon >  div.recom-rating > i:eq(1)").click(function () {
+                    //LOGGING
+                    //loggingSys.mod_con += 1
 
-                if($(this).hasClass("fa-thumbs-o-up")){
-                    $(this).removeClass("fa-thumbs-o-up");
-                    $(this).addClass("fa-thumbs-up")
+                    var dislikedRecomId = $(this).parent().parent().parent().attr('id')
 
-                    if($(this).next().hasClass("fa-thumbs-down")){
-                        $(this).next().removeClass("fa-thumbs-down")
-                        $(this).next().addClass("fa-thumbs-o-down")
+                    if($(this).hasClass("fa-thumbs-o-down")){
+                        $(this).removeClass("fa-thumbs-o-down");
+                        $(this).addClass("fa-thumbs-down")
 
+                        if($(this).prev().hasClass("fa-thumbs-up")){
+                            $(this).prev().removeClass("fa-thumbs-up")
+                            $(this).prev().addClass("fa-thumbs-o-up")
+
+                        }
                     }
-                }
-                else if($(this).hasClass("fa-thumbs-up")){
-                    $(this).removeClass("fa-thumbs-up");
-                    $(this).addClass("fa-thumbs-o-up")
-                }
-            })
+                    else if($(this).hasClass("fa-thumbs-down")){
+                        $(this).removeClass("fa-thumbs-down");
+                        $(this).addClass("fa-thumbs-o-down")
+                    }
+
+                })
+
+                $("div.recom-items > div.recom-icon > div.recom-rating > i:eq(0)").click(function () {
+                    //LOGGING
+                    //loggingSys.mod_con += 1
+
+                    var likedRecomId = $(this).parent().parent().attr('id')
+
+                    if($(this).hasClass("fa-thumbs-o-up")){
+                        $(this).removeClass("fa-thumbs-o-up");
+                        $(this).addClass("fa-thumbs-up")
+
+                        if($(this).next().hasClass("fa-thumbs-down")){
+                            $(this).next().removeClass("fa-thumbs-down")
+                            $(this).next().addClass("fa-thumbs-o-down")
+
+                        }
+                    }
+                    else if($(this).hasClass("fa-thumbs-up")){
+                        $(this).removeClass("fa-thumbs-up");
+                        $(this).addClass("fa-thumbs-o-up")
+                    }
+                })
+            }
+
         }
+
+        renderSortedRecoms()
+
+
 
     // $("div#recom-seeds").show();
     // $("div.loading").hide();
 
     if(window.location.pathname=="/s1" || window.location.pathname=="/s3" || window.location.pathname=="/s4" || window.location.pathname=="/s7"){
-        $("i.fa-arrows-recom").hide()
+        $("i.fa-arrows-recom").css("visibility","hidden")
+        $("i.recom-fa-times").css("visibility","hidden")
     }
 
     if(window.location.pathname=="/s1" || window.location.pathname=="/s2" || window.location.pathname=="/s3" || window.location.pathname=="/s5"){
-        $("i.fa.fa-arrows-seed").hide()
+        $("i.fa.fa-arrows-seed").css("visibility","hidden")
     }
 }
 
@@ -628,7 +700,7 @@ $.ajax({
             var dragged_artist, dragged_artist_name;
 
 
-            for (var index =1 ; index < selected_seed_artist.length; index++) {
+            for (var index =0 ; index < selected_seed_artist.length; index++) {
                 $('#artist-seed').append("<span class='label' id=" + selected_seed_artist[index].id + " >" + selected_seed_artist[index].name + "</span>&nbsp;")
             }
 
@@ -678,9 +750,7 @@ $.ajax({
                         artistWeightBar.bootstrapSlider('setValue', 0)
                         artistWeightBar.bootstrapSlider('disable')
                         getRecomBySeed("recom-seeds");
-
                     }
-
                 })
 
                 //show detailed page
@@ -1143,19 +1213,20 @@ $.ajax({
                                 Promise
                                     .all(xhrList)
                                     .then(function () {
-                                        $("div#recom-seeds, div.drop-block, div.details").show();
                                         $("div#result-loading, div#process-loading").hide();
+                                        $("div#recom-seeds, div.drop-block, div.details, div#seed-block").show();
                                         getRecomBySeed("recom-seeds");
                                         xhrList=[]
                                         isInitialized = false;
                                         // Settings for different experimental conditions
                                         if(window.location.pathname=="/s1" || window.location.pathname=="/s3" || window.location.pathname=="/s4" || window.location.pathname=="/s7"){
                                             $("#recom-seeds").sortable("disable")
+                                            $(".recom-fa-times").css("visibility","hidden")
                                         }
                                         if(window.location.pathname=="/s1" || window.location.pathname=="/s2" || window.location.pathname=="/s4" || window.location.pathname=="/s6"){
                                             $("div.seed span").draggable("disable")
                                             $("i.fa.fa-plus-circle").hide()
-                                            $("i.fa.fa-times").hide()
+                                            $(".drop-seeds span i.fa.fa-times").hide()
                                             if($("div.drop-seeds").is(':data(ui-droppable)'))
                                                 $("div.drop-seeds").droppable("disable")
                                         }
@@ -1163,7 +1234,10 @@ $.ajax({
                                             artistWeightBar.bootstrapSlider("disable")
                                             trackWeightBar.bootstrapSlider("disable")
                                             genreWeightBar.bootstrapSlider("disable")
-                                            $("div.drop-seeds").sortable("disable")
+                                            $(".slider-selection").css("background","#CDCDCD")
+                                            $(".slider-handle").css("background","#B9B9B9")
+
+                                                $("div.drop-seeds").sortable("disable")
                                             $("i.fa.fa-arrows-seed").hide()
                                         }
                                     })
@@ -1256,7 +1330,7 @@ $.ajax({
     });
 
 setTimeout(function () {
-    $(".questionnaire").show();
+    $(".questionnaire").removeClass("disabled");
 }, 1000*60*10 )
 
 // Sent Logs

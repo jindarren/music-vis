@@ -22,7 +22,7 @@ html
                 player = new YT.Player('player', {
                     height: '270',
                     width: '480',
-                    videoId: 'lgVJOMbxpMI',
+                    videoId: '5YNX3wDO0X4',
                     events: {
                         'onReady': onPlayerReady,
                         'onStateChange': onPlayerStateChange
@@ -50,11 +50,9 @@ html
         .container-fluid
             header
                 h1
-                    | Evaluating a new music recommender based on Spotify
+                    | Welcome to a user study about music recommendations
             .row
                 .col-sm-6
-                    h4
-                        | Welcome to a user study about music recommender.
                     p(style='color:#12ADFF; font-weight:1000')
                         | Please note you need to be a frequent or heavy user of Spotify, otherwise the system cannot generate recommendations for you. Thank you.
 
@@ -67,19 +65,13 @@ html
                     h4
                         | Your Task
                     p
-                        | First, select a topic for the playlist you want to create on the right side and click on "Start" to begin. Next, you will see a recommended playlist containing 20 songs based on your listening history.
+                        | First, select a scenario for the playlist you want to create. Then please click "Start" button to begin. Next, you will see a recommended playlist containing 20 songs based on your listening history.
                     p
-                        | After playing with our system, you have to listen and rate all recommended songs and then answer a few questionnaires. Participating in this study will take about 15 - 20 minutes.
+                        | After playing with our system, you have to listen and rate all recommended songs and then answer a questionnaire. Participating in this study will take about 15 - 20 minutes.
 
                     p(style="color:white")
-                        | Please ensure you have listened and rated all songs, a questionnaire link only will be shown after 6 minutes at right top corner.
-                .col-sm-6
+                        | Please ensure you have listened and rated all songs. A questionnaire link only will be activated after 6 minutes at the right top corner.
 
-                    h4
-                        | Tutorial
-                    p
-                        | Please watch the following tutorial before the task. A link of task will be shown after the video.
-                    div#player
                     h4
                         | Working scenario
                     p
@@ -89,26 +81,32 @@ html
                         select#selectTopic.form-control(name='topicName', style='width: 300px;')
                             option(selected="" value='bitte')
                                 | Please choose ...
-                            option(value='Rock night') Rock night
-                            option(value='Dance party') Dance party
-                            option(value='Joyful day') Joyful day
-                            option(value='HipHop-club') HipHop club
+                            option(value='Rock night') My life needs passion
+                            option(value='Dance party') Dance till the world ends
+                            option(value='Joyful day') A Joyful day after passing all my exams
+                            option(value='HipHop-club') Cannot live without hip-hop
                         .descriptions
                             #chooseDiv.topicDivs
-                                p(style="color:#FFFFFF")
+                                p
                                     | Please select a scenario where you may want to create a playlist!
                             #chilloutDiv.topicDivs(hidden='')
                                 p
-                                    | I feel happy after passing all my exams in this semester. These songs fit my current feeling.
+                                    | I am so happy that I have passed all my exams for this semester. I need to listen some nice music to relax.
                             #rockDiv.topicDivs(hidden='')
                                 p
-                                    | It may also be faster and louder tonight.
+                                    | Sometimes, I feel my life is too quiet. I need to make some noises to find where my passion is.
                             #partyDiv.topicDivs(hidden='')
                                 p
-                                    | A dance party cannot be good without rhythmic songs. With these songs the dance floor surely will not be empty!
+                                    | Tonight, my friends will come to my place to celebrate for my birthday. A good party needs rhythmic songs. With these songs the dance floor surely will not be empty!
                             #hiphopDiv.topicDivs(hidden='')
                                 p
-                                    | Beats to nod along and cool/intelligent lyrics are all I need.
+                                    | Recently I am fascinated by hip-hop culture. I like its strong beats and cool lyrics showing different attitudes. I want to create a playlist for my favorite hip-hop music.
+                .col-sm-6
+                    h4
+                        | Tutorial
+                    p
+                        | Please watch the following tutorial before the task. A link of task will be activated after the video.
+                    div#player
                     div
-                        a.btn.btn-lg.btn-block.disabled.btn-geckoboard(href='/auth/spotify', style='margin-top: 10px')
+                        a.btn.btn-lg.btn-block.disabled.btn-geckoboard(href='/auth/spotify', style='margin-top: 10px; color: white')
                             | Start

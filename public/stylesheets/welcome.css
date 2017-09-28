@@ -36,6 +36,10 @@ header{
     padding: 5px 5px 5px 5px;
 }
 
+.descriptions p{
+    color: white;
+}
+
 .btn-geckoboard {
     margin-bottom: 10px;
 }

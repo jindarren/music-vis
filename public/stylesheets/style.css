@@ -540,7 +540,6 @@ ul.none {
 }
 
 .questionnaire{
-    display: none;
     float: right;
 }
 
@@ -565,10 +564,22 @@ ul.none {
 .recom-icon{
     display: flex;
     background-color: #2f2f2f;
-    flex-direction: row;
+    flex-direction: column;
     width:20%;
+}
+
+.recom-rating{
+    display: flex;
+    flex-direction: row;
     align-items:center;
     justify-content: space-around;
+}
+
+.recom-deletion{
+    float: right;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 20%;
 }
 
 .recom-items {

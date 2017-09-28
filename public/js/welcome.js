@@ -22,22 +22,22 @@ $( document ).ready(function() {
                 $("#chooseDiv").show();
             }
 
-            if(str.trim() === "Joyful day"){
+            if(str.trim() === "A Joyful day after passing all my exams"){
                 $("#chilloutDiv").show();
                 storage.topic = "joy"
             }
 
-            if(str.trim() === "Rock night"){
+            if(str.trim() === "My life needs passion"){
                 $("#rockDiv").show();
                 storage.topic = "rock"
 
             }
-            if(str.trim() === "Dance party"){
+            if(str.trim() === "Dance till the world ends"){
                 $("#partyDiv").show();
                 storage.topic = "dance"
             }
 
-            if(str.trim() === "HipHop club"){
+            if(str.trim() === "Cannot live without hip-hop"){
                 $("#hiphopDiv").show();
                 storage.topic = "hiphop"
             }
