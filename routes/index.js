@@ -285,7 +285,7 @@ router.get('/account', ensureAuthenticated, function (req, res) {
 //   back to this application at /auth/spotify/callback
 router.get('/auth/spotify',
     passport.authenticate('spotify', {
-        scope: ['user-read-email', 'user-read-private', 'user-top-read', 'user-follow-read'],
+        scope: ['user-read-private', 'user-top-read'],
         showDialog: true
     }),
     function (req, res) {
