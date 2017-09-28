@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df3f8091-37ec-4e36-96dd-69e104b90157" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/data-vis.js" afterPath="$PROJECT_DIR$/public/js/data-vis.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -83,22 +83,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login-s5.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/login-s5.jade">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="41" lean-forward="false" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="41" />
+            <state relative-caret-position="210">
+              <caret line="280" column="20" lean-forward="true" selection-start-line="280" selection-start-column="20" selection-end-line="280" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <file leaf-file-name="data-vis.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="287" column="16" lean-forward="false" selection-start-line="287" selection-start-column="16" selection-end-line="287" selection-end-column="16" />
-              <folding />
+            <state relative-caret-position="172">
+              <caret line="576" column="0" lean-forward="false" selection-start-line="576" selection-start-column="0" selection-end-line="579" selection-end-column="16" />
+              <folding>
+                <marker date="1506614462000" expanded="true" signature="29748:29754" ph=" " />
+                <marker date="1506614462000" expanded="true" signature="55058:55064" ph=" " />
+                <marker date="1506614462000" expanded="true" signature="55918:55924" ph=" " />
+                <marker date="1506614462000" expanded="true" signature="56769:56775" ph=" " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -218,7 +223,6 @@
         <option value="$PROJECT_DIR$/public/stylesheets/welcome.css" />
         <option value="$PROJECT_DIR$/public/stylesheets/base.css" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
-        <option value="$PROJECT_DIR$/public/js/data-vis.js" />
         <option value="$PROJECT_DIR$/views/login-s1.jade" />
         <option value="$PROJECT_DIR$/views/login-s2.jade" />
         <option value="$PROJECT_DIR$/views/login-s3.jade" />
@@ -237,6 +241,7 @@
         <option value="$PROJECT_DIR$/views/s8.jade" />
         <option value="$PROJECT_DIR$/routes/recommender.js" />
         <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/public/js/data-vis.js" />
       </list>
     </option>
   </component>
@@ -573,7 +578,7 @@
       <workItem from="1506263826086" duration="11619000" />
       <workItem from="1506354832016" duration="17367000" />
       <workItem from="1506393359200" duration="19644000" />
-      <workItem from="1506514650208" duration="35035000" />
+      <workItem from="1506514650208" duration="35588000" />
     </task>
     <task id="LOCAL-00011" summary="update">
       <created>1495653341395</created>
@@ -922,7 +927,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="744490000" />
+    <option name="totallyTimeSpent" value="745043000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1159,19 +1164,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="1237" column="89" lean-forward="false" selection-start-line="1237" selection-start-column="89" selection-end-line="1237" selection-end-column="89" />
-          <folding>
-            <marker date="1506587615000" expanded="true" signature="29736:29742" ph=" " />
-            <marker date="1506587615000" expanded="true" signature="55046:55052" ph=" " />
-            <marker date="1506587615000" expanded="true" signature="55906:55912" ph=" " />
-            <marker date="1506587615000" expanded="true" signature="56757:56763" ph=" " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/login-s1.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -1310,9 +1302,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="287" column="16" lean-forward="false" selection-start-line="287" selection-start-column="16" selection-end-line="287" selection-end-column="16" />
+        <state relative-caret-position="210">
+          <caret line="280" column="20" lean-forward="true" selection-start-line="280" selection-start-column="20" selection-end-line="280" selection-end-column="20" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="576" column="0" lean-forward="false" selection-start-line="576" selection-start-column="0" selection-end-line="579" selection-end-column="16" />
+          <folding>
+            <marker date="1506614462000" expanded="true" signature="29748:29754" ph=" " />
+            <marker date="1506614462000" expanded="true" signature="55058:55064" ph=" " />
+            <marker date="1506614462000" expanded="true" signature="55918:55924" ph=" " />
+            <marker date="1506614462000" expanded="true" signature="56769:56775" ph=" " />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -574,10 +574,10 @@ $.ajax({
             loggingSys.testid = data.seed.id;
             //loading the recommendations
 
-            if(data.seed.artist.length<3 || data.seed.track.length<3){
-                alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
-                window.location.href = "/logout";
-            }
+            // if(data.seed.artist.length<3 || data.seed.track.length<3){
+            //     alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
+            //     window.location.href = "/logout";
+            // }
 
             $("div#initial-loading").hide();
 
