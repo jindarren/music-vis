@@ -5,7 +5,7 @@ var passport = require('passport');
 var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index').Strategy;
 var path = require('path');
 var request = require('request');
-var loginbase;
+var loginbase = "login-s8";
 
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
 var appSecret = 'b368bdb3003747ec861e62d3bf381ba0';
@@ -38,14 +38,13 @@ passport.use(new SpotifyStrategy({
     },
         function (accessToken, refreshToken, profile, done) {
 
-        var reqData = {};
         var token;
 
         // asynchronous verification, for effect...
         refresh = refreshToken
         token = accessToken;
-        reqData.token = accessToken;
         userid = profile.id
+        console.log("first token", token)
         process.nextTick(function () {
             // To keep the example simple, the user's spotify profile is returned to
             // represent the logged-in user. In a typical application, you would want
@@ -57,6 +56,8 @@ passport.use(new SpotifyStrategy({
         /*
          route for web API
          */
+
+        console.log("second token", token)
 
         router.get('/getArtist',function (req,res) {
             var result = {}
@@ -135,9 +136,19 @@ passport.use(new SpotifyStrategy({
                 res.json(data)})
         })
 
+        console.log("third token", token)
+
         router.get('/initiate', function (req, res) {
             //pass token to the webAPI used by recommender
             if (token) {
+
+                console.log("fourth token", token)
+
+                var reqData = {};
+                reqData.token = token;
+
+                console.log("fifth token", token)
+
 
                 var getTopArtists =
                     recom(token).getTopArtists(50).then(function (data) {
@@ -160,43 +171,46 @@ passport.use(new SpotifyStrategy({
                     res.json({
                         seed: reqData
                     })
+
+                    console.log("sixth token", token)
+
                 })
             }
-            else {
-                reqData.user = req.user;
-                res.json({
-                    seed: reqData
-                })
-            }
+            // else {
+            //     reqData.user = req.user;
+            //     res.json({
+            //         seed: reqData
+            //     })
+            // }
         });
 
-        setInterval(function () {
-            var refreshToken = function (refreshToken, clientID, clientSecret, next) {
-                var auth = 'Basic ' +  (new Buffer(clientID + ':' + clientSecret).toString('base64'))
-                    , opts = {
-                    uri: 'https://accounts.spotify.com/api/token',
-                    method: 'POST',
-                    form: {
-                        'grant_type': 'refresh_token',
-                        'refresh_token': refreshToken
-                    },
-                    headers: {
-                        'Authorization': auth
-                    },
-                    json:true
-                }
-                return request(opts, next)
-            }
-
-            refreshToken(refresh, appKey, appSecret, function (err, res, body) {
-                if (err) return
-                console.log(refresh, appKey, appSecret, body)
-                // var result = JSON.parse(body);
-                token = body.access_token;
-                reqData.token = body.access_token;
-                //refresh = body.refresh_token;
-            })
-        }, 1000*3500)
+        // setInterval(function () {
+        //     var refreshToken = function (refreshToken, clientID, clientSecret, next) {
+        //         var auth = 'Basic ' +  (new Buffer(clientID + ':' + clientSecret).toString('base64'))
+        //             , opts = {
+        //             uri: 'https://accounts.spotify.com/api/token',
+        //             method: 'POST',
+        //             form: {
+        //                 'grant_type': 'refresh_token',
+        //                 'refresh_token': refreshToken
+        //             },
+        //             headers: {
+        //                 'Authorization': auth
+        //             },
+        //             json:true
+        //         }
+        //         return request(opts, next)
+        //     }
+        //
+        //     refreshToken(refresh, appKey, appSecret, function (err, res, body) {
+        //         if (err) return
+        //         console.log(refresh, appKey, appSecret, body)
+        //         // var result = JSON.parse(body);
+        //         token = body.access_token;
+        //         reqData.token = body.access_token;
+        //         //refresh = body.refresh_token;
+        //     })
+        // }, 1000*3500)
     }));
 
 
@@ -285,7 +299,7 @@ router.get('/account', ensureAuthenticated, function (req, res) {
 //   back to this application at /auth/spotify/callback
 router.get('/auth/spotify',
     passport.authenticate('spotify', {
-        scope: ['user-read-private', 'user-top-read'],
+        scope: ['user-read-email', 'user-read-private', 'user-top-read'],
         showDialog: true
     }),
     function (req, res) {

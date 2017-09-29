@@ -7,9 +7,14 @@ html
         link(rel="stylesheet" type = "text/css", href = "../components-font-awesome/css/font-awesome.css")
         link(rel="stylesheet" type = "text/css", href = "../jquery-bar-rating/dist/themes/fontawesome-stars.css")
     body
-        p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp
-            a.btn.btn-primary(href='/logout' role="button") Log Out
-            a.btn.btn-info.disabled(class="questionnaire" target="_blank" href="https://goo.gl/forms/rEEnqatSu4yfVy9K2") Happy with the recommendations, your feedback is welcome
+        if data.displayName
+            p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp
+                a.btn.btn-primary(href='/logout' role="button") Log Out
+                a.btn.btn-info.disabled(class="questionnaire" target="_blank" href="https://goo.gl/forms/rEEnqatSu4yfVy9K2") I am happy with the playlist now
+        else
+            p Welcome #{data.id} &nbsp&nbsp&nbsp&nbsp
+                a.btn.btn-primary(href='/logout' role="button") Log Out
+                a.btn.btn-info.disabled(class="questionnaire" target="_blank" href="https://goo.gl/forms/rEEnqatSu4yfVy9K2") I am happy with the playlist now
         a(href="#" data-toggle="modal" data-target="#myModal") Check the tutorial again
         p#task-to-do(style="color:yellow; font-weight:600; font-size:1vw; max-width:80%")
         #myModal.modal.fade(role='dialog')
