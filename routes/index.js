@@ -5,7 +5,7 @@ var passport = require('passport');
 var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index').Strategy;
 var path = require('path');
 var request = require('request');
-var loginbase = "login-s8";
+var loginbase = "login-s1";
 
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
 var appSecret = 'b368bdb3003747ec861e62d3bf381ba0';
@@ -33,184 +33,20 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new SpotifyStrategy({
         clientID: appKey,
         clientSecret: appSecret,
-        callbackURL: 'http://spotify-iui.eu-4.evennode.com/callback'
-        //callbackURL: 'http://localhost:3000/callback'
+        //callbackURL: 'http://spotify-iui.eu-4.evennode.com/callback'
+        callbackURL: 'http://localhost:3000/callback'
     },
         function (accessToken, refreshToken, profile, done) {
-
-        var token;
-
         // asynchronous verification, for effect...
-        refresh = refreshToken
-        token = accessToken;
-        userid = profile.id
-        console.log("first token", token)
+
         process.nextTick(function () {
             // To keep the example simple, the user's spotify profile is returned to
             // represent the logged-in user. In a typical application, you would want
             // to associate the spotify account with a user record in your database,
             // and return that user instead.
-            return done(null, profile);
+            return done(null, profile, {accessToken: accessToken, refreshToken: refreshToken});
         });
 
-        /*
-         route for web API
-         */
-
-        console.log("second token", token)
-
-        router.get('/getArtist',function (req,res) {
-            var result = {}
-            recom(token).getTopArtists().then(function (data) {
-                result.items = data;
-                res.json(result)})
-        })
-
-        router.get('/getTrack',function (req,res) {
-            var result = {}
-            recom(token).getTopTracks().then(function (data) {
-                result.items = data;
-                res.json(result)})
-        })
-
-        router.get('/getGenre',function (req,res) {
-            var result = {}
-            recom(token).getTopGenres().then(function (data) {
-                result.items = data;
-                res.json(result)})
-        })
-
-
-        router.get('/getRecom',function (req,res) {
-            var result = {}
-            recom(token).getRecommendation(req.query.limit,req.query.artistSeed,req.query.trackSeed,req.query.genreSeed,req.query.min_danceability, req.query.max_danceability,
-                req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
-                req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
-                result.items = data;
-                res.json(result)})
-        })
-
-        router.get('/getRecomByArtist',function (req,res) {
-            var result = {}
-            recom(token).getRecommendationByArtist(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
-                req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
-                req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
-                result.items = data;
-                res.json(result)})
-        })
-
-        router.get('/getRecomByTrack',function (req,res) {
-            var result = {}
-            recom(token).getRecommendationByTrack(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
-                req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
-                req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
-                result.items = data;
-                res.json(result)})
-        })
-
-        router.get('/getRecomByGenre',function (req,res) {
-            var result = {}
-            recom(token).getRecommendationByGenre(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
-                req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
-                req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
-                result.items = data;
-                res.json(result)})
-        })
-
-        router.get('/getRecomByFollowSimilar',function (req,res) {
-            var result = {}
-            recom(token).getArtistRelatedArtists(req.query.id).then(function (data) {
-                var selectedRelated = data.slice(0,5);
-                result.similar = selectedRelated
-                return selectedRelated
-            }).then(function (data) {
-                recom(token).getRecommendationByFollowedArtist(data,'US').then(function (data) {
-                    result.items = data
-                    res.json(result)
-                })
-            })
-        })
-
-        router.get('/getAccount',function (req,res) {
-            recom(token).getRecommendationByGenre().then(function (data) {
-                res.json(data)})
-        })
-
-        console.log("third token", token)
-
-        router.get('/initiate', function (req, res) {
-            //pass token to the webAPI used by recommender
-            if (token) {
-
-                console.log("fourth token", token)
-
-                var reqData = {};
-                reqData.token = token;
-
-                console.log("fifth token", token)
-
-
-                var getTopArtists =
-                    recom(token).getTopArtists(50).then(function (data) {
-                        reqData.artist = data;
-                    });
-
-
-                var getTracks =
-                    recom(token).getTopTracks(50).then(function (data) {
-                        reqData.track = data
-                    });
-
-
-                var getGenres =
-                    recom(token).getTopGenres().then(function (data) {
-                        reqData.genre = data
-                    });
-
-                Promise.all([getTopArtists, getTracks, getGenres]).then(function () {
-                    res.json({
-                        seed: reqData
-                    })
-
-                    console.log("sixth token", token)
-
-                })
-            }
-            // else {
-            //     reqData.user = req.user;
-            //     res.json({
-            //         seed: reqData
-            //     })
-            // }
-        });
-
-        // setInterval(function () {
-        //     var refreshToken = function (refreshToken, clientID, clientSecret, next) {
-        //         var auth = 'Basic ' +  (new Buffer(clientID + ':' + clientSecret).toString('base64'))
-        //             , opts = {
-        //             uri: 'https://accounts.spotify.com/api/token',
-        //             method: 'POST',
-        //             form: {
-        //                 'grant_type': 'refresh_token',
-        //                 'refresh_token': refreshToken
-        //             },
-        //             headers: {
-        //                 'Authorization': auth
-        //             },
-        //             json:true
-        //         }
-        //         return request(opts, next)
-        //     }
-        //
-        //     refreshToken(refresh, appKey, appSecret, function (err, res, body) {
-        //         if (err) return
-        //         console.log(refresh, appKey, appSecret, body)
-        //         // var result = JSON.parse(body);
-        //         token = body.access_token;
-        //         reqData.token = body.access_token;
-        //         //refresh = body.refresh_token;
-        //     })
-        // }, 1000*3500)
     }));
 
 
@@ -287,8 +123,117 @@ router.get('/login-s8',function (req,res) {
     res.render('login-s8')
 })
 
-router.get('/account', ensureAuthenticated, function (req, res) {
-    res.render('account', {user: req.user});
+
+/*
+ route for web API
+ */
+
+router.get('/getArtist',function (req,res) {
+    var result = {}
+    recom(req.query.token).getTopArtists().then(function (data) {
+        result.items = data;
+        res.json(result)})
+})
+
+router.get('/getTrack',function (req,res) {
+    var result = {}
+    recom(req.query.token).getTopTracks().then(function (data) {
+        result.items = data;
+        res.json(result)})
+})
+
+router.get('/getGenre',function (req,res) {
+    var result = {}
+    recom(req.query.token).getTopGenres().then(function (data) {
+        result.items = data;
+        res.json(result)})
+})
+
+
+router.get('/getRecom',function (req,res) {
+    var result = {}
+    recom(req.query.token).getRecommendation(req.query.limit,req.query.artistSeed,req.query.trackSeed,req.query.genreSeed,req.query.min_danceability, req.query.max_danceability,
+        req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
+        req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
+        result.items = data;
+        res.json(result)})
+})
+
+router.get('/getRecomByArtist',function (req,res) {
+    var result = {}
+    recom(req.query.token).getRecommendationByArtist(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
+        req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
+        req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
+        result.items = data;
+        res.json(result)})
+})
+
+router.get('/getRecomByTrack',function (req,res) {
+    var result = {}
+    recom(req.query.token).getRecommendationByTrack(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
+        req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
+        req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
+        result.items = data;
+        res.json(result)})
+})
+
+router.get('/getRecomByGenre',function (req,res) {
+    var result = {}
+    recom(req.query.token).getRecommendationByGenre(req.query.limit,req.query.seed,req.query.min_danceability, req.query.max_danceability,
+        req.query.min_energy, req.query.max_energy, req.query.min_instrumentalness, req.query.max_instrumentalness, req.query.min_liveness, req.query.max_liveness,
+        req.query.min_speechiness, req.query.max_speechiness, req.query.min_valence, req.query.max_valence).then(function (data) {
+        result.items = data;
+        res.json(result)})
+})
+
+router.get('/getRecomByFollowSimilar',function (req,res) {
+    var result = {}
+    recom(req.query.token).getArtistRelatedArtists(req.query.id).then(function (data) {
+        var selectedRelated = data.slice(0,5);
+        result.similar = selectedRelated
+        return selectedRelated
+    }).then(function (data) {
+        recom(req.query.token).getRecommendationByFollowedArtist(data,'US').then(function (data) {
+            result.items = data
+            res.json(result)
+        })
+    })
+})
+
+router.get('/getAccount',function (req,res) {
+    recom(req.query.token).getRecommendationByGenre().then(function (data) {
+        res.json(data)})
+})
+
+
+router.get('/initiate', function (req, res) {
+    //pass token to the webAPI used by recommender
+
+    var reqData = {};
+
+    var getTopArtists =
+        recom(req.query.token).getTopArtists(50).then(function (data) {
+            reqData.artist = data;
+        });
+
+
+    var getTracks =
+        recom(req.query.token).getTopTracks(50).then(function (data) {
+            reqData.track = data
+        });
+
+
+    var getGenres =
+        recom(req.query.token).getTopGenres().then(function (data) {
+            reqData.genre = data
+        });
+
+    Promise.all([getTopArtists, getTracks, getGenres]).then(function () {
+        res.json({
+            seed: reqData
+        })
+    })
+
 });
 
 
@@ -315,6 +260,15 @@ router.get('/auth/spotify',
 router.get('/callback',
     passport.authenticate('spotify', {failureRedirect: '/'}),
     function (req, res) {
+
+        res.cookie('spotify-token', req.authInfo.accessToken, {
+            maxAge: 3600000
+        });
+
+        res.cookie('refresh-token', req.authInfo.refreshToken, {
+            maxAge: 3600000
+        });
+
         if(loginbase=="login-s1")
             res.redirect('/s1');
         else if(loginbase=="login-s2")
@@ -331,7 +285,64 @@ router.get('/callback',
             res.redirect('/s7');
         else if(loginbase=="login-s8")
             res.redirect('/s8');
+
     });
+
+//
+// setInterval(function () {
+//     var refreshToken = function (refreshToken, clientID, clientSecret, next) {
+//         var auth = 'Basic ' +  (new Buffer(clientID + ':' + clientSecret).toString('base64'))
+//             , opts = {
+//             uri: 'https://accounts.spotify.com/api/token',
+//             method: 'POST',
+//             form: {
+//                 'grant_type': 'refresh_token',
+//                 'refresh_token': refreshToken
+//             },
+//             headers: {
+//                 'Authorization': auth
+//             },
+//             json:true
+//         }
+//         return request(opts, next)
+//     }
+//
+//     refreshToken(refresh, appKey, appSecret, function (err, res, body) {
+//         if (err) return
+//         console.log(refresh, appKey, appSecret, body)
+//         // var result = JSON.parse(body);
+//         // token = body.access_token;
+//         // reqData.token = body.access_token;
+//         //refresh = body.refresh_token;
+//     })
+// }, 1000*3600)
+
+
+router.get('/refresh-token', function(req, res) {
+
+    // requesting access token from refresh token
+    var refresh_token = req.query.refresh_token;
+    var authOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        headers: { 'Authorization': 'Basic ' + (new Buffer(appKey + ':' + appSecret).toString('base64')) },
+        form: {
+            grant_type: 'refresh_token',
+            refresh_token: refresh_token
+        },
+        json: true
+    };
+
+    request.post(authOptions, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+            var access_token = body.access_token;
+            var refresh_token = body.refresh_token;
+            res.json({
+                'access_token': access_token,
+                'refresh_token': refresh_token
+            });
+        }
+    });
+});
 
 router.get('/logout', function (req, res) {
     req.logout();
@@ -353,16 +364,5 @@ router.get('/logout', function (req, res) {
         res.redirect('/login-s8');
 });
 
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed. Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/');
-}
 
 module.exports = router;

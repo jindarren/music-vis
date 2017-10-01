@@ -543,13 +543,13 @@ ul.none {
     float: right;
 }
 
-.fa-thumbs-o-up, .fa-thumbs-o-down{
+.fa-thumbs-o-up, .fa-thumbs-o-down, .fa-arrow-left{
     color: #979797;
     font-size: 1.6vw;
     padding-left: 0.2vw;
 }
 
-.fa-thumbs-o-up:hover, .fa-thumbs-o-down:hover{
+.fa-thumbs-o-up:hover, .fa-thumbs-o-down:hover, .fa-arrow-left:hover{
     color: #12adff;
     font-size: 1.6vw;
     padding-left: 0.2vw;
@@ -607,6 +607,13 @@ p.detail-title.number > span:nth-child(2), #tag-value{
 
 .modal{
     color: #878787;
+}
+.reminder{
+    background: #505050;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .span2{

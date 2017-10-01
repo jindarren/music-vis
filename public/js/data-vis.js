@@ -2,7 +2,6 @@
  * Created by jinyc2 on 12/19/2016.
  */
 
-var token;
 var totalRecomsNum = 20;
 var sortedRecoms=[], recomID=[];
 var artistWeightBar, trackWeightBar, genreWeightBar;
@@ -10,6 +9,8 @@ var recom = {}, trackAttributes={};
 var storage = window.localStorage;
 var xhrList = [];
 var isInitialized = true;
+var spotifyToken = $.cookie('spotify-token')
+var refreshToken = $.cookie('refresh-token')
 
 recom.weights = [];
 recom.artistRankList = [];
@@ -40,14 +41,29 @@ loggingSys.rating = [];
 
 $(document).ready(function () {
 
+    //refresh the token
+    setInterval(function () {
+        $.ajax("/refresh-token?refresh_token="+refreshToken, function (data, err) {
+            if(err)
+                console.log(err)
+            else{
+                console.log(data)
+                spotifyToken = data.access_token
+                refreshToken = data.refresh_token
+            }
+        })
+
+    }, 3500*1000)
+
+
     if(storage.topic=="joy")
-        $("#task-to-do").text("Reminder: I want to find a good playlist to celebrate the day when I finish all my exams.")
+        $("#task-to-do").text("Your task is to: find a good playlist to celebrate the day when I finish all my exams.")
     else if(storage.topic=="rock")
-        $("#task-to-do").text("Reminder: I want to find a good playlist which contains faster and louder music for a sleepless night.")
+        $("#task-to-do").text("Your task is to: find a good playlist which contains faster and louder music for a sleepless night.")
     else if(storage.topic=="dance")
-        $("#task-to-do").text("Reminder: I want to find a good playlist of rhythmic music for a dance party to celebrate my birthday.")
+        $("#task-to-do").text("Your task is to: find a good playlist of rhythmic music for a dance party to celebrate my birthday.")
     else if(storage.topic=="hiphop")
-        $("#task-to-do").text("Reminder: I want to find a good playlist of hip-hop music which gives me strong beats and cool lyrics.")
+        $("#task-to-do").text("Your task is to: find a good playlist of hip-hop music which gives me strong beats and cool lyrics.")
 
     if(storage.topic == "dance")
         trackAttributes.min_danceability = 0.66;
@@ -284,9 +300,6 @@ $("#recom-seeds").sortable({
     //     getRecomBySeed("recom-seeds")
     // }
 });
-
-
-
 
 var getRecomBySeed = function (resultListID) {
     console.log(recom)
@@ -567,22 +580,20 @@ var searchEleInArray = function (array,key,id) {
 }
 
 $.ajax({
-        url: "/initiate",
-
+        url: "/initiate?token="+spotifyToken,
         success: function (data) {
 
             loggingSys.testid = data.seed.id;
             //loading the recommendations
 
-            // if(data.seed.artist.length<3 || data.seed.track.length<3){
-            //     alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
-            //     window.location.href = "/logout";
-            // }
+            if(data.seed.artist.length<3 || data.seed.track.length<3){
+                alert("Sorry, you are not eligible for this study :( Because you have no sufficient usage data on Spotify to generate recommendations.")
+                window.location.href = "/logout";
+            }
 
             $("div#initial-loading").hide();
 
             console.log(data)
-            token = data.seed.token
 
             var showArtistDetails = function (id) {
                 //LOGGING
@@ -620,7 +631,7 @@ $.ajax({
                 $.ajax({
                     url: "https://api.spotify.com/v1/search?q=" + label + "&type=playlist",
                     headers: {
-                        'Authorization': 'Bearer ' + token
+                        'Authorization': 'Bearer ' + spotifyToken
                     },
                     success: function (data) {
                         console.log(data);
@@ -766,10 +777,8 @@ $.ajax({
                 xhr = $.ajax({
                     url: "/getRecomByArtist?limit=20&seed=" + dragged_artist+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
                     +trackAttributes.max_energy+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
-                    +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
+                    +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence+"&token="+spotifyToken,
+
                     success: function (data) {
                         //$("div.recom").removeClass("loading")
 
@@ -933,10 +942,8 @@ $.ajax({
                 xhr = $.ajax({
                     url: "/getRecomByTrack?limit=20&seed=" + dragged_track+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
                     +trackAttributes.max_energy+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
-                    +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
+                    +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence+"&token="+spotifyToken,
+
                     success: function (data) {
 
                         if($.isArray(data.items)){
@@ -1095,10 +1102,8 @@ $.ajax({
                 xhr = $.ajax({
                     url: "/getRecomByGenre?limit=20&seed=" + dragged_genre+"&min_danceability="+trackAttributes.min_danceability+ "&max_danceability="+ trackAttributes.max_danceability+ "&min_energy="+trackAttributes.min_energy+ "&max_energy="
                     +trackAttributes.max_energy+ "&min_speechiness="+trackAttributes.min_speechiness+ "&max_speechiness="+ trackAttributes.max_speechiness
-                    +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
+                    +"&min_valence="+trackAttributes.min_valence+"&max_valence="+trackAttributes.max_valence+"&token="+spotifyToken,
+
                     success: function (data) {
                         //$("div.recom").removeClass("loading")
                         if($.isArray(data.items)){

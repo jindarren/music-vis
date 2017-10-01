@@ -15,8 +15,9 @@ html
             p Welcome #{data.id} &nbsp&nbsp&nbsp&nbsp
                 a.btn.btn-primary(href='/logout' role="button") Log Out
                 a.btn.btn-info.disabled(class="questionnaire" target="_blank" href="https://goo.gl/forms/nDmDwrU3YXiAyckz2") I am happy with the playlist now
-        a(href="#" data-toggle="modal" data-target="#myModal") Check the tutorial again
-        p#task-to-do(style="color:yellow; font-weight:600; font-size:1vw; max-width:80%")
+        .reminder
+            i.fa.fa-arrow-left(href="#" data-toggle="modal" data-target="#myModal") &nbsp&nbsp&nbsp&nbsp
+            span#task-to-do(style="color:yellow; font-weight:600; font-size:1vw; max-width:80%")
         #myModal.modal.fade(role='dialog')
             .modal-dialog
                 .modal-content
@@ -115,6 +116,7 @@ html
         script(type = "text/javascript", src = "../jquery-ui/jquery-ui.js", charset = 'utf-8')
         script(type = "text/javascript", src = "../seiyria-bootstrap-slider/dist/bootstrap-slider.js", charset = 'utf-8')
         script(type = "text/javascript", src = "../bootstrap/dist/js/bootstrap.js", charset = 'utf-8')
+        script(type = "text/javascript", src = "../jquery.cookie/jquery.cookie.js", charset = 'utf-8')
         script(type = "text/javascript", src = "../js/data-vis.js", charset = 'utf-8')
         link(rel="stylesheet" type = "text/css", href = "../jquery-ui/themes/base/jquery-ui.css")
         link(rel="stylesheet" type = "text/css", href = "../seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css")
