@@ -56,14 +56,39 @@ $(document).ready(function () {
     }, 3500*1000)
 
 
+
+    var furtherExplanation = ""
+    if (loggingSys.path=="/s2"){
+        furtherExplanation = " You can sort & remove songs in the recommendation list in the right block. Please listen to each song and rate all songs.  "
+    }
+    else if(loggingSys.path=="/s3"){
+        furtherExplanation = " You can remove & add seeds for generating recommendations in the left block. Please listen to each song and rate all songs.  "
+    }
+    else if(loggingSys.path=="/s4"){
+        furtherExplanation = " You can adjust the weight of seeds for improving recommendations in the middle side. Please listen to each song and rate all songs.  "
+    }
+    else if(loggingSys.path=="/s5"){
+        furtherExplanation = " You can sort & remove songs in the recommendation list (right), and remove & add seeds for generating recommendations (left). Please listen to each song and rate all songs.  "
+    }
+    else if(loggingSys.path=="/s6"){
+        furtherExplanation = " You can sort & remove songs in the recommendation list (right), and adjust the weight of seeds for improving recommendations (middle). Please listen to each song and rate all songs.  "
+    }
+    else if(loggingSys.path=="/s7"){
+        furtherExplanation = " You can remove & add seeds for generating recommendations (left), and adjust the weight of seeds for improving recommendations (middle). Please listen to each song and rate all songs.  "
+    }
+    else if(loggingSys.path=="/s8"){
+        furtherExplanation = " You can sort & remove songs in the recommendation (right), remove & add seeds for generating recommendations (left), and adjust the weight of seeds for improving recommendations (middle). Please listen to each song and rate all songs.  "
+    }
+
+
     if(storage.topic=="joy")
-        $("#task-to-do").text("Your task is to: find a good playlist to celebrate the day when I finish all my exams. You can follow the instructions for available interactions. Please listen to each song and rate all songs.  ")
+        $("#task-to-do").text("Your task is to: find a good playlist to celebrate the day when I finish all my exams."+furtherExplanation)
     else if(storage.topic=="rock")
-        $("#task-to-do").text("Your task is to: find a good playlist which contains faster and louder music for a sleepless night. You can follow the instructions for available interactions. Please listen to each song and rate all songs.  ")
+        $("#task-to-do").text("Your task is to: find a good playlist which contains faster and louder music for a sleepless night."+furtherExplanation)
     else if(storage.topic=="dance")
-        $("#task-to-do").text("Your task is to: find a good playlist of rhythmic music for a dance party to celebrate my birthday. You can follow the instructions for available interactions. Please listen to each song and rate all songs.  ")
+        $("#task-to-do").text("Your task is to: find a good playlist of rhythmic music for a dance party to celebrate my birthday."+furtherExplanation)
     else if(storage.topic=="hiphop")
-        $("#task-to-do").text("Your task is to: find a good playlist of hip-hop music which gives me strong beats and cool lyrics. You can follow the instructions for available interactions. Please listen to each song and rate all songs.  ")
+        $("#task-to-do").text("Your task is to: find a good playlist of hip-hop music which gives me strong beats and cool lyrics."+furtherExplanation)
 
     if(storage.topic == "dance")
         trackAttributes.min_danceability = 0.66;
