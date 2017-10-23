@@ -57,13 +57,13 @@ $(document).ready(function () {
 
 
     if(storage.topic=="joy")
-        $("#task-to-do").text("Your task is to: find a good playlist to celebrate the day when I finish all my exams.")
+        $("#task-to-do").text("Your task is to: find a good playlist to celebrate the day when I finish all my exams. You can follow the instructions for available interactions. Please listen to each song and rate all songs.  ")
     else if(storage.topic=="rock")
-        $("#task-to-do").text("Your task is to: find a good playlist which contains faster and louder music for a sleepless night.")
+        $("#task-to-do").text("Your task is to: find a good playlist which contains faster and louder music for a sleepless night. You can follow the instructions for available interactions. Please listen to each song and rate all songs.  ")
     else if(storage.topic=="dance")
-        $("#task-to-do").text("Your task is to: find a good playlist of rhythmic music for a dance party to celebrate my birthday.")
+        $("#task-to-do").text("Your task is to: find a good playlist of rhythmic music for a dance party to celebrate my birthday. You can follow the instructions for available interactions. Please listen to each song and rate all songs.  ")
     else if(storage.topic=="hiphop")
-        $("#task-to-do").text("Your task is to: find a good playlist of hip-hop music which gives me strong beats and cool lyrics.")
+        $("#task-to-do").text("Your task is to: find a good playlist of hip-hop music which gives me strong beats and cool lyrics. You can follow the instructions for available interactions. Please listen to each song and rate all songs.  ")
 
     if(storage.topic == "dance")
         trackAttributes.min_danceability = 0.66;

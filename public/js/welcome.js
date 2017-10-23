@@ -5,6 +5,15 @@ $( document ).ready(function() {
 
     var storage = window.localStorage;
 
+    $("a.btn-geckoboard").click(function(){
+        if(!(isPlayed && $("#selectTopic option:selected").attr("value")!="bitte")){
+            $("p#start-feedback").show();
+            setTimeout(function () {
+                $("p#start-feedback").hide();
+            },3000)
+        }
+    })
+
     $( "select" )
         .change(function () {
             var str = "";
@@ -42,9 +51,8 @@ $( document ).ready(function() {
                 storage.topic = "hiphop"
             }
 
-            console.log(isPlayed)
             if (isPlayed && $("#selectTopic option:selected").attr("value")!="bitte") {
-                $("a.btn.btn-geckoboard").removeClass("disabled")
+                $("a.btn.btn-geckoboard").attr("href",'/auth/spotify')
             }
         })
         .change();
