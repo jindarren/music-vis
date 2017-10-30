@@ -537,7 +537,6 @@ var getRecomBySeed = function (resultListID) {
                         $(this).removeClass("fa-thumbs-down");
                         $(this).addClass("fa-thumbs-o-down")
                     }
-
                 })
 
                 $("div.recom-items > div.recom-icon > div.recom-rating > i:eq(0)").click(function () {
@@ -553,7 +552,6 @@ var getRecomBySeed = function (resultListID) {
                         if($(this).next().hasClass("fa-thumbs-down")){
                             $(this).next().removeClass("fa-thumbs-down")
                             $(this).next().addClass("fa-thumbs-o-down")
-
                         }
                     }
                     else if($(this).hasClass("fa-thumbs-up")){
@@ -561,6 +559,7 @@ var getRecomBySeed = function (resultListID) {
                         $(this).addClass("fa-thumbs-o-up")
                     }
                 })
+
             }
 
         }
@@ -1359,9 +1358,21 @@ $.ajax({
 
     });
 
+
 setTimeout(function () {
-    $(".questionnaire").removeClass("disabled");
-}, 1000*60*10 )
+    var totalRating = $(".fa-thumbs-up").length + $(".fa-thumbs-down").length
+    if(totalRating == 20){
+        $(".questionnaire").removeClass("disabled");
+    }
+    else{
+        setInterval(function () {
+            var totalRating = $(".fa-thumbs-up").length + $(".fa-thumbs-down").length
+            if(totalRating == 20){
+                $(".questionnaire").removeClass("disabled");
+            }
+        },1000)
+    }
+}, 1000*60*10 );
 
 // Sent Logs
 // $('.questionnaire').click(function () {

@@ -270,21 +270,21 @@ router.get('/callback',
         });
 
         if(loginbase=="login-s1")
-            res.redirect('/s1');
+            res.redirect('/login-s1');
         else if(loginbase=="login-s2")
-            res.redirect('/s2');
+            res.redirect('https://goo.gl/forms/LuruQ6s7CalGllez1');
         else if(loginbase=="login-s3")
-            res.redirect('/s3');
+            res.redirect('https://goo.gl/forms/2udbwYmHvfVilOP13');
         else if(loginbase=="login-s4")
-            res.redirect('/s4');
+            res.redirect('https://goo.gl/forms/FWVugqrE8N8Ul2492');
         else if(loginbase=="login-s5")
-            res.redirect('/s5');
+            res.redirect('https://goo.gl/forms/u5lL8xgxI8uoggkA3');
         else if(loginbase=="login-s6")
-            res.redirect('/s6');
+            res.redirect('https://goo.gl/forms/XhP6CNIynFQ6hXBk1');
         else if(loginbase=="login-s7")
-            res.redirect('/s7');
+            res.redirect('https://goo.gl/forms/C1aoSdAR7aAJ8TEI3');
         else if(loginbase=="login-s8")
-            res.redirect('/s8');
+            res.redirect('https://goo.gl/forms/tXOMD2jjF0w1liAs1');
 
     });
 
