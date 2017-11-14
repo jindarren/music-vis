@@ -5,7 +5,7 @@ var passport = require('passport');
 var SpotifyStrategy = require('../node_modules/passport-spotify/lib/passport-spotify/index').Strategy;
 var path = require('path');
 var request = require('request');
-var loginbase = "login-s1";
+var User = require('../model/user');
 
 var appKey = 'a1d9f15f6ba54ef5aea0c5c4e19c0d2c';
 var appSecret = 'b368bdb3003747ec861e62d3bf381ba0';
@@ -33,7 +33,7 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new SpotifyStrategy({
         clientID: appKey,
         clientSecret: appSecret,
-        callbackURL: 'http://spotify-iui.eu-4.evennode.com/callback'
+        callbackURL: 'http://spotify-avi.us-3.evennode.com/callback'
         //callbackURL: 'http://localhost:3000/callback'
     },
         function (accessToken, refreshToken, profile, done) {
@@ -49,6 +49,37 @@ passport.use(new SpotifyStrategy({
 
     }));
 
+router.post("/addRecord", function(req, res){
+    var user = new User({
+        id : req.body.id,
+        setting : req.body.setting,
+        duration: req.body.duration,
+        rating: req.body.rating,
+        likedTime: req.body.likedTime,
+        lowSortingTime: req.body.lowSortingTime,
+        lowRemovingTime: req.body.lowRemovingTime,
+        lowRatingTimes: req.body.lowRatingTimes,
+        middleDraggingTime: req.body.middleDraggingTime,
+        middleLoadMoreTime: req.body.middleLoadMoreTime,
+        highSliderTime: req.body.highSliderTime,
+        highSortingTime: req.body.highSortingTime,
+        detailTime:req.body.detailTime
+    });
+    console.log(req.body)
+    user.save(function (err) {
+        if (err)
+            res.send(err);
+        res.json({message: "user profile is updated"})
+    })
+});
+
+router.get('/play',function (req,res) {
+    res.render('play',{ data: req.user})
+})
+
+router.get('/logout',function (req,res) {
+    res.render('logout')
+})
 
 
 router.get('/s1',function (req,res) {
@@ -84,42 +115,34 @@ router.get('/s8',function (req,res) {
 })
 
 router.get('/login-s1',function (req,res) {
-    loginbase = 'login-s1'
     res.render('login-s1')
 })
 
 router.get('/login-s2',function (req,res) {
-    loginbase = 'login-s2'
     res.render('login-s2')
 })
 
 router.get('/login-s3',function (req,res) {
-    loginbase = 'login-s3'
     res.render('login-s3')
 })
 
 router.get('/login-s4',function (req,res) {
-    loginbase = 'login-s4'
     res.render('login-s4')
 })
 
 router.get('/login-s5',function (req,res) {
-    loginbase = 'login-s5'
     res.render('login-s5')
 })
 
 router.get('/login-s6',function (req,res) {
-    loginbase = 'login-s6'
     res.render('login-s6')
 })
 
 router.get('/login-s7',function (req,res) {
-    loginbase = 'login-s7'
     res.render('login-s7')
 })
 
 router.get('/login-s8',function (req,res) {
-    loginbase = 'login-s8'
     res.render('login-s8')
 })
 
@@ -269,22 +292,7 @@ router.get('/callback',
             maxAge: 3600000
         });
 
-        if(loginbase=="login-s1")
-            res.redirect('/login-s1');
-        else if(loginbase=="login-s2")
-            res.redirect('https://goo.gl/forms/LuruQ6s7CalGllez1');
-        else if(loginbase=="login-s3")
-            res.redirect('https://goo.gl/forms/2udbwYmHvfVilOP13');
-        else if(loginbase=="login-s4")
-            res.redirect('https://goo.gl/forms/FWVugqrE8N8Ul2492');
-        else if(loginbase=="login-s5")
-            res.redirect('https://goo.gl/forms/u5lL8xgxI8uoggkA3');
-        else if(loginbase=="login-s6")
-            res.redirect('https://goo.gl/forms/XhP6CNIynFQ6hXBk1');
-        else if(loginbase=="login-s7")
-            res.redirect('https://goo.gl/forms/C1aoSdAR7aAJ8TEI3');
-        else if(loginbase=="login-s8")
-            res.redirect('https://goo.gl/forms/tXOMD2jjF0w1liAs1');
+        res.redirect('/play');
 
     });
 
@@ -346,22 +354,7 @@ router.get('/refresh-token', function(req, res) {
 
 router.get('/logout', function (req, res) {
     req.logout();
-    if(loginbase=="login-s1")
-        res.redirect('/login-s1');
-    else if(loginbase=="login-s2")
-        res.redirect('/login-s2');
-    else if(loginbase=="login-s3")
-        res.redirect('/login-s3');
-    else if(loginbase=="login-s4")
-        res.redirect('/login-s4');
-    else if(loginbase=="login-s5")
-        res.redirect('/login-s5');
-    else if(loginbase=="login-s6")
-        res.redirect('/login-s6');
-    else if(loginbase=="login-s7")
-        res.redirect('/login-s7');
-    else if(loginbase=="login-s8")
-        res.redirect('/login-s8');
+    res.redirect("/logout")
 });
 
 

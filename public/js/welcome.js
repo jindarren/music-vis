@@ -4,6 +4,7 @@
 $( document ).ready(function() {
 
     var storage = window.localStorage;
+    storage.path = window.location.pathname;
 
     $("a.btn-geckoboard").click(function(){
         if(!(isPlayed && $("#selectTopic option:selected").attr("value")!="bitte")){

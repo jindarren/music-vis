@@ -6,11 +6,22 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
     session = require('express-session'),
-    passport = require('passport');
+    passport = require('passport'),
+    mongoose = require('mongoose');
+
 
 var port         = process.env.port || 3000;
 var index = require('./routes/index');
 var app = express();
+
+mongoose.connect('mongodb://localhost:27017/spotify', function (err) {
+    if (err) {
+        console.log("connection error", err);
+
+    } else {
+        console.log('connection successful!');
+    }
+});
 
 // const https = require('https');
 // const fs = require('fs');

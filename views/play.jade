@@ -1,0 +1,27 @@
+doctype html
+html
+    head
+        title Spotify Visualization
+        link(rel="shortcut icon" href="../favicon.ico" type="image/x-icon")
+    body
+        p#id(style="display:none") #{data.id}
+
+        script.
+            prompt("Please copy the following ID as the answer to the first question in the questionnaire", document.getElementById("id").innerText);
+            //alert(document.getElementById("name").innerText)
+            var path = window.localStorage.path;
+
+            if (path == "/login-s2")
+                window.location.href = 'https://goo.gl/forms/LuruQ6s7CalGllez1';
+            else if (path == "/login-s3")
+                window.location.href = 'https://goo.gl/forms/2udbwYmHvfVilOP13';
+            else if (path == "/login-s4")
+                window.location.href = 'https://goo.gl/forms/FWVugqrE8N8Ul2492';
+            else if (path == "/login-s5")
+                window.location.href = 'https://goo.gl/forms/u5lL8xgxI8uoggkA3';
+            else if (path == "/login-s6")
+                window.location.href = 'https://goo.gl/forms/XhP6CNIynFQ6hXBk1';
+            else if (path == "/login-s7")
+                window.location.href = 'https://goo.gl/forms/C1aoSdAR7aAJ8TEI3';
+            else if (path == "/login-s8")
+                window.location.href = 'https://goo.gl/forms/tXOMD2jjF0w1liAs1';

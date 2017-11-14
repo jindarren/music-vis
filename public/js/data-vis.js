@@ -27,20 +27,25 @@ recom.weights[1] = 0;
 recom.weights[2] = 0;
 
 var loggingSys = {}
-loggingSys.testid = '';
-loggingSys.time = new Date();
-loggingSys.path = window.location.pathname;
-loggingSys.low_con = 0;
-loggingSys.mod_con = 0;
-loggingSys.high_con = 0;
-loggingSys.details = 0;
-loggingSys.highlight = 0;
-loggingSys.adding = 0;
-loggingSys.switch = 0;
-loggingSys.rating = [];
+loggingSys.id = '';
+loggingSys.duration = new Date();
+loggingSys.setting = window.location.pathname;
+loggingSys.rating = {
+    users:[],
+    likes:[]
+};
+loggingSys.likedTime = 0;
+loggingSys.lowSortingTime = 0;
+loggingSys.lowRemovingTime = 0;
+loggingSys.lowRatingTime = 0;
+loggingSys.middleDraggingTime = 0;
+loggingSys.middleLoadMoreTime = 0;
+loggingSys.highSliderTime = 0;
+loggingSys.highSortingTime = 0;
+loggingSys.detailTime = 0;
+
 
 $(document).ready(function () {
-
     //refresh the token
     setInterval(function () {
         $.ajax("/refresh-token?refresh_token="+refreshToken, function (data, err) {
@@ -54,7 +59,6 @@ $(document).ready(function () {
         })
 
     }, 3500*1000)
-
 
 
     var furtherExplanation = ""
@@ -82,13 +86,13 @@ $(document).ready(function () {
 
 
     if(storage.topic=="joy")
-        $("#task-to-do").text("Your task is to: find a good playlist to celebrate the day when I finish all my exams."+furtherExplanation)
+        $("#task-to-do").text("Your task is to: find a good playlist to celebrate the day when I finish all my exams. "+furtherExplanation)
     else if(storage.topic=="rock")
-        $("#task-to-do").text("Your task is to: find a good playlist which contains faster and louder music for a sleepless night."+furtherExplanation)
+        $("#task-to-do").text("Your task is to: find a good playlist which contains faster and louder music for a sleepless night. "+furtherExplanation)
     else if(storage.topic=="dance")
-        $("#task-to-do").text("Your task is to: find a good playlist of rhythmic music for a dance party to celebrate my birthday."+furtherExplanation)
+        $("#task-to-do").text("Your task is to: find a good playlist of rhythmic music for a dance party to celebrate my birthday. "+furtherExplanation)
     else if(storage.topic=="hiphop")
-        $("#task-to-do").text("Your task is to: find a good playlist of hip-hop music which gives me strong beats and cool lyrics."+furtherExplanation)
+        $("#task-to-do").text("Your task is to: find a good playlist of hip-hop music which gives me strong beats and cool lyrics. "+furtherExplanation)
 
     if(storage.topic == "dance")
         trackAttributes.min_danceability = 0.66;
@@ -261,7 +265,7 @@ $(document).ready(function () {
         .on("slideStop", function (data) {
             $("span#artist-weight-val").text(data.value)
             //LOGGING
-            loggingSys.high_con += 1;
+            loggingSys.highSliderTime += 1;
 
             var val = $(this).bootstrapSlider("getValue")
             recom.weights[0] = val;
@@ -272,7 +276,7 @@ $(document).ready(function () {
         .on("slideStop", function (data) {
             $("span#track-weight-val").text(data.value)
             //LOGGING
-            loggingSys.high_con += 1;
+            loggingSys.highSliderTime += 1;
 
             var val = $(this).bootstrapSlider("getValue")
             recom.weights[1] = val;
@@ -283,7 +287,7 @@ $(document).ready(function () {
         .on("slideStop", function (data) {
             $("span#genre-weight-val").text(data.value)
             //LOGGING
-            loggingSys.high_con+= 1;
+            loggingSys.highSliderTime+= 1;
 
             var val = $(this).bootstrapSlider("getValue")
             recom.weights[2] = val;
@@ -294,7 +298,7 @@ $(document).ready(function () {
 
 var highlightenResults = function (seedID, resultListID) {
     //LOGGING
-    loggingSys.highlight += 1;
+    loggingSys.detailTime += 1;
 
     $("#" + resultListID + " div").each(function () {
 
@@ -311,19 +315,19 @@ var highlightenResults = function (seedID, resultListID) {
 //add sorting function for recommendation results
 
 $("#recom-seeds").sortable({
-    // update: function (event, ui) {
-    //     //LOGGING
-    //     loggingSys.high_con += 1
-    //
-    //     var sortedIDs = $(this).sortable("toArray");
-    //     if ($(this).attr("id") == "drop-artists")
-    //         recom.artistRankList = sortedIDs;
-    //     else if ($(this).attr("id") == "drop-tracks")
-    //         recom.trackRankList = sortedIDs;
-    //     else if ($(this).attr("id") == "drop-genres")
-    //         recom.genreRankList = sortedIDs;
-    //     getRecomBySeed("recom-seeds")
-    // }
+    update: function (event, ui) {
+        //LOGGING
+        loggingSys.lowSortingTime += 1
+
+        // var sortedIDs = $(this).sortable("toArray");
+        // if ($(this).attr("id") == "drop-artists")
+        //     recom.artistRankList = sortedIDs;
+        // else if ($(this).attr("id") == "drop-tracks")
+        //     recom.trackRankList = sortedIDs;
+        // else if ($(this).attr("id") == "drop-genres")
+        //     recom.genreRankList = sortedIDs;
+        // getRecomBySeed("recom-seeds")
+    }
 });
 
 var getRecomBySeed = function (resultListID) {
@@ -459,12 +463,12 @@ var getRecomBySeed = function (resultListID) {
 
             $("div#recom-seeds").empty();
 
-            for(index in sortedRecoms){
+            for(var index in sortedRecoms){
                 $("#"+resultListID).prepend('<div class="recom-items lift-top ' + sortedRecoms[index].type + " " + sortedRecoms[index].seed + '"'+' id="' + sortedRecoms[index].id +'"'+' data-seed="' + sortedRecoms[index].seed +'"'+' data-seed-type="' + sortedRecoms[index].source +'"'+' data-type="' + sortedRecoms[index].type +'"'+ ' data-popu="'+sortedRecoms[index].popu+'">' + '<iframe src="'+sortedRecoms[index].uri+'"'+' width="80%" height="80" frameborder="0" allowtransparency="true"></iframe><div class="recom-icon"><div class="recom-deletion"><i class="fa fa-times recom-fa-times" aria-hidden="true"></i></div><div class="recom-rating"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i><i class="fa fa-thumbs-o-down" aria-hidden="true"></i><i class="fa fa-arrows-v fa-arrows-recom"></i></div></div></div>')
 
                 $("div.recom-items > div.recom-icon >  div.recom-deletion > i:eq(0)").click(function () {
                     //LOGGING
-                    //loggingSys.mod_con += 1
+                    loggingSys.lowRemovingTime += 1
 
 
                     var deletedRecomId = $(this).parent().parent().parent().attr('id')
@@ -478,7 +482,7 @@ var getRecomBySeed = function (resultListID) {
                     var newSong
                     console.log(recom[seedType])
 
-                    for (index in recom[seedType]){
+                    for (var index in recom[seedType]){
                         if(recom[seedType][index].seed == seedId){
                             console.log("findID")
                             for(index2 in recom[seedType][index].recoms){
@@ -519,9 +523,21 @@ var getRecomBySeed = function (resultListID) {
 
                 $("div.recom-items > div.recom-icon >  div.recom-rating > i:eq(1)").click(function () {
                     //LOGGING
-                    //loggingSys.mod_con += 1
+                    loggingSys.lowRatingTime += 1
 
                     var dislikedRecomId = $(this).parent().parent().parent().attr('id')
+
+                    //LOGGING
+                    if(loggingSys.rating.users.indexOf(dislikedRecomId)<0){
+                        loggingSys.rating.users.push(dislikedRecomId)
+                        loggingSys.rating.likes.push(false)
+                    }else{
+                        var index = loggingSys.rating.users.indexOf(dislikedRecomId)
+                        loggingSys.rating.likes[index] = false
+                        loggingSys.likedTime--
+                    }
+
+
 
                     if($(this).hasClass("fa-thumbs-o-down")){
                         $(this).removeClass("fa-thumbs-o-down");
@@ -541,9 +557,22 @@ var getRecomBySeed = function (resultListID) {
 
                 $("div.recom-items > div.recom-icon > div.recom-rating > i:eq(0)").click(function () {
                     //LOGGING
-                    //loggingSys.mod_con += 1
+                    loggingSys.lowRatingTime += 1
 
-                    var likedRecomId = $(this).parent().parent().attr('id')
+                    var likedRecomId = $(this).parent().parent().parent().attr('id')
+
+                    //LOGGING
+
+                    if(loggingSys.rating.users.indexOf(likedRecomId)<0){
+                        loggingSys.rating.users.push(likedRecomId)
+                        loggingSys.rating.likes.push(true)
+                        loggingSys.likedTime++
+                    }else{
+                        var index = loggingSys.rating.users.indexOf(likedRecomId)
+                        loggingSys.rating.likes[index] = true
+                        loggingSys.likedTime++
+                    }
+
 
                     if($(this).hasClass("fa-thumbs-o-up")){
                         $(this).removeClass("fa-thumbs-o-up");
@@ -607,7 +636,7 @@ $.ajax({
         url: "/initiate?token="+spotifyToken,
         success: function (data) {
 
-            loggingSys.testid = data.seed.id;
+            loggingSys.id = data.seed.id;
             //loading the recommendations
 
             if(data.seed.artist.length<3 || data.seed.track.length<3){
@@ -620,8 +649,6 @@ $.ajax({
             console.log(data)
 
             var showArtistDetails = function (id) {
-                //LOGGING
-                loggingSys.details += 1
 
                 $.each(data.seed.artist, function (i, v) {
                     if (v.id == id) {
@@ -634,8 +661,6 @@ $.ajax({
 
 
             var showTrackDetails = function (id) {
-                //LOGGING
-                loggingSys.details += 1
 
                 $.each(data.seed.track, function (i, v) {
                     if (v.id == id) {
@@ -649,8 +674,6 @@ $.ajax({
 
 
             var showGenreDetails = function (label) {
-                //LOGGING
-                loggingSys.details += 1
 
                 $.ajax({
                     url: "https://api.spotify.com/v1/search?q=" + label + "&type=playlist",
@@ -676,7 +699,7 @@ $.ajax({
             $(".drop-seeds").sortable({
                 update: function (event, ui) {
                     //LOGGING
-                    loggingSys.high_con += 1
+                    loggingSys.highSortingTime += 1
 
                     var sortedIDs = $(this).sortable("toArray");
                     if ($(this).attr("id") == "drop-artists")
@@ -743,7 +766,7 @@ $.ajax({
                 //LOGGING
 
                 var xhr
-                loggingSys.mod_con += 1
+                loggingSys.middleDraggingTime += 1
 
                 $("#" + dragged_artist).css("border","solid 3px white")
                 $("#artist-seed > span#" + dragged_artist).draggable({disabled: true})
@@ -757,7 +780,7 @@ $.ajax({
                 //delete a seed from the list of dropped seeds
                 $("span#" + dragged_artist + " > i.fa.fa-times").click(function () {
                     //LOGGING
-                    loggingSys.mod_con += 1
+                    loggingSys.middleDraggingTime += 1
 
                     var dragged_artist_id = $(this).parent().attr('id')
                     console.log(dragged_artist_id)
@@ -902,7 +925,7 @@ $.ajax({
             var regDropTrack = function () {
                 //LOGGING
                 var xhr
-                loggingSys.mod_con += 1
+                loggingSys.middleDraggingTime += 1
 
                 $("#" + dragged_track).css("border", "solid 3px white")
                 $("#track-seed > span#" + dragged_track).draggable({disabled: true})
@@ -918,7 +941,7 @@ $.ajax({
                 $("span#" + dragged_track + " > i.fa.fa-times").click(function () {
 
                     //LOGGING
-                    loggingSys.mod_con += 1
+                    loggingSys.middleDraggingTime += 1
 
                     var dragged_track_id = $(this).parent().attr('id')
                     console.log(dragged_track_id)
@@ -1062,7 +1085,7 @@ $.ajax({
                 var xhr
 
                 //LOGGING
-                loggingSys.mod_con += 1
+                loggingSys.middleDraggingTime += 1
 
                 // $("#genre-seed").css("overflow", "auto");
                 $("#" + dragged_genre).css("border","solid 3px white")
@@ -1079,7 +1102,7 @@ $.ajax({
                 $("span#" + dragged_genre + " > i.fa.fa-times").click(function () {
 
                     //LOGGING
-                    loggingSys.mod_con += 1
+                    loggingSys.middleDraggingTime += 1
 
                     var dragged_genre_id = $(this).parent().attr('id')
                     console.log(dragged_genre_id)
@@ -1285,7 +1308,7 @@ $.ajax({
                 $(this).click(function () {
 
                     //LOGGING
-                    loggingSys.adding += 1
+                    loggingSys.middleLoadMoreTime += 1
 
                     var seed_id = $(this).attr('id')
                     console.log(seed_id)
@@ -1372,16 +1395,21 @@ setTimeout(function () {
             }
         },1000)
     }
-}, 1000*60*10 );
+}, 1000*10 );
 
-// Sent Logs
-// $('.questionnaire').click(function () {
-//     console.log("send")
-//     $.ajax({
-//         url: '/addRecord',
-//         type: 'POST',
-//         contentType:'application/json',
-//         data: JSON.stringify(loggingSys),
-//         dataType:'json'
-//     });
-// })
+//Sent Logs
+$('.questionnaire').click(function () {
+    var currentTime = new Date();
+    var userID = document.getElementById("user-id").innerText
+    loggingSys.duration = currentTime - loggingSys.duration
+    loggingSys.id = userID
+    console.log(loggingSys)
+    $.ajax({
+        url: '/addRecord',
+        type: 'POST',
+        contentType:'application/json',
+        data: JSON.stringify(loggingSys),
+        dataType:'json'
+    });
+    prompt("Please copy the following ID as the answer to the first question in the questionnaire", userID);
+})
