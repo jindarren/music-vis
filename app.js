@@ -4,7 +4,6 @@ var express = require('express'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    methodOverride = require('method-override'),
     session = require('express-session'),
     passport = require('passport'),
     mongoose = require('mongoose');
@@ -44,7 +43,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(methodOverride());
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
