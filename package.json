@@ -13,6 +13,7 @@
     "express-session": "^1.15.6",
     "jade": "~1.11.0",
     "method-override": "^2.3.10",
+    "mongodb": "^2.2.33",
     "mongoose": "^4.13.2",
     "morgan": "^1.7.0",
     "passport": "^0.4.0",
