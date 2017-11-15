@@ -4,6 +4,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+mongoose.Promise = global.Promise;
+
 module.exports = mongoose.model('user', new Schema({
     id: String,
     setting: String,

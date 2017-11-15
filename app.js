@@ -14,7 +14,7 @@ var port         = process.env.port || 3000;
 var index = require('./routes/index');
 var app = express();
 
-mongoose.connect('mongodb://6938bf9f1157f79dea32a0e3caed7284:2010qhyjs@localhost:27017/spotify', function (err) {
+mongoose.connect('mongodb://6938bf9f1157f79dea32a0e3caed7284:2010qhyjs@5a.mongo.evennode.com:27017/spotify', function (err) {
     if (err) {
         console.log("connection error", err);
 
