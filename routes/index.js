@@ -73,6 +73,18 @@ router.post("/addRecord", function(req, res){
     })
 });
 
+
+router.get("/getRecord", function(req, res){
+    User.find({},function (err, user) {
+        if (err)
+            res.send(err);
+        else{
+            res.send(user)
+        }
+    })
+});
+
+
 router.get('/play',function (req,res) {
     res.render('play',{data: req.user})
 })

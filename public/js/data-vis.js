@@ -459,143 +459,293 @@ var getRecomBySeed = function (resultListID) {
 
         var deletedArray=[]
 
-        var renderSortedRecoms =  function() {
+        var regEvents = function(itemID) {
+            console.log(itemID)
 
-            $("div#recom-seeds").empty();
+            $("div#"+itemID+" > div.recom-icon >  div.recom-deletion > i:eq(0)").click(function () {
+                //LOGGING
+                loggingSys.lowRemovingTime += 1
 
-            for(var index in sortedRecoms){
-                $("#"+resultListID).prepend('<div class="recom-items lift-top ' + sortedRecoms[index].type + " " + sortedRecoms[index].seed + '"'+' id="' + sortedRecoms[index].id +'"'+' data-seed="' + sortedRecoms[index].seed +'"'+' data-seed-type="' + sortedRecoms[index].source +'"'+' data-type="' + sortedRecoms[index].type +'"'+ ' data-popu="'+sortedRecoms[index].popu+'">' + '<iframe src="'+sortedRecoms[index].uri+'"'+' width="80%" height="80" frameborder="0" allowtransparency="true"></iframe><div class="recom-icon"><div class="recom-deletion"><i class="fa fa-times recom-fa-times" aria-hidden="true"></i></div><div class="recom-rating"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i><i class="fa fa-thumbs-o-down" aria-hidden="true"></i><i class="fa fa-arrows-v fa-arrows-recom"></i></div></div></div>')
+                var deletedRecomId = $(this).parent().parent().parent().attr('id')
 
-                $("div.recom-items > div.recom-icon >  div.recom-deletion > i:eq(0)").click(function () {
-                    //LOGGING
-                    loggingSys.lowRemovingTime += 1
-
-
-                    var deletedRecomId = $(this).parent().parent().parent().attr('id')
-
-                    var seedType = $(this).parent().parent().parent().attr("data-seed-type"),
-                        seedId = $(this).parent().parent().parent().attr("data-seed"),
-                        seedType1 = $(this).parent().parent().parent().attr("data-type");
+                var seedType = $(this).parent().parent().parent().attr("data-seed-type"),
+                    seedId = $(this).parent().parent().parent().attr("data-seed"),
+                    seedType1 = $(this).parent().parent().parent().attr("data-type");
 
 
-                    console.log(seedType, seedId)
-                    var newSong
-                    console.log(recom[seedType])
+                // console.log(seedType, seedId)
+                var newSong
+                // console.log(recom[seedType])
 
-                    for (var index in recom[seedType]){
-                        if(recom[seedType][index].seed == seedId){
-                            console.log("findID")
-                            for(index2 in recom[seedType][index].recoms){
-                                var recomId = recom[seedType][index].recoms[index2].id
-                                console.log("recomID", $("#"+recomId)[0])
+                for (var index in recom[seedType]){
+                    if(recom[seedType][index].seed == seedId){
+                        console.log("findID")
+                        for(index2 in recom[seedType][index].recoms){
+                            var recomId = recom[seedType][index].recoms[index2].id
+                            console.log("recomID", $("#"+recomId)[0])
 
-                                if(!$("#"+recomId)[0]&&deletedArray.indexOf(recomId)<0) {
-                                    newSong = recom[seedType][index].recoms[index2]
-                                    console.log(newSong)
-                                    var item = {}
-                                    item.type = seedType1
-                                    item.source = seedType
-                                    item.seed = seedId
-                                    item.id = newSong.id
-                                    item.popu = newSong.popularity
-                                    item.uri = encodeURI("https://open.spotify.com/embed?uri="+newSong.uri)
-                                    for(index in sortedRecoms){
-                                        if(sortedRecoms[index].id==deletedRecomId){
-                                            console.log(sortedRecoms[index])
-                                            if(deletedArray.indexOf(deletedRecomId)<0)
-                                                deletedArray.push(deletedRecomId)
+                            if(!$("#"+recomId)[0]&&deletedArray.indexOf(recomId)<0) {
+                                newSong = recom[seedType][index].recoms[index2]
+                                console.log(newSong)
+                                var item = {}
+                                item.type = seedType1
+                                item.source = seedType
+                                item.seed = seedId
+                                item.id = newSong.id
+                                item.popu = newSong.popularity
+                                item.uri = encodeURI("https://open.spotify.com/embed?uri="+newSong.uri)
+                                for(index in sortedRecoms){
+                                    if(sortedRecoms[index].id==deletedRecomId){
+                                        console.log(sortedRecoms[index])
+                                        if(deletedArray.indexOf(deletedRecomId)<0)
+                                            deletedArray.push(deletedRecomId)
 
-                                            sortedRecoms.splice(index,1,item)
-                                        }
+                                        sortedRecoms.splice(index,1,item)
                                     }
-                                    console.log(sortedRecoms, deletedArray)
-                                    renderSortedRecoms()
-                                    return
                                 }
+                                console.log(sortedRecoms, deletedArray)
+                                var deletedItem = $("div#"+deletedRecomId),
+                                    newItemID = newSong.id,
+                                    newItem = '<div class="recom-items lift-top ' + seedType1
+                                        + " " + seedId + '"'+' id="' + newSong.id +'"'
+                                        +' data-seed="' + seedId +'"'+' data-seed-type="'
+                                        + seedType +'"'+' data-type="' + seedType1
+                                        +'"'+ ' data-popu="'+newSong.popularity+'">' + '<iframe src="'
+                                        +encodeURI("https://open.spotify.com/embed?uri="+newSong.uri)+'"'+' width="80%" height="80" frameborder="0" allowtransparency="true">' +
+                                        '</iframe><div class="recom-icon"><div class="recom-deletion"><i class="fa fa-times recom-fa-times" aria-hidden="true">' +
+                                        '</i></div><div class="recom-rating"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>' +
+                                        '<i class="fa fa-thumbs-o-down" aria-hidden="true"></i><i class="fa fa-arrows-v fa-arrows-recom"></i></div></div></div>';
+
+                                renderSortedRecoms(deletedItem, newItem, newItemID)
+                                return
                             }
-
                         }
 
                     }
 
+                }
 
-                })
+            })
 
-                $("div.recom-items > div.recom-icon >  div.recom-rating > i:eq(1)").click(function () {
-                    //LOGGING
-                    loggingSys.lowRatingTime += 1
+            $("div#"+itemID+" > div.recom-icon >  div.recom-rating > i:eq(1)").click(function () {
+                //LOGGING
+                loggingSys.lowRatingTime += 1
 
-                    var dislikedRecomId = $(this).parent().parent().parent().attr('id')
+                var dislikedRecomId = $(this).parent().parent().parent().attr('id')
 
-                    //LOGGING
-                    if(loggingSys.rating.users.indexOf(dislikedRecomId)<0){
-                        loggingSys.rating.users.push(dislikedRecomId)
-                        loggingSys.rating.likes.push(false)
-                    }else{
-                        var index = loggingSys.rating.users.indexOf(dislikedRecomId)
-                        loggingSys.rating.likes[index] = false
-                        loggingSys.likedTime--
+                //LOGGING
+                if(loggingSys.rating.users.indexOf(dislikedRecomId)<0){
+                    loggingSys.rating.users.push(dislikedRecomId)
+                    loggingSys.rating.likes.push(false)
+                }else{
+                    var index = loggingSys.rating.users.indexOf(dislikedRecomId)
+                    loggingSys.rating.likes[index] = false
+                    loggingSys.likedTime--
+                }
+
+
+
+                if($(this).hasClass("fa-thumbs-o-down")){
+                    $(this).removeClass("fa-thumbs-o-down");
+                    $(this).addClass("fa-thumbs-down")
+
+                    if($(this).prev().hasClass("fa-thumbs-up")){
+                        $(this).prev().removeClass("fa-thumbs-up")
+                        $(this).prev().addClass("fa-thumbs-o-up")
+
                     }
+                }
+                else if($(this).hasClass("fa-thumbs-down")){
+                    $(this).removeClass("fa-thumbs-down");
+                    $(this).addClass("fa-thumbs-o-down")
+                }
+            })
+
+            $("div#"+itemID+" > div.recom-icon > div.recom-rating > i:eq(0)").click(function () {
+                //LOGGING
+                loggingSys.lowRatingTime += 1
+
+                var likedRecomId = $(this).parent().parent().parent().attr('id')
+
+                //LOGGING
+
+                if(loggingSys.rating.users.indexOf(likedRecomId)<0){
+                    loggingSys.rating.users.push(likedRecomId)
+                    loggingSys.rating.likes.push(true)
+                    loggingSys.likedTime++
+                }else{
+                    var index = loggingSys.rating.users.indexOf(likedRecomId)
+                    loggingSys.rating.likes[index] = true
+                    loggingSys.likedTime++
+                }
 
 
+                if($(this).hasClass("fa-thumbs-o-up")){
+                    $(this).removeClass("fa-thumbs-o-up");
+                    $(this).addClass("fa-thumbs-up")
 
-                    if($(this).hasClass("fa-thumbs-o-down")){
-                        $(this).removeClass("fa-thumbs-o-down");
-                        $(this).addClass("fa-thumbs-down")
-
-                        if($(this).prev().hasClass("fa-thumbs-up")){
-                            $(this).prev().removeClass("fa-thumbs-up")
-                            $(this).prev().addClass("fa-thumbs-o-up")
-
-                        }
+                    if($(this).next().hasClass("fa-thumbs-down")){
+                        $(this).next().removeClass("fa-thumbs-down")
+                        $(this).next().addClass("fa-thumbs-o-down")
                     }
-                    else if($(this).hasClass("fa-thumbs-down")){
-                        $(this).removeClass("fa-thumbs-down");
-                        $(this).addClass("fa-thumbs-o-down")
-                    }
-                })
+                }
+                else if($(this).hasClass("fa-thumbs-up")){
+                    $(this).removeClass("fa-thumbs-up");
+                    $(this).addClass("fa-thumbs-o-up")
+                }
+            })
+        }
 
-                $("div.recom-items > div.recom-icon > div.recom-rating > i:eq(0)").click(function () {
-                    //LOGGING
-                    loggingSys.lowRatingTime += 1
+        var renderSortedRecoms =  function(deletedItem, newItem, newItemID) {
+            if(deletedItem && newItem && newItemID){
+                $(newItem).insertBefore(deletedItem)
+                regEvents(newItemID)
+                deletedItem.remove();
+            }
+            else{
+                $("div#recom-seeds").empty();
+                for(var index in sortedRecoms){
+                    $("#"+resultListID).prepend('<div class="recom-items lift-top ' + sortedRecoms[index].type + " " + sortedRecoms[index].seed + '"'+' id="' + sortedRecoms[index].id +'"'+' data-seed="' + sortedRecoms[index].seed +'"'+' data-seed-type="' + sortedRecoms[index].source +'"'+' data-type="' + sortedRecoms[index].type +'"'+ ' data-popu="'+sortedRecoms[index].popu+'">' + '<iframe src="'+sortedRecoms[index].uri+'"'+' width="80%" height="80" frameborder="0" allowtransparency="true"></iframe><div class="recom-icon"><div class="recom-deletion"><i class="fa fa-times recom-fa-times" aria-hidden="true"></i></div><div class="recom-rating"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i><i class="fa fa-thumbs-o-down" aria-hidden="true"></i><i class="fa fa-arrows-v fa-arrows-recom"></i></div></div></div>')
 
-                    var likedRecomId = $(this).parent().parent().parent().attr('id')
+                    regEvents(sortedRecoms[index].id)
+                    // $("div.recom-items#"+sortedRecoms[index].id+"> div.recom-icon >  div.recom-deletion > i:eq(0)").click(function () {
+                    //     //LOGGING
+                    //     loggingSys.lowRemovingTime += 1
+                    //
+                    //     var deletedRecomId = $(this).parent().parent().parent().attr('id')
+                    //
+                    //     var seedType = $(this).parent().parent().parent().attr("data-seed-type"),
+                    //         seedId = $(this).parent().parent().parent().attr("data-seed"),
+                    //         seedType1 = $(this).parent().parent().parent().attr("data-type");
+                    //
+                    //
+                    //     // console.log(seedType, seedId)
+                    //     var newSong
+                    //     // console.log(recom[seedType])
+                    //
+                    //     for (var index in recom[seedType]){
+                    //         if(recom[seedType][index].seed == seedId){
+                    //             console.log("findID")
+                    //             for(index2 in recom[seedType][index].recoms){
+                    //                 var recomId = recom[seedType][index].recoms[index2].id
+                    //                 console.log("recomID", $("#"+recomId)[0])
+                    //
+                    //                 if(!$("#"+recomId)[0]&&deletedArray.indexOf(recomId)<0) {
+                    //                     // newSong = recom[seedType][index].recoms[index2]
+                    //                     // console.log(newSong)
+                    //                     // var item = {}
+                    //                     // item.type = seedType1
+                    //                     // item.source = seedType
+                    //                     // item.seed = seedId
+                    //                     // item.id = newSong.id
+                    //                     // item.popu = newSong.popularity
+                    //                     // item.uri = encodeURI("https://open.spotify.com/embed?uri="+newSong.uri)
+                    //                     // for(index in sortedRecoms){
+                    //                     //     if(sortedRecoms[index].id==deletedRecomId){
+                    //                     //         console.log(sortedRecoms[index])
+                    //                     //         if(deletedArray.indexOf(deletedRecomId)<0)
+                    //                     //             deletedArray.push(deletedRecomId)
+                    //                     //
+                    //                     //         sortedRecoms.splice(index,1,item)
+                    //                     //     }
+                    //                     // }
+                    //                     console.log(sortedRecoms, deletedArray)
+                    //                     var deletedItem = $("div#"+deletedRecomId),
+                    //                         newItem = '<div class="recom-items lift-top ' + seedType1
+                    //                             + " " + seedId + '"'+' id="' + newSong.id +'"'
+                    //                             +' data-seed="' + seedId +'"'+' data-seed-type="'
+                    //                             + seedType +'"'+' data-type="' + seedType1
+                    //                             +'"'+ ' data-popu="'+newSong.popularity+'">' + '<iframe src="'
+                    //                             +encodeURI("https://open.spotify.com/embed?uri="+newSong.uri)+'"'+' width="80%" height="80" frameborder="0" allowtransparency="true">' +
+                    //                             '</iframe><div class="recom-icon"><div class="recom-deletion"><i class="fa fa-times recom-fa-times" aria-hidden="true">' +
+                    //                             '</i></div><div class="recom-rating"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>' +
+                    //                             '<i class="fa fa-thumbs-o-down" aria-hidden="true"></i><i class="fa fa-arrows-v fa-arrows-recom"></i></div></div></div>'
+                    //
+                    //                     renderSortedRecoms(deletedItem, newItem)
+                    //                     return
+                    //                 }
+                    //             }
+                    //
+                    //         }
+                    //
+                    //     }
+                    //
+                    // })
+                    //
+                    // $("div.recom-items"+sortedRecoms[index].id+"> div.recom-icon >  div.recom-rating > i:eq(1)").click(function () {
+                    //     //LOGGING
+                    //     loggingSys.lowRatingTime += 1
+                    //
+                    //     var dislikedRecomId = $(this).parent().parent().parent().attr('id')
+                    //
+                    //     //LOGGING
+                    //     if(loggingSys.rating.users.indexOf(dislikedRecomId)<0){
+                    //         loggingSys.rating.users.push(dislikedRecomId)
+                    //         loggingSys.rating.likes.push(false)
+                    //     }else{
+                    //         var index = loggingSys.rating.users.indexOf(dislikedRecomId)
+                    //         loggingSys.rating.likes[index] = false
+                    //         loggingSys.likedTime--
+                    //     }
+                    //
+                    //
+                    //
+                    //     if($(this).hasClass("fa-thumbs-o-down")){
+                    //         $(this).removeClass("fa-thumbs-o-down");
+                    //         $(this).addClass("fa-thumbs-down")
+                    //
+                    //         if($(this).prev().hasClass("fa-thumbs-up")){
+                    //             $(this).prev().removeClass("fa-thumbs-up")
+                    //             $(this).prev().addClass("fa-thumbs-o-up")
+                    //
+                    //         }
+                    //     }
+                    //     else if($(this).hasClass("fa-thumbs-down")){
+                    //         $(this).removeClass("fa-thumbs-down");
+                    //         $(this).addClass("fa-thumbs-o-down")
+                    //     }
+                    // })
+                    //
+                    // $("div.recom-items"+sortedRecoms[index].id+"> div.recom-icon > div.recom-rating > i:eq(0)").click(function () {
+                    //     //LOGGING
+                    //     loggingSys.lowRatingTime += 1
+                    //
+                    //     var likedRecomId = $(this).parent().parent().parent().attr('id')
+                    //
+                    //     //LOGGING
+                    //
+                    //     if(loggingSys.rating.users.indexOf(likedRecomId)<0){
+                    //         loggingSys.rating.users.push(likedRecomId)
+                    //         loggingSys.rating.likes.push(true)
+                    //         loggingSys.likedTime++
+                    //     }else{
+                    //         var index = loggingSys.rating.users.indexOf(likedRecomId)
+                    //         loggingSys.rating.likes[index] = true
+                    //         loggingSys.likedTime++
+                    //     }
+                    //
+                    //
+                    //     if($(this).hasClass("fa-thumbs-o-up")){
+                    //         $(this).removeClass("fa-thumbs-o-up");
+                    //         $(this).addClass("fa-thumbs-up")
+                    //
+                    //         if($(this).next().hasClass("fa-thumbs-down")){
+                    //             $(this).next().removeClass("fa-thumbs-down")
+                    //             $(this).next().addClass("fa-thumbs-o-down")
+                    //         }
+                    //     }
+                    //     else if($(this).hasClass("fa-thumbs-up")){
+                    //         $(this).removeClass("fa-thumbs-up");
+                    //         $(this).addClass("fa-thumbs-o-up")
+                    //     }
+                    // })
 
-                    //LOGGING
-
-                    if(loggingSys.rating.users.indexOf(likedRecomId)<0){
-                        loggingSys.rating.users.push(likedRecomId)
-                        loggingSys.rating.likes.push(true)
-                        loggingSys.likedTime++
-                    }else{
-                        var index = loggingSys.rating.users.indexOf(likedRecomId)
-                        loggingSys.rating.likes[index] = true
-                        loggingSys.likedTime++
-                    }
-
-
-                    if($(this).hasClass("fa-thumbs-o-up")){
-                        $(this).removeClass("fa-thumbs-o-up");
-                        $(this).addClass("fa-thumbs-up")
-
-                        if($(this).next().hasClass("fa-thumbs-down")){
-                            $(this).next().removeClass("fa-thumbs-down")
-                            $(this).next().addClass("fa-thumbs-o-down")
-                        }
-                    }
-                    else if($(this).hasClass("fa-thumbs-up")){
-                        $(this).removeClass("fa-thumbs-up");
-                        $(this).addClass("fa-thumbs-o-up")
-                    }
-                })
+                }
 
             }
-
         }
 
         renderSortedRecoms()
-
-
 
     // $("div#recom-seeds").show();
     // $("div.loading").hide();
