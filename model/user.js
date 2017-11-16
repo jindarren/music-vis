@@ -9,7 +9,7 @@ module.exports = mongoose.model('user', new Schema({
     setting: String,
     duration: Number,
     rating: {
-        users: [],
+        id: [],
         likes:[]
     },
     likedTime: Number,
