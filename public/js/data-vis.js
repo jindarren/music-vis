@@ -1451,6 +1451,6 @@ $('.questionnaire').click(function () {
         $("p#start-feedback").show();
         setTimeout(function () {
             $("p#start-feedback").hide();
-        },5000)
+        },8000)
     }
 })
