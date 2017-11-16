@@ -1399,9 +1399,33 @@ $.ajax({
 
     });
 
+
+var selectQuestionnaire = function(){
+    var questionnaire;
+    if(window.location.pathname == "/s8")
+        questionnaire = "https://goo.gl/forms/bPWnoarLEVGMZxl13"
+    else if(window.location.pathname == "/s7")
+        questionnaire = "https://goo.gl/forms/bwMxDHKw2O8rm0PC2"
+    else if(window.location.pathname == "/s6")
+        questionnaire = "https://goo.gl/forms/yIQu5lqh3ffJhago1"
+    else if(window.location.pathname == "/s5")
+        questionnaire = "https://goo.gl/forms/ULqmyv3rYNBUwoY83"
+    else if(window.location.pathname == "/s4")
+        questionnaire = "https://goo.gl/forms/EQ3FxXmJvC2ikXOn2"
+    else if(window.location.pathname == "/s3")
+        questionnaire = "https://goo.gl/forms/sV2gLnJCDxBLXGyn1"
+    else if(window.location.pathname == "/s2")
+        questionnaire = "https://goo.gl/forms/By2DxJsBBhfpzUcx2"
+
+    return questionnaire
+}
 var enableEvaluation = false
 setTimeout(function () {
     enableEvaluation = true
+    var totalRating = $(".fa-thumbs-up").length + $(".fa-thumbs-down").length
+    if(totalRating==20){
+        $("a.btn.btn-info.questionnaire").attr("href",selectQuestionnaire())
+    }
 }, 1000*60*10 );
 
 //Sent Logs
@@ -1409,6 +1433,7 @@ $('.questionnaire').click(function () {
     var totalRating = $(".fa-thumbs-up").length + $(".fa-thumbs-down").length
 
     if(totalRating == 20 && enableEvaluation){
+        $("a.btn.btn-info.questionnaire").attr("href",selectQuestionnaire())
         var currentTime = new Date();
         var userID = document.getElementById("user-id").innerText
         loggingSys.duration = currentTime - loggingSys.duration

@@ -10,12 +10,12 @@ html
         if data.displayName
             p Welcome #{data.displayName} &nbsp&nbsp&nbsp&nbsp
                 a.btn.btn-primary(href='/logout' role="button") Log Out
-                a.btn.btn-info(class="questionnaire" target="_blank" href="https://goo.gl/forms/sV2gLnJCDxBLXGyn1") I am happy with the playlist now
+                a.btn.btn-info(class="questionnaire" target="_blank") I am happy with the playlist now
             p#start-feedback(style="display:none; color:yellow; float:right") Please ensure that you have spent more than 10 minutes on playing the application, and have rated all recommended songs.
         else
             p Welcome #{data.id} &nbsp&nbsp&nbsp&nbsp
                 a.btn.btn-primary(href='/logout' role="button") Log Out
-                a.btn.btn-info(class="questionnaire" target="_blank" href="https://goo.gl/forms/sV2gLnJCDxBLXGyn1") I am happy with the playlist now
+                a.btn.btn-info(class="questionnaire" target="_blank") I am happy with the playlist now
             p#start-feedback(style="display:none; color:yellow; float:right") Please ensure that you have spent more than 10 minutes on playing the application, and have rated all recommended songs.
         .reminder
             span#task-to-do(style="color:yellow; font-weight:600; font-size:1vw; max-width:80%")
