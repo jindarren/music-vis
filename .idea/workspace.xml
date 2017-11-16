@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df3f8091-37ec-4e36-96dd-69e104b90157" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/data-vis.js" afterPath="$PROJECT_DIR$/public/js/data-vis.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/login-s8.jade" afterPath="$PROJECT_DIR$/views/login-s8.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/s8.jade" afterPath="$PROJECT_DIR$/views/s8.jade" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -25,11 +24,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="data-vis.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="data-vis.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="176">
-              <caret line="1403" column="0" lean-forward="false" selection-start-line="1403" selection-start-column="0" selection-end-line="1403" selection-end-column="0" />
+              <caret line="1403" column="27" lean-forward="true" selection-start-line="1403" selection-start-column="27" selection-end-line="1403" selection-end-column="27" />
               <folding>
                 <marker date="1510842664000" expanded="true" signature="34234:34240" ph=" " />
                 <marker date="1510842664000" expanded="true" signature="59355:59361" ph=" " />
@@ -82,11 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="s8.jade" pinned="false" current-in-tab="false">
+      <file leaf-file-name="s8.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/s8.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="75" lean-forward="false" selection-start-line="19" selection-start-column="75" selection-end-line="19" selection-end-column="75" />
+            <state relative-caret-position="270">
+              <caret line="18" column="30" lean-forward="false" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -244,9 +243,9 @@
         <option value="$PROJECT_DIR$/routes/recommender.js" />
         <option value="$PROJECT_DIR$/model/user.js" />
         <option value="$PROJECT_DIR$/views/s1.jade" />
-        <option value="$PROJECT_DIR$/views/s8.jade" />
         <option value="$PROJECT_DIR$/views/login-s8.jade" />
         <option value="$PROJECT_DIR$/public/js/data-vis.js" />
+        <option value="$PROJECT_DIR$/views/s8.jade" />
       </list>
     </option>
   </component>
@@ -590,7 +589,7 @@
       <workItem from="1510620509045" duration="28450000" />
       <workItem from="1510752222242" duration="5425000" />
       <workItem from="1510797422763" duration="8441000" />
-      <workItem from="1510839037323" duration="3223000" />
+      <workItem from="1510839037323" duration="3428000" />
     </task>
     <task id="LOCAL-00011" summary="update">
       <created>1495653341395</created>
@@ -939,7 +938,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="849552000" />
+    <option name="totallyTimeSpent" value="849757000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1331,14 +1330,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/s8.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="75" lean-forward="false" selection-start-line="19" selection-start-column="75" selection-end-line="19" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/welcome.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="146">
@@ -1368,13 +1359,21 @@
     <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
-          <caret line="1403" column="0" lean-forward="false" selection-start-line="1403" selection-start-column="0" selection-end-line="1403" selection-end-column="0" />
+          <caret line="1403" column="27" lean-forward="true" selection-start-line="1403" selection-start-column="27" selection-end-line="1403" selection-end-column="27" />
           <folding>
             <marker date="1510842664000" expanded="true" signature="34234:34240" ph=" " />
             <marker date="1510842664000" expanded="true" signature="59355:59361" ph=" " />
             <marker date="1510842664000" expanded="true" signature="60215:60221" ph=" " />
             <marker date="1510842664000" expanded="true" signature="61066:61072" ph=" " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/s8.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="30" lean-forward="false" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
