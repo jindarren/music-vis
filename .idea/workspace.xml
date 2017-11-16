@@ -6,6 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="df3f8091-37ec-4e36-96dd-69e104b90157" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/login-s8.jade" afterPath="$PROJECT_DIR$/views/login-s8.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/s2.jade" afterPath="$PROJECT_DIR$/views/s2.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/s3.jade" afterPath="$PROJECT_DIR$/views/s3.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/s4.jade" afterPath="$PROJECT_DIR$/views/s4.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/s5.jade" afterPath="$PROJECT_DIR$/views/s5.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/s6.jade" afterPath="$PROJECT_DIR$/views/s6.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/s7.jade" afterPath="$PROJECT_DIR$/views/s7.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/s8.jade" afterPath="$PROJECT_DIR$/views/s8.jade" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -39,31 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login-s1.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/login-s1.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="566">
-              <caret line="112" column="165" lean-forward="true" selection-start-line="112" selection-start-column="24" selection-end-line="112" selection-end-column="165" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="login-s8.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/login-s8.jade">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="581">
-              <caret line="116" column="196" lean-forward="false" selection-start-line="116" selection-start-column="196" selection-end-line="116" selection-end-column="196" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="s1.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/s1.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="157" lean-forward="false" selection-start-line="13" selection-start-column="157" selection-end-line="13" selection-end-column="157" />
+              <caret line="116" column="165" lean-forward="false" selection-start-line="116" selection-start-column="165" selection-end-line="116" selection-end-column="165" />
               <folding />
             </state>
           </provider>
@@ -81,51 +68,71 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="s8.jade" pinned="false" current-in-tab="true">
+      <file leaf-file-name="s8.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/s8.jade">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="198" lean-forward="true" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="198" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="s6.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/s6.jade">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="270">
-              <caret line="18" column="30" lean-forward="false" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+              <caret line="19" column="198" lean-forward="false" selection-start-line="19" selection-start-column="198" selection-end-line="19" selection-end-column="198" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="welcome.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/welcome.js">
+      <file leaf-file-name="s5.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/s5.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
-              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="13" selection-end-column="19" />
+            <state relative-caret-position="210">
+              <caret line="14" column="198" lean-forward="false" selection-start-line="14" selection-start-column="198" selection-end-line="14" selection-end-column="198" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/base.css">
+      <file leaf-file-name="s4.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/s4.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="750">
-              <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+            <state relative-caret-position="285">
+              <caret line="19" column="198" lean-forward="false" selection-start-line="19" selection-start-column="198" selection-end-line="19" selection-end-column="198" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="welcome.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/welcome.css">
+      <file leaf-file-name="s3.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/s3.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="21" lean-forward="false" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+            <state relative-caret-position="195">
+              <caret line="13" column="30" lean-forward="false" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+      <file leaf-file-name="s2.jade" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/s2.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="857">
-              <caret line="615" column="23" lean-forward="false" selection-start-line="615" selection-start-column="23" selection-end-line="615" selection-end-column="23" />
+            <state relative-caret-position="240">
+              <caret line="19" column="12" lean-forward="false" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="s7.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/s7.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="30" lean-forward="false" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -232,20 +239,20 @@
         <option value="$PROJECT_DIR$/views/login-s7.jade" />
         <option value="$PROJECT_DIR$/views/logout.jade" />
         <option value="$PROJECT_DIR$/views/play.jade" />
-        <option value="$PROJECT_DIR$/views/s2.jade" />
-        <option value="$PROJECT_DIR$/views/s3.jade" />
-        <option value="$PROJECT_DIR$/views/s4.jade" />
-        <option value="$PROJECT_DIR$/views/s5.jade" />
-        <option value="$PROJECT_DIR$/views/s6.jade" />
-        <option value="$PROJECT_DIR$/views/s7.jade" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/routes/recommender.js" />
         <option value="$PROJECT_DIR$/model/user.js" />
         <option value="$PROJECT_DIR$/views/s1.jade" />
-        <option value="$PROJECT_DIR$/views/login-s8.jade" />
         <option value="$PROJECT_DIR$/public/js/data-vis.js" />
+        <option value="$PROJECT_DIR$/views/login-s8.jade" />
         <option value="$PROJECT_DIR$/views/s8.jade" />
+        <option value="$PROJECT_DIR$/views/s7.jade" />
+        <option value="$PROJECT_DIR$/views/s6.jade" />
+        <option value="$PROJECT_DIR$/views/s5.jade" />
+        <option value="$PROJECT_DIR$/views/s4.jade" />
+        <option value="$PROJECT_DIR$/views/s3.jade" />
+        <option value="$PROJECT_DIR$/views/s2.jade" />
       </list>
     </option>
   </component>
@@ -589,7 +596,7 @@
       <workItem from="1510620509045" duration="28450000" />
       <workItem from="1510752222242" duration="5425000" />
       <workItem from="1510797422763" duration="8441000" />
-      <workItem from="1510839037323" duration="3428000" />
+      <workItem from="1510839037323" duration="3768000" />
     </task>
     <task id="LOCAL-00011" summary="update">
       <created>1495653341395</created>
@@ -938,7 +945,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="849757000" />
+    <option name="totallyTimeSpent" value="850097000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1215,50 +1222,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/s2.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="9" column="50" lean-forward="false" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/s3.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="50" lean-forward="false" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/s4.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="50" lean-forward="false" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/s5.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="50" lean-forward="false" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/s6.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="50" lean-forward="false" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/s7.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="50" lean-forward="false" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -1348,14 +1311,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/login-s8.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="581">
-          <caret line="116" column="196" lean-forward="false" selection-start-line="116" selection-start-column="196" selection-end-line="116" selection-end-column="196" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -1369,10 +1324,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/login-s8.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="581">
+          <caret line="116" column="165" lean-forward="false" selection-start-line="116" selection-start-column="165" selection-end-line="116" selection-end-column="165" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/s8.jade">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="198" lean-forward="true" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="198" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/s7.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="30" lean-forward="false" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/s6.jade">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
-          <caret line="18" column="30" lean-forward="false" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+          <caret line="19" column="198" lean-forward="false" selection-start-line="19" selection-start-column="198" selection-end-line="19" selection-end-column="198" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/s5.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="198" lean-forward="false" selection-start-line="14" selection-start-column="198" selection-end-line="14" selection-end-column="198" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/s4.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="198" lean-forward="false" selection-start-line="19" selection-start-column="198" selection-end-line="19" selection-end-column="198" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/s3.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="30" lean-forward="false" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/s2.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="19" column="12" lean-forward="false" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
           <folding />
         </state>
       </provider>
