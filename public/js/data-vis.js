@@ -1399,35 +1399,33 @@ $.ajax({
 
     });
 
-
+var enableEvaluation = false
 setTimeout(function () {
-    var totalRating = $(".fa-thumbs-up").length + $(".fa-thumbs-down").length
-    if(totalRating == 20){
-        $(".questionnaire").removeClass("disabled");
-    }
-    else{
-        setInterval(function () {
-            var totalRating = $(".fa-thumbs-up").length + $(".fa-thumbs-down").length
-            if(totalRating == 20){
-                $(".questionnaire").removeClass("disabled");
-            }
-        },1000)
-    }
-}, 1000*10 );
+    enableEvaluation = true
+}, 1000*60*10 );
 
 //Sent Logs
 $('.questionnaire').click(function () {
-    var currentTime = new Date();
-    var userID = document.getElementById("user-id").innerText
-    loggingSys.duration = currentTime - loggingSys.duration
-    loggingSys.id = userID
-    console.log(loggingSys)
-    $.ajax({
-        url: '/addRecord',
-        type: 'POST',
-        contentType:'application/json',
-        data: JSON.stringify(loggingSys),
-        dataType:'json'
-    });
-    prompt("Please copy the following ID as the answer to the first question in the questionnaire", userID);
+    var totalRating = $(".fa-thumbs-up").length + $(".fa-thumbs-down").length
+
+    if(totalRating == 20 && enableEvaluation){
+        var currentTime = new Date();
+        var userID = document.getElementById("user-id").innerText
+        loggingSys.duration = currentTime - loggingSys.duration
+        loggingSys.id = userID
+        console.log(loggingSys)
+        $.ajax({
+            url: '/addRecord',
+            type: 'POST',
+            contentType:'application/json',
+            data: JSON.stringify(loggingSys),
+            dataType:'json'
+        });
+        prompt("Please copy the following ID as the answer to the first question in the questionnaire", userID);
+    }else{
+        $("p#start-feedback").show();
+        setTimeout(function () {
+            $("p#start-feedback").hide();
+        },5000)
+    }
 })
