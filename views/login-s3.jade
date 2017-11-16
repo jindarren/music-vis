@@ -70,13 +70,18 @@ html
                         | After login, you will see a recommended playlist containing 20 songs based on your listening history. After playing with our system over 10 minutes, you have to listen and rate all recommended songs and then answer a post-study questionnaire. Participating in this study will take about 20 - 30 minutes.
 
                     p(style="color:white")
-                        | Please ensure you have listened and rated all songs. A questionnaire link only will be activated after 6 minutes at the right top corner.
+                        | Please ensure you have spent 10 minutes on playing the system. A questionnaire link only will be activated at the right top corner when all songs have been listened and rated.
+
+                    p(style="color:red")
+                        | Please note: when you tweak the system, the recommendations will be updated and previous ratings will be lost. So please rate songs only when you are done with tweaking system.
 
                     h4
                         | Working scenario
                     p
                         | Please select a scenario where you may want to create a playlist. There are four scenarios.
                     input#choose(type='hidden', value='Please choose a scenario!')
+
+                .col-sm-6
                     div
                         select#selectTopic.form-control(name='topicName', style='width: 300px;')
                             option(selected="" value='bitte')
@@ -101,7 +106,7 @@ html
                             #hiphopDiv.topicDivs(hidden='')
                                 p
                                     | I feel like something that will make me think and show my different attitudes. I want to create a playlist with cool lyrics and strong beats.
-                .col-sm-6
+
                     h4
                         | Tutorial
                     p
