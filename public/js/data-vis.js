@@ -47,6 +47,8 @@ loggingSys.detailTime = 0;
 
 
 $(document).ready(function () {
+
+    alert("Please make sure you have submitted the pre-study questionnaire!")
     //refresh the token
     setInterval(function () {
         $.ajax("/refresh-token?refresh_token="+refreshToken, function (data, err) {
