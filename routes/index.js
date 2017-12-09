@@ -58,7 +58,7 @@ router.post("/addRecord", function(req, res){
         likedTime: req.body.likedTime,
         lowSortingTime: req.body.lowSortingTime,
         lowRemovingTime: req.body.lowRemovingTime,
-        lowRatingTimes: req.body.lowRatingTimes,
+        lowRatingTimes: req.body.lowRatingTime,
         middleDraggingTime: req.body.middleDraggingTime,
         middleLoadMoreTime: req.body.middleLoadMoreTime,
         highSliderTime: req.body.highSliderTime,

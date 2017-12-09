@@ -543,8 +543,6 @@ var getRecomBySeed = function (resultListID) {
                     loggingSys.likedTime--
                 }
 
-
-
                 if($(this).hasClass("fa-thumbs-o-down")){
                     $(this).removeClass("fa-thumbs-o-down");
                     $(this).addClass("fa-thumbs-down")
@@ -552,7 +550,6 @@ var getRecomBySeed = function (resultListID) {
                     if($(this).prev().hasClass("fa-thumbs-up")){
                         $(this).prev().removeClass("fa-thumbs-up")
                         $(this).prev().addClass("fa-thumbs-o-up")
-
                     }
                 }
                 else if($(this).hasClass("fa-thumbs-down")){
@@ -1314,8 +1311,6 @@ $.ajax({
                             })
 
                 });
-
-
 
             /***********Load more recommendation resources*********/
             var seed_artist_len = data.seed.artist.length, seed_artist_index = 0,
