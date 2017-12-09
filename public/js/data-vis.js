@@ -27,6 +27,7 @@ recom.weights[1] = 0;
 recom.weights[2] = 0;
 
 var loggingSys = {}
+loggingSys.timestamp = new Date();
 loggingSys.id = '';
 loggingSys.duration = new Date();
 loggingSys.setting = window.location.pathname;

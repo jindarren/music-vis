@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="df3f8091-37ec-4e36-96dd-69e104b90157" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/user.js" afterPath="$PROJECT_DIR$/model/user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/data-vis.js" afterPath="$PROJECT_DIR$/public/js/data-vis.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
     </list>
@@ -38,13 +39,13 @@
       <file leaf-file-name="data-vis.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="538" column="43" lean-forward="false" selection-start-line="538" selection-start-column="38" selection-end-line="538" selection-end-column="43" />
+            <state relative-caret-position="229">
+              <caret line="1424" column="11" lean-forward="false" selection-start-line="1424" selection-start-column="11" selection-end-line="1424" selection-end-column="11" />
               <folding>
-                <marker date="1512796298715" expanded="true" signature="34231:34237" ph=" " />
-                <marker date="1512796298715" expanded="true" signature="59350:59356" ph=" " />
-                <marker date="1512796298715" expanded="true" signature="60210:60216" ph=" " />
-                <marker date="1512796298715" expanded="true" signature="61061:61067" ph=" " />
+                <marker date="1512815859129" expanded="true" signature="34266:34272" ph=" " />
+                <marker date="1512815859129" expanded="true" signature="59385:59391" ph=" " />
+                <marker date="1512815859129" expanded="true" signature="60245:60251" ph=" " />
+                <marker date="1512815859129" expanded="true" signature="61096:61102" ph=" " />
               </folding>
             </state>
           </provider>
@@ -53,8 +54,8 @@
       <file leaf-file-name="user.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="10" lean-forward="false" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
+            <state relative-caret-position="225">
+              <caret line="15" column="22" lean-forward="true" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -63,18 +64,18 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="60" column="46" lean-forward="false" selection-start-line="60" selection-start-column="46" selection-end-line="60" selection-end-column="46" />
+            <state relative-caret-position="90">
+              <caret line="36" column="10" lean-forward="false" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login-s8.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/login-s8.jade">
+      <file leaf-file-name="recommender.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/recommender.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1005">
-              <caret line="67" column="314" lean-forward="false" selection-start-line="67" selection-start-column="211" selection-end-line="67" selection-end-column="314" />
+            <state relative-caret-position="120">
+              <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -225,8 +226,6 @@
         <option value="$PROJECT_DIR$/views/logout.jade" />
         <option value="$PROJECT_DIR$/views/play.jade" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/routes/recommender.js" />
-        <option value="$PROJECT_DIR$/model/user.js" />
         <option value="$PROJECT_DIR$/views/s1.jade" />
         <option value="$PROJECT_DIR$/public/js/welcome.js" />
         <option value="$PROJECT_DIR$/views/s2.jade" />
@@ -243,6 +242,8 @@
         <option value="$PROJECT_DIR$/views/login-s4.jade" />
         <option value="$PROJECT_DIR$/views/login-s3.jade" />
         <option value="$PROJECT_DIR$/views/login-s2.jade" />
+        <option value="$PROJECT_DIR$/model/user.js" />
+        <option value="$PROJECT_DIR$/routes/recommender.js" />
         <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/public/js/data-vis.js" />
       </list>
@@ -260,8 +261,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1598" />
-    <option name="y" value="75" />
+    <option name="x" value="1624" />
+    <option name="y" value="73" />
     <option name="width" value="1440" />
     <option name="height" value="835" />
   </component>
@@ -591,7 +592,7 @@
       <workItem from="1510839037323" duration="7067000" />
       <workItem from="1510848404803" duration="676000" />
       <workItem from="1511321664104" duration="502000" />
-      <workItem from="1512794123209" duration="1063000" />
+      <workItem from="1512794123209" duration="3197000" />
     </task>
     <task id="LOCAL-00011" summary="update">
       <created>1495653341395</created>
@@ -940,7 +941,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="855637000" />
+    <option name="totallyTimeSpent" value="857771000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -952,7 +953,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1598" y="75" width="1440" height="835" extended-state="0" />
+    <frame x="1624" y="73" width="1440" height="835" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12755461" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1176,13 +1177,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/recommender.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1339,31 +1333,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
+    <entry file="file://$PROJECT_DIR$/model/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="60" column="46" lean-forward="false" selection-start-line="60" selection-start-column="46" selection-end-line="60" selection-end-column="46" />
+        <state relative-caret-position="225">
+          <caret line="15" column="22" lean-forward="true" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/user.js">
+    <entry file="file://$PROJECT_DIR$/routes/recommender.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="10" lean-forward="false" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
+        <state relative-caret-position="120">
+          <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="36" column="10" lean-forward="false" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/data-vis.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="538" column="43" lean-forward="false" selection-start-line="538" selection-start-column="38" selection-end-line="538" selection-end-column="43" />
+        <state relative-caret-position="229">
+          <caret line="1424" column="11" lean-forward="false" selection-start-line="1424" selection-start-column="11" selection-end-line="1424" selection-end-column="11" />
           <folding>
-            <marker date="1512796298715" expanded="true" signature="34231:34237" ph=" " />
-            <marker date="1512796298715" expanded="true" signature="59350:59356" ph=" " />
-            <marker date="1512796298715" expanded="true" signature="60210:60216" ph=" " />
-            <marker date="1512796298715" expanded="true" signature="61061:61067" ph=" " />
+            <marker date="1512815859129" expanded="true" signature="34266:34272" ph=" " />
+            <marker date="1512815859129" expanded="true" signature="59385:59391" ph=" " />
+            <marker date="1512815859129" expanded="true" signature="60245:60251" ph=" " />
+            <marker date="1512815859129" expanded="true" signature="61096:61102" ph=" " />
           </folding>
         </state>
       </provider>

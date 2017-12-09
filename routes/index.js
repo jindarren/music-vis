@@ -51,6 +51,7 @@ passport.use(new SpotifyStrategy({
 
 router.post("/addRecord", function(req, res){
     var user = new User({
+        timestamp: req.body.timestamp,
         id : req.body.id,
         setting : req.body.setting,
         duration: req.body.duration,
