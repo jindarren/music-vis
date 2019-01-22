@@ -1,6 +1,6 @@
 # Music recommender visualizations
 ## Introduction
-This web app is used test different levels of user control of music recommender system built by web spotify API. The web app lis implemented by express.js and jQuery.
+This web app is used test different levels of user control of music recommender system built by web spotify API. The web app was implemented by express.js and jQuery.
 
 ## Folder content
 
